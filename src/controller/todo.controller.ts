@@ -163,7 +163,11 @@ export class TodoClass {
 				})
 				return
 			}
-
+			const filteredTodo = await Todo.find(body)
+			res.status(OK).json({
+				data : filteredTodo
+			})
+		}catch (error){
 			
 		}
 	}
