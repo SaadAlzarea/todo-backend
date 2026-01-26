@@ -153,9 +153,9 @@ export class TodoClass {
 	}
 
 	async getTodoFilter(req:Request , res : Response):Promise<void>{
-		const body = req.body
+		const body = req?.body
 		const {error} = validator(VTodoFilterDto, body)
-
+		
 		try{
 			if(error.length>0){
 				res.status(OK).json({
@@ -168,7 +168,10 @@ export class TodoClass {
 				data : filteredTodo
 			})
 		}catch (error){
-			
+		res.status(BAD_REQUEST).json({
+			message:`error`,
+			error : error
+		})
 		}
 	}
 }

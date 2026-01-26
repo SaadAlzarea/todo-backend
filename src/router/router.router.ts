@@ -12,6 +12,7 @@ router
 	.delete("/delete-todo", todoController.deleteTodoById)
 	.put("/update-todo/:todoId", todoController.updateTodoById)
 	.post("/get-todo-by-id/:todoId", todoController.getTodoById)
-	.post("/get-todo-by-status", todoController.getTodoByStatus);
+	.post("/get-todo-by-status", todoController.getTodoByStatus)
+	.post("/get-todo-filter", todoController.getTodoFilter);
 
 export default router;
