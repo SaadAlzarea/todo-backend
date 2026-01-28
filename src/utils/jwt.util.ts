@@ -1,8 +1,11 @@
 import crypto from "crypto";
 import { promisify } from "util";
+import jwt, { type SignOptions } from "jsonwebtoken";
+import "dotenv";
 
 const scryptAsync = promisify(crypto.scrypt);
 
+// to encrypt password
 export async function hashPassword(password: string): Promise<string> {
     const salt = crypto.randomBytes(16).toString("hex");
 
@@ -11,6 +14,7 @@ export async function hashPassword(password: string): Promise<string> {
     return `${salt}.${derivedKey.toString("hex")}`;
 }
 
+// to decrypt
 export async function comparePassword(
     storedPassword: string,
     inputPassword: string,
@@ -27,3 +31,11 @@ export async function comparePassword(
 
     return crypto.timingSafeEqual(Buffer.from(key, "hex"), derivedKey);
 }
+
+// generate token
+const secret: jwt.Secret = (process.env.JWT_SECRET as string) || "supersecretkey123";
+
+export const generateToken = (payload: object): string => {
+    const options: SignOptions = { expiresIn: "1h" };
+    return jwt.sign(payload, secret, options);
+};

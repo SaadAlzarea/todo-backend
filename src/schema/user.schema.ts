@@ -1,8 +1,13 @@
 import mongoose, { mongo, Schema } from "mongoose";
 import { IRegisterModel } from "../models/register.model";
+import { generatedId } from "../utils/id-generator.util";
 
 const RegisterSchema = new Schema<IRegisterModel>(
     {
+        generatedId: {
+            type: String,
+            default: generatedId,
+        },
         username: {
             type: String,
             required: true,

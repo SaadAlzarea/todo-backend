@@ -7,6 +7,7 @@ import connectDB from "./db/dbConnect.db";
 import router from "./router/todo.route";
 import { userRouter } from "./router/user.route";
 import { errorHandler } from "./middleware/errorMiddleware.middleware";
+import { authMiddleware } from "./middleware/tokenValidation.middleware";
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ app.use(express.json());
 
 connectDB();
 
-app.use("/todo", router);
+app.use("/todo", authMiddleware, router);
 app.use("/user", userRouter);
 app.use(errorHandler);
 

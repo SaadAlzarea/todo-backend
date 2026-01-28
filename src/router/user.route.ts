@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { TodoClass } from "../controller/todo.controller";
-import { Register } from "../controller/register.controller";
+import { User } from "../controller/user.controller";
 
 export const userRouter = Router();
 
-const registerController = new Register();
+const userController = new User();
 
 userRouter
-    .post("/register", registerController.registerNewUser)
-    .post("/login", registerController.login)
-    .post("/all-user", registerController.getAllUser);
+    .post("/register", userController.registerNewUser)
+    .post("/login", userController.login)
+    .post("/all-user", userController.getAllUser);

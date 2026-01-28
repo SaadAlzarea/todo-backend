@@ -1,10 +1,10 @@
 import { Request, Response } from "express-serve-static-core";
 import mongoose from "mongoose";
 import { validator } from "../adapter/validator.adapter";
-import { ITodoDto } from "../domain/DTOs/todo.dot";
-import { VTodoDto, VTodoFilterDto, VTodoIdDto } from "../domain/validation/todo.validation";
+import { ITodoDto } from "../DTOs/todo.dot";
 import { Todo } from "../schema/todo.schema";
 import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from "../utils/http-status";
+import { VTodoDto, VTodoFilterDto, VTodoIdDto } from "../validation/todo.validation";
 
 export class TodoClass {
     // git list

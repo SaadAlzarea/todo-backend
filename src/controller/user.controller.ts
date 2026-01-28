@@ -1,18 +1,15 @@
 import { NextFunction, Request, Response } from "express";
 import { validator } from "../adapter/validator.adapter";
-import { VLoginDto, VRegisterDto } from "../domain/validation/register.validation";
 import { BAD_REQUEST, CREATED, OK } from "../utils/http-status";
-import { RegisterUser } from "../schema/register.schema";
+import { RegisterUser } from "../schema/user.schema";
 import { AppError } from "../middleware/errorMiddleware.middleware";
-import { comparePassword, hashPassword } from "../utils/jwt.util";
+import { comparePassword, generateToken, hashPassword } from "../utils/jwt.util";
+import { VLoginDto, VRegisterDto } from "../validation/user.validation";
 
-export class Register {
+export class User {
     async registerNewUser(req: Request, res: Response, next: NextFunction): Promise<void> {
         const body = req.body;
-        const { error: RegisterValidationError } = validator(VRegisterDto, body);
-        if (RegisterValidationError.length > 0) {
-            throw new AppError(`${RegisterValidationError}`, BAD_REQUEST);
-        }
+        validator(VRegisterDto, body);
 
         // username check
         if (await RegisterUser.exists({ username: req.body.username })) {
@@ -33,9 +30,11 @@ export class Register {
                 email: req.body.email,
                 password: hashPass,
             });
+            const token = generateToken({ id: newUser.generatedId, email: newUser.email });
+
             res.status(CREATED).json({
                 message: `Registration successful`,
-                data: newUser,
+                token: token,
             });
         } catch (error) {
             next(error);
@@ -44,14 +43,11 @@ export class Register {
 
     async login(req: Request, res: Response, next: NextFunction): Promise<void> {
         const body = req.body;
-        const { error: loginValidationError } = validator(VLoginDto, body);
-        if (loginValidationError.length > 0) {
-            throw new AppError("input is not valid", BAD_REQUEST);
-        }
+        validator(VLoginDto, body);
 
         try {
             const userInfo = await RegisterUser.findOne({ email: req.body.email }).select(
-                "password",
+                "password email generatedId",
             );
             if (!userInfo) {
                 throw new AppError("Invalid email or password", BAD_REQUEST);
@@ -63,8 +59,10 @@ export class Register {
             if (!comparePass) {
                 throw new AppError("Invalid email or password", BAD_REQUEST);
             }
-            res.status(200).json({
+            const token = generateToken({ id: userInfo.generatedId, email: userInfo.email });
+            res.status(OK).json({
                 message: "Login successful",
+                token: token,
             });
         } catch (error) {
             next(error);
