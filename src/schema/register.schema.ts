@@ -13,12 +13,12 @@ const RegisterSchema = new Schema<IRegisterModel>(
             required: true,
             unique: true,
         },
-        password :  {
-            type : String,
-            required : true
+        password: {
+            type: String,
+            required: true,
         },
     },
-    {timestamps : true}
-)
+    { timestamps: true },
+);
 
-export const RegisterUser = mongoose.model("Register", RegisterSchema)
+export const RegisterUser = mongoose.model("Register", RegisterSchema);

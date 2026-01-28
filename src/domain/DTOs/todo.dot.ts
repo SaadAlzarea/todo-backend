@@ -5,4 +5,4 @@ export interface ITodoDto extends Static<typeof VTodoDto> {}
 
 export interface ITodoIdDto extends Static<typeof VTodoIdDto> {}
 
-export interface ITodoFiltersDto extends Static<typeof VTodoFilterDto>{}
+export interface ITodoFiltersDto extends Static<typeof VTodoFilterDto> {}

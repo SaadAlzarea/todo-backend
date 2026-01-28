@@ -3,10 +3,10 @@
 // const newId = nanoid(10);
 
 // export  newId;
-import Snowflakify from 'snowflakify';
+import Snowflakify from "snowflakify";
 
-const snowflakify = new Snowflakify({ preset: 'ipv4' });
+const snowflakify = new Snowflakify({ preset: "ipv4" });
 
 export function generatedId(): string {
-  return snowflakify.nextHexId();
+    return snowflakify.nextHexId();
 }

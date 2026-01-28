@@ -16,10 +16,10 @@ app.use(express.json());
 connectDB();
 
 app.use("/todo", router);
-app.use("/user", userRouter)
-app.use(errorHandler)
+app.use("/user", userRouter);
+app.use(errorHandler);
 
 const PORT = Number(process.env.PORT) || 4000;
 app.listen(PORT, () => {
-	console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
 });
