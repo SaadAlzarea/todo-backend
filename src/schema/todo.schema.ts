@@ -1,9 +1,16 @@
 import mongoose, { Schema } from "mongoose";
 import { ETodoPriority, ETodoStatus } from "../definition/enums/todo.enum";
 import { ITodoModel } from "../models/todo.model";
+import { generatedId } from "../utils/id-generator.util";
+
+
 
 const TodoSchema = new Schema<ITodoModel>(
 	{
+		generatedId:{
+			type: String,
+			default: generatedId, 
+		},
 		title: {
 			type: String,
 			required: true,
@@ -11,6 +18,10 @@ const TodoSchema = new Schema<ITodoModel>(
 		body: {
 			type: String,
 			required: true,
+		},		
+		progress: {
+			type: String,
+			required: false,
 		},
 		priority: {
 			type: String,

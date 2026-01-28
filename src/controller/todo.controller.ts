@@ -4,13 +4,14 @@ import { validator } from "../adapter/validator.adapter";
 import { ITodoDto } from "../domain/DTOs/todo.dot";
 import { VTodoDto, VTodoFilterDto, VTodoIdDto } from "../domain/validation/todo.validation";
 import { Todo } from "../schema/todo.schema";
-import { BAD_REQUEST, CREATED, NOT_FOUND, OK } from "../utils/http-status";
+import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from "../utils/http-status";
 
 export class TodoClass {
-	async getAllTodos(req: Request, res: Response): Promise<void> {
-		try {
-			const todoList = await Todo.find();
 
+	// git list 
+	async getAllTodosList(req: Request, res: Response): Promise<void> {
+		try {
+			const todoList = await Todo.find().select('generatedId title priority status -_id');
 			res.status(OK).json({
 				data: todoList,
 			});
@@ -21,6 +22,7 @@ export class TodoClass {
 		}
 	}
 
+	// create todo
 	async createNewTodo(
 		req: Request<{}, {}, ITodoDto>,
 		res: Response,
@@ -39,6 +41,7 @@ export class TodoClass {
 			await Todo.create(body);
 			res.status(CREATED).json({
 				message: `Created successfully`,
+				data: body
 			});
 		} catch (error) {
 			res.status(BAD_REQUEST).json({
@@ -47,6 +50,7 @@ export class TodoClass {
 		}
 	}
 
+	// delete todo
 	async deleteTodoById(req: Request, res: Response): Promise<void> {
 		try {
 			const todoId = req.body.todoId;
@@ -114,8 +118,9 @@ export class TodoClass {
 		}
 	}
 
-	async getTodoById(req: Request, res: Response): Promise<void> {
-		const todoId = req.params.todoId;
+	// details
+	async getTodoDetailsById(req: Request, res: Response): Promise<void> {
+		const todoId = req.body.todoId;
 		const { error: getTodoByIdError } = validator(VTodoIdDto, { todoId });
 		try {
 			if (getTodoByIdError.length > 0) {
@@ -152,26 +157,45 @@ export class TodoClass {
 		}
 	}
 
-	async getTodoFilter(req:Request , res : Response):Promise<void>{
-		const body = req?.body
-		const {error} = validator(VTodoFilterDto, body)
-		
-		try{
-			if(error.length>0){
-				res.status(OK).json({
-					message : "Invalid body"
-				})
-				return
-			}
-			const filteredTodo = await Todo.find(body)
-			res.status(OK).json({
-				data : filteredTodo
-			})
-		}catch (error){
-		res.status(BAD_REQUEST).json({
-			message:`error`,
-			error : error
-		})
+	async getTodoFilter(req: Request, res: Response): Promise<void> {
+		const body = req.body;
+
+		const { error: filterBodyError } = validator(VTodoFilterDto, body);
+
+		if (filterBodyError.length > 0) {
+			res.status(BAD_REQUEST).json({
+				message: "Invalid body",
+				error: filterBodyError,
+			});
+			return;
 		}
+
+		try {
+			const query: any = {};
+
+			if (body?.generatedId) {
+				query.generatedId = body.generatedId;
+			}
+
+			if (body?.priority) {
+				query.priority = body.priority;
+			}
+
+			if (body?.status) {
+				query.status = body.status;
+			}
+
+			const filteredTodo = await Todo.find(query);
+
+			res.status(OK).json({
+				data: filteredTodo,
+			});
+		} catch (error) {
+			res.status(INTERNAL_SERVER_ERROR).json({
+				message: "Error filtering todos",
+				error,
+			});
+		}
+
 	}
 }
