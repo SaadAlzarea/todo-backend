@@ -1,13 +1,16 @@
 import { Type } from "@sinclair/typebox";
 import { emit } from "node:cluster";
+import { EUserRole } from "../definition/enums/userRole.role";
 
 export const VRegisterDto = Type.Object({
     username: Type.String(),
     email: Type.String(),
     password: Type.String(),
+    role: Type.Optional(Type.Enum(EUserRole)),
 });
 
 export const VLoginDto = Type.Object({
     email: Type.String(),
     password: Type.String(),
+    role: Type.Optional(Type.Enum(EUserRole)),
 });

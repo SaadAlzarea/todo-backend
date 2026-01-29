@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@casl/ability':
+        specifier: ^6.8.0
+        version: 6.8.0
       '@sinclair/typebox':
         specifier: ^0.34.47
         version: 0.34.47
@@ -119,6 +122,9 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@casl/ability@6.8.0':
+    resolution: {integrity: sha512-Ipt4mzI4gSgnomFdaPjaLgY2MWuXqAEZLrU6qqWBB7khGiBBuuEp6ytYDnq09bRXqcjaeeHiaCvCGFbBA2SpvA==}
+
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
@@ -196,6 +202,18 @@ packages:
 
   '@types/whatwg-url@13.0.0':
     resolution: {integrity: sha512-N8WXpbE6Wgri7KUSvrmQcqrMllKZ9uxkYWMt+mCSGwNc0Hsw9VQTW7ApqI4XNrx6/SaM2QQJCzMPDEXE058s+Q==}
+
+  '@ucast/core@1.10.2':
+    resolution: {integrity: sha512-ons5CwXZ/51wrUPfoduC+cO7AS1/wRb0ybpQJ9RrssossDxVy4t49QxWoWgfBDvVKsz9VXzBk9z0wqTdZ+Cq8g==}
+
+  '@ucast/js@3.0.4':
+    resolution: {integrity: sha512-TgG1aIaCMdcaEyckOZKQozn1hazE0w90SVdlpIJ/er8xVumE11gYAtSbw/LBeUnA4fFnFWTcw3t6reqseeH/4Q==}
+
+  '@ucast/mongo2js@1.4.0':
+    resolution: {integrity: sha512-vR9RJ3BHlkI3RfKJIZFdVktxWvBCQRiSTeJSWN9NPxP5YJkpfXvcBWAMLwvyJx4HbB+qib5/AlSDEmQiuQyx2w==}
+
+  '@ucast/mongo@2.4.3':
+    resolution: {integrity: sha512-XcI8LclrHWP83H+7H2anGCEeDq0n+12FU2mXCTz6/Tva9/9ddK/iacvvhCyW6cijAAOILmt0tWplRyRhVyZLsA==}
 
   accepts@2.0.0:
     resolution: {integrity: sha512-5cvg6CtKwfgdmVqY1WIiXKc3Q1bkRqGLi+2W/6ao+6Y7gu/RCwRuAhGEzh5B4KlszSuTLgZYuqFqo5bImjNKng==}
@@ -814,6 +832,10 @@ snapshots:
   '@biomejs/cli-win32-x64@2.3.13':
     optional: true
 
+  '@casl/ability@6.8.0':
+    dependencies:
+      '@ucast/mongo2js': 1.4.0
+
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
@@ -906,6 +928,22 @@ snapshots:
   '@types/whatwg-url@13.0.0':
     dependencies:
       '@types/webidl-conversions': 7.0.3
+
+  '@ucast/core@1.10.2': {}
+
+  '@ucast/js@3.0.4':
+    dependencies:
+      '@ucast/core': 1.10.2
+
+  '@ucast/mongo2js@1.4.0':
+    dependencies:
+      '@ucast/core': 1.10.2
+      '@ucast/js': 3.0.4
+      '@ucast/mongo': 2.4.3
+
+  '@ucast/mongo@2.4.3':
+    dependencies:
+      '@ucast/core': 1.10.2
 
   accepts@2.0.0:
     dependencies:

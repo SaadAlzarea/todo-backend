@@ -24,6 +24,7 @@
         "lint:fix": "biome format ."
     },
     "dependencies": {
+        "@casl/ability": "^6.8.0",
         "@sinclair/typebox": "^0.34.47",
         "ajv": "^8.17.1",
         "dotenv": "^17.2.3",

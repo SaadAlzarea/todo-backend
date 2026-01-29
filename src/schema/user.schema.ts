@@ -1,6 +1,7 @@
 import mongoose, { mongo, Schema } from "mongoose";
 import { IRegisterModel } from "../models/register.model";
 import { generatedId } from "../utils/id-generator.util";
+import { EUserRole } from "../definition/enums/userRole.role";
 
 const RegisterSchema = new Schema<IRegisterModel>(
     {
@@ -21,6 +22,11 @@ const RegisterSchema = new Schema<IRegisterModel>(
         password: {
             type: String,
             required: true,
+        },
+        role: {
+            type: String,
+            enum: EUserRole,
+            default: EUserRole.USER,
         },
     },
     { timestamps: true },
