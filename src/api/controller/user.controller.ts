@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import { validator } from "../adapter/validator.adapter";
-import { BAD_REQUEST, CREATED, OK } from "../utils/http-status";
-import { RegisterUser } from "../schema/user.schema";
-import { AppError } from "../middleware/errorMiddleware.middleware";
-import { comparePassword, generateToken, hashPassword } from "../utils/jwt.util";
-import { VLoginDto, VRegisterDto } from "../validation/user.validation";
-import { ILoginDto, IRegisterDto } from "../DTOs/user.dto";
+import { validator } from "../../adapter/validator.adapter";
+import { BAD_REQUEST, CREATED, OK } from "../../utils/http-status";
+import { RegisterUser } from "../../domain/schema/user.schema";
+import { AppError } from "../../middleware/errorMiddleware.middleware";
+import { comparePassword, generateToken, hashPassword } from "../../utils/jwt.util";
+import { VRegisterDto, VLoginDto } from "../../domain/validation/user.validation";
+import { IRegisterDto, ILoginDto } from "../../domain/DTOs/user.dto";
 
 export class User {
     async registerNewUser(

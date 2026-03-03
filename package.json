@@ -27,6 +27,7 @@
         "@casl/ability": "^6.8.0",
         "@sinclair/typebox": "^0.34.47",
         "ajv": "^8.17.1",
+        "cors": "^2.8.6",
         "dotenv": "^17.2.3",
         "express": "^5.2.1",
         "jsonwebtoken": "^9.0.3",
@@ -38,6 +39,7 @@
     },
     "devDependencies": {
         "@biomejs/biome": "^2.3.13",
+        "@types/cors": "^2.8.19",
         "@types/express": "^5.0.6",
         "@types/jsonwebtoken": "^9.0.10",
         "@types/mongoose": "^5.11.96",

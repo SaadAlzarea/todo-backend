@@ -1,8 +1,14 @@
 import { todo } from "node:test";
-import { TodoRepo } from "../../../repo/todo.repo";
-import { IDeleteTodoByIdDto, ITodoDto, ITodoFiltersDto, IUpdateTodoDtoIn } from "../DTOs/todo.dot";
+import { TodoRepo } from "../repo/todo.repo";
+
 import { Todo } from "../../domain/schema/todo.schema";
 import mongoose from "mongoose";
+import {
+    ITodoDto,
+    ITodoFiltersDto,
+    IUpdateTodoDtoIn,
+    IDeleteTodoByIdDto,
+} from "../../domain/DTOs/todo.dot";
 
 export class TodoService {
     constructor(private readonly _todoRepo: TodoRepo) {}

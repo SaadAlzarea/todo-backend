@@ -1,0 +1,19 @@
+import type { Request, Response, NextFunction } from "express";
+import { HttpRequest } from "../definition/types/adapter.type";
+
+export const expressAdapter = (controller: any) => {
+    return async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const httpRequest: HttpRequest = {
+                body: req.body,
+                params: req.params,
+                query: req.query,
+                headers: req.headers,
+            };
+            const response = await controller(httpRequest);
+            return res.status(response.statusCode).json(response.body);
+        } catch (error) {
+            next(error);
+        }
+    };
+};

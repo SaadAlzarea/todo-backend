@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
-import { ETodoPriority, ETodoStatus } from "../definition/enums/todo.enum";
+import { ETodoPriority, ETodoStatus } from "../../definition/enums/todo.enum";
 import { ITodoModel } from "../models/todo.model";
-import { generatedId } from "../utils/id-generator.util";
+import { generatedId } from "../../utils/id-generator.util";
 
 const TodoSchema = new Schema<ITodoModel>(
     {

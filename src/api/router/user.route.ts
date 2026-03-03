@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { TodoClass } from "../controller/todo.controller";
 import { User } from "../controller/user.controller";
-import { userPath } from "../paths/user.path";
+import { userPath } from "../../domain/paths/user.path";
 
 export const userRouter = Router();
 
