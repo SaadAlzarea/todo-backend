@@ -1,7 +1,9 @@
 import crypto from "crypto";
 import { promisify } from "util";
 import jwt, { type SignOptions } from "jsonwebtoken";
-import "dotenv";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const scryptAsync = promisify(crypto.scrypt);
 
@@ -33,9 +35,9 @@ export async function comparePassword(
 }
 
 // generate token
-const secret: jwt.Secret = (process.env.JWT_SECRET as string) || "supersecretkey123";
+const secret: jwt.Secret = process.env.JWT_SECRET as string;
 
 export const generateToken = (payload: object): string => {
-    const options: SignOptions = { expiresIn: "1h" };
+    const options: SignOptions = { expiresIn: "1H" };
     return jwt.sign(payload, secret, options);
 };

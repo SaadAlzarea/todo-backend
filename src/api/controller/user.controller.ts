@@ -1,13 +1,18 @@
 import { NextFunction, Request, Response } from "express";
-import { validator } from "../adapter/validator.adapter";
-import { BAD_REQUEST, CREATED, OK } from "../utils/http-status";
-import { RegisterUser } from "../schema/user.schema";
-import { AppError } from "../middleware/errorMiddleware.middleware";
-import { comparePassword, generateToken, hashPassword } from "../utils/jwt.util";
-import { VLoginDto, VRegisterDto } from "../validation/user.validation";
+import { validator } from "../../adapter/validator.adapter";
+import { BAD_REQUEST, CREATED, OK } from "../../utils/http-status";
+import { RegisterUser } from "../../domain/schema/user.schema";
+import { AppError } from "../../middleware/errorMiddleware.middleware";
+import { comparePassword, generateToken, hashPassword } from "../../utils/jwt.util";
+import { VRegisterDto, VLoginDto } from "../../domain/validation/user.validation";
+import { IRegisterDto, ILoginDto } from "../../domain/DTOs/user.dto";
 
 export class User {
-    async registerNewUser(req: Request, res: Response, next: NextFunction): Promise<void> {
+    async registerNewUser(
+        req: Request<{}, {}, IRegisterDto>,
+        res: Response,
+        next: NextFunction,
+    ): Promise<void> {
         const body = req.body;
         validator(VRegisterDto, body);
 
@@ -30,8 +35,11 @@ export class User {
                 email: req.body.email,
                 password: hashPass,
             });
-            const token = generateToken({ id: newUser.generatedId, email: newUser.email });
-
+            const token = generateToken({
+                id: newUser.generatedId,
+                email: newUser.email,
+                role: newUser.role,
+            });
             res.status(CREATED).json({
                 message: `Registration successful`,
                 token: token,
@@ -41,25 +49,26 @@ export class User {
         }
     }
 
-    async login(req: Request, res: Response, next: NextFunction): Promise<void> {
+    async login(req: Request<{}, {}, ILoginDto>, res: Response, next: NextFunction): Promise<void> {
         const body = req.body;
         validator(VLoginDto, body);
 
         try {
             const userInfo = await RegisterUser.findOne({ email: req.body.email }).select(
-                "password email generatedId",
+                "password email generatedId role",
             );
             if (!userInfo) {
                 throw new AppError("Invalid email or password", BAD_REQUEST);
             }
-            const comparePass = await comparePassword(
-                userInfo?.password as string,
-                req.body.password,
-            );
+            const comparePass = await comparePassword(userInfo.password, req.body.password);
             if (!comparePass) {
                 throw new AppError("Invalid email or password", BAD_REQUEST);
             }
-            const token = generateToken({ id: userInfo.generatedId, email: userInfo.email });
+            const token = generateToken({
+                id: userInfo.generatedId,
+                email: userInfo.email,
+                role: userInfo.role,
+            });
             res.status(OK).json({
                 message: "Login successful",
                 token: token,

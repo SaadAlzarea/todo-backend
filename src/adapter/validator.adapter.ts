@@ -9,7 +9,11 @@ export const validator = (schema: TSchema, body: unknown) => {
     const error = [...compiler.Errors(body)];
 
     if (error.length > 0) {
-        throw new AppError(`Validation error`, BAD_REQUEST);
+        console.log();
+        throw new AppError(
+            `Validation error (validator error) // error message : ${error[0]?.message}`,
+            BAD_REQUEST,
+        );
     }
     return { error };
 };
