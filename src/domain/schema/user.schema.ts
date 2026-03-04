@@ -32,4 +32,4 @@ const RegisterSchema = new Schema<IRegisterModel>(
     { timestamps: true },
 );
 
-export const RegisterUser = mongoose.model("Register", RegisterSchema);
+export const RegisterUserModel = mongoose.model("Register", RegisterSchema);

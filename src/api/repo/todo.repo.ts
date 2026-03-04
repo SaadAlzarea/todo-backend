@@ -1,17 +1,18 @@
-import mongoose from "mongoose";
-
-import { Todo } from "../../domain/schema/todo.schema";
+import mongoose, { Model } from "mongoose";
 import {
     ITodoDto,
     IDeleteTodoByIdDto,
     IUpdateTodoDtoIn,
     ITodoFilterQuery,
 } from "../../domain/DTOs/todo.dot";
+import { ITodoModel } from "../../domain/models/todo.model";
 
 export class TodoRepo {
+    constructor(private readonly _todoModel: Model<ITodoModel>) {}
+
     async createNewTodoRepo(createNewTodo: ITodoDto) {
         const body = createNewTodo;
-        const createdData = await Todo.create(body);
+        const createdData = await this._todoModel.create(body);
         return createdData;
     }
 
@@ -20,7 +21,8 @@ export class TodoRepo {
 
         const skip = (page - 1) * limit;
 
-        const allFilteredData = await Todo.find(query)
+        const allFilteredData = await this._todoModel
+            .find(query)
             .select("generatedId title priority status progress -_id")
             .limit(limit)
             .skip(skip)
@@ -32,13 +34,13 @@ export class TodoRepo {
 
     async getTotalTodoList(ITodoFilterQuery: ITodoFilterQuery) {
         const { query } = ITodoFilterQuery;
-        const total = await Todo.countDocuments(query);
+        const total = await this._todoModel.countDocuments(query);
         return total;
     }
 
     async deleteTodoByIdRepo(deleteTodoByIdBody: IDeleteTodoByIdDto) {
         const { todoId } = deleteTodoByIdBody;
-        const deleteTodo = await Todo.findByIdAndDelete({ generatedId: todoId });
+        const deleteTodo = await this._todoModel.findByIdAndDelete({ generatedId: todoId });
         return deleteTodo;
     }
 
@@ -49,7 +51,7 @@ export class TodoRepo {
         // const { generatedId, ...updateFields } = body;
         const { generatedId, ...updateFields } = updateTodoByIdBody;
 
-        const updatedTodo = await Todo.findOneAndUpdate(
+        const updatedTodo = await this._todoModel.findOneAndUpdate(
             { generatedId },
             {
                 $set: updateFields,

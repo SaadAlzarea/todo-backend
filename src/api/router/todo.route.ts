@@ -1,15 +1,13 @@
 import { Router } from "express";
-import { TodoClass } from "../controller/todo.controller";
 import { todoPath } from "../../domain/paths/todo.path";
 import { authorize } from "../../middleware/authorize.middleware";
 import { di } from "../../di";
 import { expressAdapter } from "../../adapter/express.adapter";
 
-const router = Router();
+export const todoRouter = Router();
 
 // router.route("/list").get(getAllTodos);
 const { todoController } = di;
-
 const {
     getTodoList,
     createNewTodo,
@@ -20,7 +18,7 @@ const {
     todoFilters,
 } = todoPath;
 
-router
+todoRouter
     .post(getTodoList, expressAdapter(todoController.getTodoFilter.bind(todoController)))
     .post(
         createNewTodo,
@@ -38,5 +36,3 @@ router
         expressAdapter(todoController.updateTodoById.bind(todoController)),
     )
     .post(todoFilters, expressAdapter(todoController.getTodoFilter.bind(todoController)));
-
-export default router;

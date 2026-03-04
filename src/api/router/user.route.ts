@@ -1,15 +1,13 @@
 import { Router } from "express";
-import { TodoClass } from "../controller/todo.controller";
-import { User } from "../controller/user.controller";
 import { userPath } from "../../domain/paths/user.path";
+import { di } from "../../di";
+import { expressAdapter } from "../../adapter/express.adapter";
 
 export const userRouter = Router();
+const { userController } = di;
 
-const userController = new User();
-
-const { register, login, getAllUsers } = userPath;
+const { register, login } = userPath;
 
 userRouter
-    .post(register, userController.registerNewUser)
-    .post(login, userController.login)
-    .post(getAllUsers, userController.getAllUser);
+    .post(register, expressAdapter(userController.registerNewUser.bind(userController)))
+    .post(login, expressAdapter(userController.userLogin.bind(userController)));

@@ -1,0 +1,25 @@
+import { Model } from "mongoose";
+import { IRegisterModel } from "../../domain/models/register.model";
+import { IRegisterDto } from "../../domain/DTOs/user.dto";
+
+export class UserRepo {
+    constructor(private readonly _userModel: Model<IRegisterModel>) {}
+
+    async checkUsername(username: string) {
+        return this._userModel.exists({ username });
+    }
+
+    async checkEmail(email: string) {
+        return this._userModel.exists({ email });
+    }
+
+    async createNewUser(body: IRegisterDto) {
+        return this._userModel.create(body);
+    }
+
+    async checkLoginEmailAndGetUserInfo(email: string) {
+        return await this._userModel
+            .findOne({ email: email })
+            .select("password email generatedId role");
+    }
+}

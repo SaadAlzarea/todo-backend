@@ -1,16 +1,6 @@
-import { NextFunction, Request, Response } from "express-serve-static-core";
 import mongoose from "mongoose";
 import { validator } from "../../adapter/validator.adapter";
-
-import { Todo } from "../../domain/schema/todo.schema";
-import {
-    BAD_REQUEST,
-    CREATED,
-    INTERNAL_SERVER_ERROR,
-    NOT_FOUND,
-    OK,
-} from "../../utils/http-status";
-
+import { CREATED, OK } from "../../utils/http-status";
 import { TodoService } from "../services/todo.service";
 import { HttpRequest, HttpResponse } from "../../definition/types/adapter.type";
 import {
@@ -33,9 +23,9 @@ export class TodoClass {
 
         return {
             statusCode: CREATED,
-            message: "Created successfully",
             body: {
                 data: createdData,
+                message: "Created successfully",
             },
         };
     }
@@ -48,7 +38,9 @@ export class TodoClass {
 
         return {
             statusCode: OK,
-            message: "Deleted successfully",
+            body: {
+                message: "Deleted successfully",
+            },
         };
     }
 
@@ -76,9 +68,9 @@ export class TodoClass {
 
             return {
                 statusCode: OK,
-                message: "Updated successfully",
                 body: {
                     data: updatedData,
+                    message: "Updated successfully",
                 },
             };
         } catch (error) {
@@ -91,6 +83,7 @@ export class TodoClass {
 
     async getTodoFilter(HttpRequest: HttpRequest): Promise<HttpResponse> {
         const body = HttpRequest.body;
+
         validator(VTodoFilterDto, body);
 
         const page = parseInt(HttpRequest.body.page, 10) || 1;
@@ -106,13 +99,12 @@ export class TodoClass {
 
         return {
             statusCode: OK,
-            message: "get all filters todos successfully",
             body: {
-                list: getTodoFilter,
+                data: getTodoFilter,
+                message: "get all filters todos successfully",
             },
         };
     }
-
     // create todo
 
     // async createNewTodo

@@ -1,95 +1,40 @@
-import { NextFunction, Request, Response } from "express";
 import { validator } from "../../adapter/validator.adapter";
-import { BAD_REQUEST, CREATED, OK } from "../../utils/http-status";
-import { RegisterUser } from "../../domain/schema/user.schema";
-import { AppError } from "../../middleware/errorMiddleware.middleware";
-import { comparePassword, generateToken, hashPassword } from "../../utils/jwt.util";
 import { VRegisterDto, VLoginDto } from "../../domain/validation/user.validation";
 import { IRegisterDto, ILoginDto } from "../../domain/DTOs/user.dto";
+import { UserService } from "../services/user.service";
+import type { HttpResponse, HttpRequest } from "../../definition/types/adapter.type";
+import { CREATED, OK } from "../../utils/http-status";
 
-export class User {
-    async registerNewUser(
-        req: Request<{}, {}, IRegisterDto>,
-        res: Response,
-        next: NextFunction,
-    ): Promise<void> {
-        const body = req.body;
+export class UserController {
+    constructor(private readonly _userService: UserService) {}
+
+    async registerNewUser(HttpRequest: HttpRequest<IRegisterDto>): Promise<HttpResponse> {
+        const body = HttpRequest.body;
         validator(VRegisterDto, body);
 
-        // username check
-        if (await RegisterUser.exists({ username: req.body.username })) {
-            throw new AppError("username is exist", BAD_REQUEST);
-        }
+        const token = await this._userService.registerNewUser(body!);
 
-        //  email check
-        if (await RegisterUser.exists({ email: req.body.email })) {
-            throw new AppError("email is exist", BAD_REQUEST);
-        }
-
-        //hash password
-        const hashPass = await hashPassword(req.body.password);
-
-        try {
-            const newUser = await RegisterUser.create({
-                username: req.body.username,
-                email: req.body.email,
-                password: hashPass,
-            });
-            const token = generateToken({
-                id: newUser.generatedId,
-                email: newUser.email,
-                role: newUser.role,
-            });
-            res.status(CREATED).json({
+        return {
+            statusCode: CREATED,
+            body: {
+                data: token,
                 message: `Registration successful`,
-                token: token,
-            });
-        } catch (error) {
-            next(error);
-        }
+            },
+        };
     }
 
-    async login(req: Request<{}, {}, ILoginDto>, res: Response, next: NextFunction): Promise<void> {
-        const body = req.body;
+    async userLogin(httpRequest: HttpRequest<ILoginDto>): Promise<HttpResponse> {
+        const body = httpRequest.body;
         validator(VLoginDto, body);
 
-        try {
-            const userInfo = await RegisterUser.findOne({ email: req.body.email }).select(
-                "password email generatedId role",
-            );
-            if (!userInfo) {
-                throw new AppError("Invalid email or password", BAD_REQUEST);
-            }
-            const comparePass = await comparePassword(userInfo.password, req.body.password);
-            if (!comparePass) {
-                throw new AppError("Invalid email or password", BAD_REQUEST);
-            }
-            const token = generateToken({
-                id: userInfo.generatedId,
-                email: userInfo.email,
-                role: userInfo.role,
-            });
-            res.status(OK).json({
-                message: "Login successful",
-                token: token,
-            });
-        } catch (error) {
-            next(error);
-        }
-    }
+        const token = await this._userService.login(body!);
 
-    async getAllUser(req: Request, res: Response, next: NextFunction): Promise<void> {
-        try {
-            const allUser = await RegisterUser.find();
-            res.status(OK).json({
-                message: `fetch successfully`,
-                data: allUser,
-            });
-        } catch (error) {
-            res.status(BAD_REQUEST).json({
-                message: `Error in fetch user information`,
-                error: error,
-            });
-        }
+        return {
+            statusCode: OK,
+            body: {
+                data: token,
+                message: `Login successful`,
+            },
+        };
     }
 }
