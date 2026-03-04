@@ -33,7 +33,7 @@ app.use(todo, authMiddleware, todoRouter);
 app.use(user, userRouter);
 
 // listener
-const PORT = Number(process.env.PORT) || 4000;
+const PORT = Number(process.env.PORT);
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
