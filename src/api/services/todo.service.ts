@@ -1,7 +1,4 @@
-import { todo } from "node:test";
 import { TodoRepo } from "../repo/todo.repo";
-
-import { Todo } from "../../domain/schema/todo.schema";
 import mongoose from "mongoose";
 import {
     ITodoDto,
@@ -34,6 +31,7 @@ export class TodoService {
             page: page,
             limit: limit,
         });
+
         const totalTodos = await this._todoRepo.getTotalTodoList(query);
         return {
             query: filteredTodo,
