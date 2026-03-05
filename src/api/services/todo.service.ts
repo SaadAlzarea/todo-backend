@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { ITodoDto, ITodoFiltersDto, IUpdateTodoDtoIn, IDeleteTodoByIdDto } from "../../domain";
 import { TodoRepo } from "../repo";
 import type { TodoMapper } from "../mapper";
+import { EUserRole } from "../../definition";
 
 export class TodoService {
     constructor(
@@ -10,20 +11,25 @@ export class TodoService {
     ) {}
 
     // create todo
-    async createNewTodoService(body: ITodoDto) {
-        const todoInfo = body;
-        const createdData = await this._todoRepo.createNewTodoRepo(todoInfo);
-        return createdData;
+    async createNewTodoService(todoData: ITodoDto, user: { generatedId: string; role: string }) {
+        return await this._todoRepo.createNewTodoRepo(todoData, user);
     }
 
     // body.name || ""
     // git all todo with filter
-    async getAllAndFilterTodoByIdService(getAllAndFilterTodoByIdBody: ITodoFiltersDto) {
+    async getAllAndFilterTodoByIdService(
+        getAllAndFilterTodoByIdBody: ITodoFiltersDto,
+        user: { generatedId: string; role: string },
+    ) {
         const { generatedId, priority, status, page, limit } = getAllAndFilterTodoByIdBody;
         const query: any = {};
         if (generatedId) query.generatedId = generatedId;
         if (priority) query.priority = priority;
         if (status) query.status = status;
+
+        if (user.role === EUserRole.USER) {
+            query.userId = user.generatedId;
+        }
 
         const filteredTodo = await this._todoRepo.getAllAndFilterTodoByIdRepo({
             query: query,

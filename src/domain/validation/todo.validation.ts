@@ -3,8 +3,8 @@ import { ETodoPriority, ETodoStatus } from "../../definition";
 
 export const VTodoDto = Type.Object({
     todoId: Type.Optional(Type.String()),
-    title: Type.String(),
-    body: Type.String(),
+    title: Type.String({ minLength: 1 }),
+    body: Type.String({ minLength: 1 }),
     progress: Type.Optional(Type.String()),
     priority: Type.Enum(ETodoPriority),
     status: Type.Enum(ETodoStatus),

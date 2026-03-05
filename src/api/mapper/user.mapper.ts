@@ -11,7 +11,7 @@ export class UserMapper {
 
     mapperOutToNewUser(body: { generatedId: string; email: string; role: EUserRole }) {
         return {
-            id: body.generatedId,
+            generatedId: body.generatedId,
             email: body.email,
             role: body.role,
         };
@@ -19,7 +19,7 @@ export class UserMapper {
 
     mapperOutToGetLoginUser(body: { generatedId: string; email: string; role: EUserRole }) {
         return {
-            id: body.generatedId,
+            generatedId: body.generatedId,
             email: body.email,
             role: body.role,
         };

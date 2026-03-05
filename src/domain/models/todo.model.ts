@@ -7,4 +7,5 @@ export interface ITodoModel {
     progress: String;
     priority: ETodoPriority;
     status: ETodoStatus;
+    userId: string;
 }
