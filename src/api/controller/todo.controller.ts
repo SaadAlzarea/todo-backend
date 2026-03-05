@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import { validator } from "../../adapter";
-import { HttpRequest, HttpResponse } from "../../definition";
+import type { HttpRequest, HttpResponse } from "../../definition";
 import {
-    ITodoDto,
+    type ITodoDto,
     VTodoDto,
     VDeleteTodoByIdDto,
     VTodoIdDto,
@@ -12,6 +12,7 @@ import {
 import { CREATED, OK } from "../../utils";
 import { TodoService } from "../services";
 import { userInfo } from "node:os";
+import type { TodoService } from "../services";
 
 export class TodoClass {
     constructor(private readonly _todoService: TodoService) {}
