@@ -15,3 +15,5 @@ JWT_EXPIRES_IN=1h
 request => adapter => controller => service => repo => response
 
 # RUN USING : pnpm run dev
+
+E50tpmKt4}/2my
