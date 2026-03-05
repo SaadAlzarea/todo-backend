@@ -1,8 +1,7 @@
-import { ILoginDto, IRegisterDto } from "../../domain/DTOs/user.dto";
-import { AppError } from "../../middleware/errorMiddleware.middleware";
-import { BAD_REQUEST } from "../../utils/http-status";
-import { comparePassword, generateToken, hashPassword } from "../../utils/jwt.util";
-import { UserRepo } from "../repo/user.repo";
+import { IRegisterDto, ILoginDto } from "../../domain";
+import { AppError } from "../../middleware";
+import { BAD_REQUEST, hashPassword, generateToken, comparePassword } from "../../utils";
+import { UserRepo } from "../repo";
 
 export class UserService {
     constructor(private readonly _userRepo: UserRepo) {}

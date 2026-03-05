@@ -1,5 +1,5 @@
 import { Type } from "@sinclair/typebox";
-import { ETodoPriority, ETodoStatus } from "../../definition/enums/todo.enum";
+import { ETodoPriority, ETodoStatus } from "../../definition";
 
 export const VTodoDto = Type.Object({
     todoId: Type.Optional(Type.String()),

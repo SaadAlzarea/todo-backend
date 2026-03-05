@@ -1,9 +1,8 @@
-import { validator } from "../../adapter/validator.adapter";
-import { VRegisterDto, VLoginDto } from "../../domain/validation/user.validation";
-import { IRegisterDto, ILoginDto } from "../../domain/DTOs/user.dto";
-import { UserService } from "../services/user.service";
-import type { HttpResponse, HttpRequest } from "../../definition/types/adapter.type";
-import { CREATED, OK } from "../../utils/http-status";
+import { validator } from "../../adapter";
+import { HttpResponse, HttpRequest } from "../../definition";
+import { IRegisterDto, VRegisterDto, ILoginDto, VLoginDto } from "../../domain";
+import { CREATED, OK } from "../../utils";
+import { UserService } from "../services";
 
 export class UserController {
     constructor(private readonly _userService: UserService) {}

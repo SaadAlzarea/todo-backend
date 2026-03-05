@@ -1,7 +1,7 @@
 import { TSchema } from "@sinclair/typebox";
 import { TypeCompiler } from "@sinclair/typebox/compiler";
-import { AppError } from "../middleware/errorMiddleware.middleware";
-import { BAD_REQUEST } from "../utils/http-status";
+import { AppError } from "../middleware";
+import { BAD_REQUEST } from "../utils";
 
 export const validator = (schema: TSchema, body: unknown) => {
     const compiler = TypeCompiler.Compile(schema);

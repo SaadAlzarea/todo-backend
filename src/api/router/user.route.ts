@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { userPath } from "../../domain/paths/user.path";
+import { expressAdapter } from "../../adapter";
 import { di } from "../../di";
-import { expressAdapter } from "../../adapter/express.adapter";
+import { userPath } from "../../domain";
 
 export const userRouter = Router();
 const { userController } = di;

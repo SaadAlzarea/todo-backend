@@ -1,6 +1,5 @@
 import { Model } from "mongoose";
-import { IRegisterModel } from "../../domain/models/register.model";
-import { IRegisterDto } from "../../domain/DTOs/user.dto";
+import { IRegisterModel, IRegisterDto } from "../../domain";
 
 export class UserRepo {
     constructor(private readonly _userModel: Model<IRegisterModel>) {}

@@ -1,11 +1,11 @@
 import mongoose, { Model } from "mongoose";
-import {
+import type {
+    ITodoModel,
     ITodoDto,
     IDeleteTodoByIdDto,
     IUpdateTodoDtoIn,
     ITodoFilterQuery,
-} from "../../domain/DTOs/todo.dot";
-import { ITodoModel } from "../../domain/models/todo.model";
+} from "../../domain";
 
 export class TodoRepo {
     constructor(private readonly _todoModel: Model<ITodoModel>) {}

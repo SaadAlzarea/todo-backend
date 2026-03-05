@@ -6,7 +6,7 @@ import {
     VUpdateTodoDtoIn,
     VTodoFilterQuery,
     VDeleteTodoByIdDto,
-} from "../validation/todo.validation";
+} from "../validation";
 
 export interface ITodoDto extends Static<typeof VTodoDto> {}
 

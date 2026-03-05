@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { HttpRequest } from "../definition/types/adapter.type";
+import type { HttpRequest } from "../definition";
 
 export const expressAdapter = (controller: any) => {
     return async (req: Request, res: Response, next: NextFunction) => {

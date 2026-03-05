@@ -1,4 +1,4 @@
-import { EUserRole } from "../definition/enums/userRole.role";
+import { EUserRole } from "../../definition";
 
 export interface IRegisterModel {
     generatedId: string;

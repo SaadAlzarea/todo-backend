@@ -1,6 +1,5 @@
 import { Type } from "@sinclair/typebox";
-import { emit } from "node:cluster";
-import { EUserRole } from "../../definition/enums/userRole.role";
+import { EUserRole } from "../../definition";
 
 export const VRegisterDto = Type.Object({
     username: Type.String(),
