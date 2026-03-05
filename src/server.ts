@@ -3,11 +3,10 @@ import express from "express";
 import process = require("process");
 import connectDB from "./db/dbConnect.db";
 import cors from "cors";
-import { todoRouter } from "./api/router/todo.route";
-import { userRouter } from "./api/router/user.route";
-import { errorHandler } from "./middleware/errorMiddleware.middleware";
-import { authMiddleware } from "./middleware/tokenValidation.middleware";
-import { appPaths } from "./domain/paths/appRouter.path";
+import { todoRouter, userRouter } from "./api";
+import { appPaths } from "./domain";
+import { errorHandler, authMiddleware } from "./middleware";
+
 dotenv.config();
 
 const app = express();

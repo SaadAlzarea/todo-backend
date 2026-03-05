@@ -1,16 +1,16 @@
 import mongoose from "mongoose";
-import { validator } from "../../adapter/validator.adapter";
-import { CREATED, OK } from "../../utils/http-status";
-import { TodoService } from "../services/todo.service";
-import { HttpRequest, HttpResponse } from "../../definition/types/adapter.type";
+import { validator } from "../../adapter";
+import { HttpRequest, HttpResponse } from "../../definition";
 import {
+    ITodoDto,
     VTodoDto,
     VDeleteTodoByIdDto,
     VTodoIdDto,
     VUpdateTodoDtoIn,
     VTodoFilterDto,
-} from "../../domain/validation/todo.validation";
-import { ITodoDto } from "../../domain/DTOs/todo.dot";
+} from "../../domain";
+import { CREATED, OK } from "../../utils";
+import { TodoService } from "../services";
 
 export class TodoClass {
     constructor(private readonly _todoService: TodoService) {}

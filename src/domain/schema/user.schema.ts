@@ -1,7 +1,7 @@
-import mongoose, { mongo, Schema } from "mongoose";
-import { IRegisterModel } from "../models/register.model";
-import { generatedId } from "../../utils/id-generator.util";
-import { EUserRole } from "../../definition/enums/userRole.role";
+import mongoose, { Schema } from "mongoose";
+import { EUserRole } from "../../definition";
+import { generatedId } from "../../utils";
+import { IRegisterModel } from "../models";
 
 const RegisterSchema = new Schema<IRegisterModel>(
     {

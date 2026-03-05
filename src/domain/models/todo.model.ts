@@ -1,4 +1,4 @@
-import { ETodoPriority, ETodoStatus } from "../definition/enums/todo.enum";
+import { ETodoPriority, ETodoStatus } from "../../definition";
 
 export interface ITodoModel {
     generatedId: string;
