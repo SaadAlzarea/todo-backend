@@ -1,14 +1,18 @@
 import mongoose from "mongoose";
 import { ITodoDto, ITodoFiltersDto, IUpdateTodoDtoIn, IDeleteTodoByIdDto } from "../../domain";
 import { TodoRepo } from "../repo";
+import type { TodoMapper } from "../mapper";
 
 export class TodoService {
-    constructor(private readonly _todoRepo: TodoRepo) {}
+    constructor(
+        private readonly _todoRepo: TodoRepo,
+        private readonly _todoMapper: TodoMapper,
+    ) {}
 
     // create todo
-    async createNewTodoService(createNewTodo: ITodoDto) {
-        const body = createNewTodo;
-        const createdData = await this._todoRepo.createNewTodoRepo(body);
+    async createNewTodoService(body: ITodoDto) {
+        const todoInfo = body;
+        const createdData = await this._todoRepo.createNewTodoRepo(todoInfo);
         return createdData;
     }
 
