@@ -1,6 +1,6 @@
 import { NextFunction } from "express-serve-static-core";
 import { Actions, Subjects, defineAbilityFor } from "../casl";
-import { UNAUTHORIZED } from "../utils";
+import { FORBIDDEN, UNAUTHORIZED } from "../utils";
 import { AppError } from "./errorMiddleware.middleware";
 import { RequestHandler } from "express";
 
@@ -12,13 +12,13 @@ export function authorize(action: string, subject: string): RequestHandler {
         const user = (req as any).user;
 
         if (!user) {
-            return res.status(401).json({ message: "Unauthorized" });
+            return res.status(UNAUTHORIZED).json({ message: "Unauthorized" });
         }
 
         const ability = defineAbilityFor(user);
 
         if (!ability.can(action, subject)) {
-            return res.status(403).json({ message: "Forbidden" });
+            return res.status(FORBIDDEN).json({ message: "Forbidden" });
         }
         next();
     };

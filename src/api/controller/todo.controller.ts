@@ -23,7 +23,7 @@ export class TodoClass {
         const createdData = await this._todoService.createNewTodoService(body, user);
 
         return {
-            statusCode: 201,
+            statusCode: CREATED,
             body: {
                 data: createdData,
                 message: "Created successfully",
