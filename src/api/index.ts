@@ -10,3 +10,6 @@ export * from "./repo";
 
 // * ROUTER
 export * from "./router";
+
+// * REPO HELPER
+export * from "./mapper";

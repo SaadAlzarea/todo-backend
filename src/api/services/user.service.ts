@@ -1,10 +1,14 @@
 import { IRegisterDto, ILoginDto } from "../../domain";
 import { AppError } from "../../middleware";
 import { BAD_REQUEST, hashPassword, generateToken, comparePassword } from "../../utils";
+import { UserMapper } from "../mapper";
 import { UserRepo } from "../repo";
 
 export class UserService {
-    constructor(private readonly _userRepo: UserRepo) {}
+    constructor(
+        private readonly _userRepo: UserRepo,
+        private readonly _userMapper: UserMapper,
+    ) {}
 
     async registerNewUser(body: IRegisterDto) {
         const { email, username, password } = body;
@@ -18,19 +22,17 @@ export class UserService {
         }
         const hashPass = await hashPassword(password);
 
+        // mapper In
+        const mapperInToNewUser = this._userMapper.mapperInToNewUser(body, hashPass);
+
         // create user
-        const newUser = await this._userRepo.createNewUser({
-            username: username,
-            email: email,
-            password: hashPass,
-        });
+        const newUserInfo = await this._userRepo.createNewUser(mapperInToNewUser);
+
+        // mapper out
+        const mapperOutToNewUser = this._userMapper.mapperOutToNewUser(newUserInfo);
 
         // generate token
-        const token = generateToken({
-            id: newUser.generatedId,
-            email: newUser.email,
-            role: newUser.role,
-        });
+        const token = generateToken(mapperOutToNewUser);
 
         return {
             token,
@@ -50,11 +52,12 @@ export class UserService {
         if (!comparePass) {
             throw new AppError("Invalid email or password", BAD_REQUEST);
         }
-        const token = generateToken({
-            id: userInfo.generatedId,
-            email: userInfo.email,
-            role: userInfo.role,
-        });
+
+        // mapper out
+        const mapperOutToGetLoginUser = this._userMapper.mapperOutToGetLoginUser(userInfo);
+
+        const token = generateToken(mapperOutToGetLoginUser);
+
         return {
             token,
         };
