@@ -10,8 +10,12 @@ import type {
 export class TodoRepo {
     constructor(private readonly _todoModel: Model<ITodoModel>) {}
 
-    async createNewTodoRepo(createNewTodo: ITodoDto) {
-        const body = createNewTodo;
+    async createNewTodoRepo(createNewTodo: ITodoDto, user: { generatedId: string; role: string }) {
+        const body = {
+            ...createNewTodo,
+            userId: user.generatedId,
+        };
+
         const createdData = await this._todoModel.create(body);
         return createdData;
     }

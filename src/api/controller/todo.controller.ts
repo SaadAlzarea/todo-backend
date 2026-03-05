@@ -10,19 +10,20 @@ import {
     VTodoFilterDto,
 } from "../../domain";
 import { CREATED, OK } from "../../utils";
-import type { TodoService } from "../services";
+import { TodoService } from "../services";
+import { userInfo } from "node:os";
 
 export class TodoClass {
     constructor(private readonly _todoService: TodoService) {}
 
     async createNewTodo(httpRequest: HttpRequest<ITodoDto>): Promise<HttpResponse> {
         const body = httpRequest.body;
-        validator(VTodoDto, body);
+        const user = (httpRequest as any).user;
 
-        const createdData = await this._todoService.createNewTodoService(body);
+        const createdData = await this._todoService.createNewTodoService(body, user);
 
         return {
-            statusCode: CREATED,
+            statusCode: 201,
             body: {
                 data: createdData,
                 message: "Created successfully",
@@ -83,19 +84,22 @@ export class TodoClass {
 
     async getTodoFilter(HttpRequest: HttpRequest): Promise<HttpResponse> {
         const body = HttpRequest.body;
-
-        validator(VTodoFilterDto, body);
+        const user = (HttpRequest as any).user;
+        // validator(VTodoFilterDto, body);
 
         const page = parseInt(HttpRequest.body.page, 10) || 1;
         const limit = parseInt(HttpRequest.body.limit, 10) || 10;
 
-        const getTodoFilter = await this._todoService.getAllAndFilterTodoByIdService({
-            generatedId: body.generatedId,
-            priority: body.priority,
-            status: body.status,
-            page: page,
-            limit: limit,
-        });
+        const getTodoFilter = await this._todoService.getAllAndFilterTodoByIdService(
+            {
+                generatedId: body.generatedId,
+                priority: body.priority,
+                status: body.status,
+                page: page,
+                limit: limit,
+            },
+            user,
+        );
 
         return {
             statusCode: OK,

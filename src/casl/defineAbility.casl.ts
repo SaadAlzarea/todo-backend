@@ -33,22 +33,15 @@
 //     return build();
 // }
 
-import { AbilityBuilder, createMongoAbility } from "@casl/ability";
+import { Ability, AbilityBuilder, createMongoAbility } from "@casl/ability";
 import { Actions, Subjects } from "./casl.type";
 import { EUserRole } from "../definition/enums/userRole.role";
 
-export function defineAbilityFor(user: any) {
+export function defineAbilityFor(user: { generatedId: string; role: string }) {
     const { can, cannot, build } = new AbilityBuilder(createMongoAbility);
 
     if (user.role === EUserRole.SUPER_ADMIN) {
-        can("list", "Todo");
-        can("create", "Todo");
-        can("update", "Todo");
-        can("delete", "Todo");
-        can("read", "User");
-        can("create", "User");
-        can("update", "User");
-        can("delete", "User");
+        can("manage", "all");
     } else if (user.role === EUserRole.ADMIN) {
         can("list", "Todo");
         can("create", "Todo");
@@ -64,3 +57,7 @@ export function defineAbilityFor(user: any) {
 
     return build();
 }
+
+// const ability = defineAbilityFor();
+// const isAllowed = ability.can("manage", "Todo");
+// console.log(isAllowed);

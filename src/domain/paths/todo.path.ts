@@ -1,6 +1,6 @@
 export const todoPath = {
     getTodoList: "/get-todo-list",
-    createNewTodo: "/added-todo",
+    createNewTodo: "/create",
     deleteTodo: "/delete-todo",
     updateTodo: "/update-todo",
     getTodoById: "/get-todo-by-id",

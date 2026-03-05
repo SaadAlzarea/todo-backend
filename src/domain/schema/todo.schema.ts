@@ -31,6 +31,7 @@ const TodoSchema = new Schema<ITodoModel>(
             enum: Object.values(ETodoStatus),
             required: true,
         },
+        userId: { type: String, required: true },
     },
     { timestamps: true },
 );

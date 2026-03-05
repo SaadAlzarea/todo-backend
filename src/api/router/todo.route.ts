@@ -2,7 +2,7 @@ import { Router } from "express";
 import { expressAdapter } from "../../adapter";
 import { di } from "../../di";
 import { todoPath } from "../../domain";
-import { authorize } from "../../middleware";
+import { authMiddleware, authorize } from "../../middleware";
 
 export const todoRouter = Router();
 
@@ -18,20 +18,31 @@ const {
 } = todoPath;
 
 todoRouter
-    .post(getTodoList, expressAdapter(todoController.getTodoFilter.bind(todoController)))
+    .post(
+        getTodoList,
+        authMiddleware,
+        expressAdapter(todoController.getTodoFilter.bind(todoController)),
+    )
     .post(
         createNewTodo,
-        // authorize("create", "Todo"),
+        authMiddleware,
+        authorize("create", "Todo"),
         expressAdapter(todoController.createNewTodo.bind(todoController)),
     )
     .delete(
         deleteTodo,
-        // authorize("delete", "Todo"),
+        authMiddleware,
+        authorize("delete", "Todo"),
         expressAdapter(todoController.deleteTodoById.bind(todoController)),
     )
     .put(
         `${updateTodo}/:todoId`,
-        // authorize("update", "Todo"),
+        authMiddleware,
+        authorize("update", "Todo"),
         expressAdapter(todoController.updateTodoById.bind(todoController)),
     )
-    .post(todoFilters, expressAdapter(todoController.getTodoFilter.bind(todoController)));
+    .post(
+        todoFilters,
+        authMiddleware,
+        expressAdapter(todoController.getTodoFilter.bind(todoController)),
+    );

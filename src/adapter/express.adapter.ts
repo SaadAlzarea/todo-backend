@@ -9,6 +9,7 @@ export const expressAdapter = (controller: any) => {
                 params: req.params,
                 query: req.query,
                 headers: req.headers,
+                user: (req as any).user,
             };
             const response = await controller(httpRequest);
             return res.status(response.statusCode).json(response.body);
