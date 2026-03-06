@@ -25,7 +25,7 @@ const RegisterSchema = new Schema<IRegisterModel>(
         },
         role: {
             type: String,
-            enum: EUserRole,
+            enum: Object.values(EUserRole),
             default: EUserRole.USER,
         },
     },

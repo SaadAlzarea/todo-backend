@@ -7,6 +7,11 @@ dotenv.config();
 
 const scryptAsync = promisify(crypto.scrypt);
 
+export interface JwtPayload {
+    generatedId: string;
+    role: string;
+}
+
 // to encrypt password
 export async function hashPassword(password: string): Promise<string> {
     const salt = crypto.randomBytes(16).toString("hex");
@@ -35,9 +40,14 @@ export async function comparePassword(
 }
 
 // generate token
-const secret: jwt.Secret = process.env.JWT_SECRET as string;
+// const secret: jwt.Secret = process.env.JWT_SECRET as string;
+const secret = process.env.JWT_SECRET;
 
-export const generateToken = (payload: object): string => {
-    const options: SignOptions = { expiresIn: "1H" };
+if (!secret) {
+    throw new Error("JWT_SECRET is not defined");
+}
+
+export const generateToken = (payload: JwtPayload): string => {
+    const options: SignOptions = { expiresIn: "1h" };
     return jwt.sign(payload, secret, options);
 };

@@ -36,4 +36,9 @@ export class UserController {
             },
         };
     }
+
+    // async getAllUserForSuperAdmin(httpRequest: HttpRequest): Promise<HttpResponse> {
+    //     const body = httpRequest.body;
+    //     const token = await this._userService.getAllUserForSuperAdmin(body);
+    // }
 }
