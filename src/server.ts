@@ -6,14 +6,13 @@ import cors from "cors";
 import { todoRouter, userRouter } from "./api";
 import { appPaths } from "./domain";
 import { errorHandler, authMiddleware } from "./middleware";
-
+import setupSwagger from "./docs/swagger/swaggerDocs.swagger";
 dotenv.config();
-
-const app = express();
-
+export const app = express();
+setupSwagger(app);
 app.use(
     cors({
-        origin: "http://localhost:4001",
+        origin: "http://localhost:4000",
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization"],
         credentials: true,
@@ -27,7 +26,6 @@ app.use(errorHandler);
 
 // router
 const { user, todo } = appPaths;
-
 app.use(todo, authMiddleware, todoRouter);
 app.use(user, userRouter);
 

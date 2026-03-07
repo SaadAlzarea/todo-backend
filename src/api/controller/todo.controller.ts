@@ -47,10 +47,10 @@ export class TodoClass {
 
     async updateTodoById(httpRequest: HttpRequest): Promise<HttpResponse> {
         const todoId = httpRequest.params.todoId;
-        validator(VTodoIdDto, { todoId });
+        // validator(VTodoIdDto, { todoId });
 
         const body = httpRequest.body;
-        validator(VUpdateTodoDtoIn, body);
+        // validator(VUpdateTodoDtoIn, body);
 
         const session = await mongoose.startSession();
 

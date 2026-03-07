@@ -1,4 +1,4 @@
 export const appPaths = {
-    user: "/user",
-    todo: "/todo",
+    user: "/api/todo-app/user",
+    todo: "/api/todo-app/todo",
 };

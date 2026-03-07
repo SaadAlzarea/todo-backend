@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  title: Todo API
+  version: 1.0.0
+  description: Todo API for testing
+servers:
+  - url: http://localhost:4000
+  - url: http://localhost:4000
+paths:
+  /todo:
+    get:
+      summary: Get all todos
+      responses:
+        '200':
+          description: Success
+        '500':
+          description: Internal Server Error
+    post:
+      summary: Create a new todo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                body:
+                  type: string
+                progress:
+                  type: string
+                priority:
+                  type: string
+                status:
+                  type: string
+                userId:
+                  type: string
+              required:
+                - title
+                - body
+                - priority
+                - status
+                - userId
+      responses:
+        '201':
+          description: Created successfully
+        '500':
+          description: Internal Server Error
