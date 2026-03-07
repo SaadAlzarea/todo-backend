@@ -1,6 +1,7 @@
+import { EUserRole } from "../../definition";
 import { IRegisterDto, ILoginDto } from "../../domain";
 import { AppError } from "../../middleware";
-import { BAD_REQUEST, hashPassword, generateToken, comparePassword } from "../../utils";
+import { BAD_REQUEST, hashPassword, generateToken, comparePassword, FORBIDDEN } from "../../utils";
 import { UserMapper } from "../mapper";
 import { UserRepo } from "../repo";
 
@@ -61,5 +62,15 @@ export class UserService {
         return {
             token,
         };
+    }
+    async getAllUserForSuperAdmin(user: { role: string }) {
+        const role = user.role;
+        // check if this super admin or not
+        if (role !== EUserRole.SUPER_ADMIN) {
+            throw new AppError("You are not authorized to perform this action", FORBIDDEN);
+        }
+        const allUser = await this._userRepo.getAllUserForSuperAdmin();
+
+        return allUser;
     }
 }

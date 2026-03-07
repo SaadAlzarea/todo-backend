@@ -37,8 +37,17 @@ export class UserController {
         };
     }
 
-    // async getAllUserForSuperAdmin(httpRequest: HttpRequest): Promise<HttpResponse> {
-    //     const body = httpRequest.body;
-    //     const token = await this._userService.getAllUserForSuperAdmin(body);
-    // }
+    async getAllUserForSuperAdmin(httpRequest: HttpRequest<ILoginDto>): Promise<HttpResponse> {
+        const user = httpRequest.user;
+
+        const users = await this._userService.getAllUserForSuperAdmin(user!);
+
+        return {
+            statusCode: OK,
+            body: {
+                data: users,
+                message: "Fetch all users successfully",
+            },
+        };
+    }
 }

@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import { validator } from "../../adapter";
-import { HttpRequest, HttpResponse } from "../../definition";
+import type { HttpRequest, HttpResponse } from "../../definition";
 import {
-    ITodoDto,
+    type ITodoDto,
     VTodoDto,
     VDeleteTodoByIdDto,
     VTodoIdDto,
