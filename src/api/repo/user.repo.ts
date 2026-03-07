@@ -1,5 +1,6 @@
 import { Model } from "mongoose";
 import { IRegisterModel, IRegisterDto } from "../../domain";
+import { EUserRole } from "../../definition";
 
 export class UserRepo {
     constructor(private readonly _userModel: Model<IRegisterModel>) {}
@@ -19,6 +20,12 @@ export class UserRepo {
     async checkLoginEmailAndGetUserInfo(email: string) {
         return await this._userModel
             .findOne({ email: email })
-            .select("password email generatedId role");
+            .select("password email generatedId role -_id");
+    }
+
+    async getAllUserForSuperAdmin() {
+        return await this._userModel
+            .find()
+            .select("username email generatedId role createdAt updatedAt __v");
     }
 }

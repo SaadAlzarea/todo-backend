@@ -17,7 +17,20 @@ request => adapter => controller => service => repo => response
 # RUN USING
 pnpm run dev
 
+
+<!-- =-=-=-=-=- User Role -=-=-=-=-= -->
+<!-- user -->
 {
-  "email": "testuser@example.com",
+  "email": "user1@test.com",
   "password": "123456"
-} 
+}
+<!-- admin -->
+{
+  "email": "admin1@test.com",
+  "password": "123456"
+}
+<!-- super admin -->
+{
+  "email": "superadmin1@test.com",
+  "password": "123456"
+}
