@@ -7,6 +7,7 @@ import { todoRouter, userRouter } from "./api";
 import { appPaths } from "./domain";
 import { errorHandler, authMiddleware } from "./middleware";
 import setupSwagger from "./docs/swagger/swaggerDocs.swagger";
+import { limiter } from "./middleware/rateLimit.middleware";
 dotenv.config();
 export const app = express();
 setupSwagger(app);

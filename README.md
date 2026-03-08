@@ -1,35 +1,68 @@
+# Todo Backend API
+---
 
-# .env
+## Environment Variables
 
+Create a `.env` file:
+```
 PORT=4000
 DB_URL=mongodb+srv://root:Saad2002@myfirstprojectcluster.fvuwkr4.mongodb.net/?appName=MyFirstProjectCluster
 
 JWT_SECRET=supersecretkey123ffff
-JWT_EXPIRES_IN=1h       
+JWT_EXPIRES_IN=1h
+```
+---
 
+## Project Flow
+```
+request → adapter → controller → service → repository → response
+```
 
-<!-- request cycle -->
-request => adapter => controller => service => repo => response
+---
 
-# RUN USING
+## Run Project
+
+```
+pnpm install
 pnpm run dev
+```
 
-<!-- =-=-=-=-=- User Role -=-=-=-=-= -->
-<!-- user -->
+Server runs on:
+
+```
+http://localhost:4000
+```
+
+---
+
+## Swagger API Docs
+
+```
+http://localhost:4000/api-docs
+```
+
+---
+
+## Test Users
+
+**User**
+```
 {
   "email": "user1@test.com",
   "password": "123456"
 }
-<!-- admin -->
+```
+**Admin**
+```
 {
   "email": "admin1@test.com",
   "password": "123456"
 }
-<!-- super admin -->
+```
+**Super Admin**
+```
 {
   "email": "superadmin1@test.com",
   "password": "123456"
 }
-
-# swagger :
-http://localhost:4000/api-docs/
+```
