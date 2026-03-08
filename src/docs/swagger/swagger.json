@@ -2,13 +2,31 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Todo App API",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "description":"there are endpoint for todo project"
   },
   "servers": [
     {
       "url": "http://localhost:4000"
     }
   ],
+
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+
   "tags": [
     {
       "name": "User",
@@ -19,6 +37,7 @@
       "description": "Todo management APIs"
     }
   ],
+
   "paths": {
     "/api/todo-app/user/register": {
       "post": {

@@ -1,0 +1,165 @@
+{
+  "info": {
+    "_postman_id": "351853ef-38a1-4c4c-844b-73fbae99ef65",
+    "name": "TodoProject",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45909924",
+    "_collection_link": "https://go.postman.co/collection/45909924-351853ef-38a1-4c4c-844b-73fbae99ef65?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "CreateTodo",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE0NTljNTA0YzM4ZWQwMDEiLCJlbWFpbCI6InJheWFuQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzY5NjkyMTE5LCJleHAiOjE3Njk2OTU3MTl9.QaxpzUn3d4kd04IdK733tgWPXfDaLVK3X_1SJHbo_7U",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"title\": \"add prossgkudhkuhfidsssresss\",\n\t\"body\": \"this is for test progress\",\n\t\"priority\": \"medium\",\n\t\"status\": \"active\"\n}\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/todo/added-todo",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "todo",
+            "added-todo"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteTodo",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE0NmVhMjdjYjg1MmEwMDEiLCJlbWFpbCI6InJheWFuQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcxMDkyMzUzLCJleHAiOjE3NzEwOTU5NTN9.t6kWny6vPqjyX0_tz_MMoh7UvCkHSg-C8OJ0No-c0Hg",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"todoId\":\"146ea28f1352a001\"    \n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/todo-app/todo/delete-todo",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4000",
+          "path": [
+            "api",
+            "todo-app",
+            "todo",
+            "delete-todo"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateTodo",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"title\":\"update\",\n    \"body\":\"this req to test update todo\",\n    \"priority\":\"medium\",\n    \"status\":\"canceled\"  \n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/todo/update-todo/6971379a48f1880554bc75b8",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "todo",
+            "update-todo",
+            "6971379a48f1880554bc75b8"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getTodoFilterList",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnZW5lcmF0ZWRJZCI6IjE0ODg2MTFhYTg4YmQwMDEiLCJlbWFpbCI6InVzZXIxQHRlc3QuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzcyODIwMjQxLCJleHAiOjE3NzI4MjM4NDF9.IwMxKXS4ts0qUDFb6tL7z4d22j6dMP2w6UM0KlMMLtk",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"page\": 1,\n  \"limit\": 10\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/todo-app/todo/get-todo-list",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4000",
+          "path": [
+            "api",
+            "todo-app",
+            "todo",
+            "get-todo-list"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseURL",
+      "value": "",
+      "type": "default"
+    }
+  ]
+}
