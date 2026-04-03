@@ -3,6 +3,7 @@ import { TodoRepo, TodoService, TodoClass, UserRepo, UserService, UserController
 import { UserMapper } from "./api/mapper/user.mapper";
 import { TodoMapper } from "./api/mapper/todo.mapper";
 import { TodoModel, RegisterUserModel } from "./domain";
+import { db } from "./db";
 
 export function initDI() {
     //TODO : Dependency Injection ..
@@ -18,7 +19,7 @@ export function initDI() {
     /**
      * * user di
      */
-    const userRepo = new UserRepo(RegisterUserModel);
+    const userRepo = new UserRepo(db);
     const userMapper = new UserMapper();
     const userService = new UserService(userRepo, userMapper);
     const userController = new UserController(userService);

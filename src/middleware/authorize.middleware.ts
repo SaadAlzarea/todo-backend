@@ -1,4 +1,3 @@
-import { NextFunction } from "express-serve-static-core";
 import { Actions, Subjects, defineAbilityFor } from "../casl";
 import { FORBIDDEN, UNAUTHORIZED } from "../utils";
 import { AppError } from "./errorMiddleware.middleware";

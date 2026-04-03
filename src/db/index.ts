@@ -1,2 +1,3 @@
 // ? DATABASE INDEXES
-export * from "./dbConnect.db";
+export * from "./drizzle";
+export * from "./mongoose";

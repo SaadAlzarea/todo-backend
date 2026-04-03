@@ -21,18 +21,25 @@
         "start": "node dist/server.js",
         "format": "biome format .",
         "lint": "biome check .",
-        "lint:fix": "biome format ."
+        "lint:fix": "biome format .",
+        "db:generate": "drizzle-kit generate",
+        "db:migrate": "node -r dotenv/config drizzle-kit migrate",
+        "db:studio": "drizzle-kit studio"
     },
     "dependencies": {
         "@casl/ability": "^6.8.0",
         "@sinclair/typebox": "^0.34.47",
         "ajv": "^8.17.1",
         "cors": "^2.8.6",
-        "dotenv": "^17.2.3",
+        "dotenv": "^17.3.1",
+        "drizzle-orm": "^0.45.2",
         "express": "^5.2.1",
         "express-rate-limit": "^8.3.0",
         "jsonwebtoken": "^9.0.3",
+        "mongoose": "^9.3.3",
         "nanoid": "^5.1.6",
+        "pg": "^8.20.0",
+        "postgres": "^3.4.8",
         "snowflake-id": "^1.1.0",
         "snowflakify": "^1.0.6",
         "swagger-ui-express": "^5.0.1",
@@ -47,7 +54,9 @@
         "@types/jsonwebtoken": "^9.0.10",
         "@types/mongoose": "^5.11.96",
         "@types/node": "^25.0.9",
+        "@types/pg": "^8.18.0",
         "@types/swagger-ui-express": "^4.1.8",
+        "drizzle-kit": "^0.31.9",
         "nodemon": "^3.1.11",
         "ts-node": "^10.9.2",
         "typescript": "^5.9.3"
@@ -62,3 +71,5 @@
         "skipLibCheck": true
     }
 }
+
+

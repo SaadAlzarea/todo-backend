@@ -1,19 +1,22 @@
 import dotenv from "dotenv";
 import express from "express";
+
 import process = require("process");
-import connectDB from "./db/dbConnect.db";
+
 import cors from "cors";
+import { connectDB_postgres } from "../drizzle.config";
 import { todoRouter, userRouter } from "./api";
-import { appPaths } from "./domain";
-import { errorHandler, authMiddleware } from "./middleware";
+import connectDB from "./db/mongoose/dbConnect.db";
 import setupSwagger from "./docs/swagger/swaggerDocs.swagger";
-import { limiter } from "./middleware/rateLimit.middleware";
+import { appPaths } from "./domain";
+import { authMiddleware, errorHandler } from "./middleware";
+
 dotenv.config();
 export const app = express();
 setupSwagger(app);
 app.use(
     cors({
-        origin: "http://localhost:4000",
+        origin: "http://localhost:4001",
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization"],
         credentials: true,
@@ -22,6 +25,8 @@ app.use(
 app.use(express.json());
 
 connectDB();
+connectDB_postgres();
+
 //middleware
 app.use(errorHandler);
 

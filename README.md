@@ -38,7 +38,22 @@ http://localhost:4000
 ## Swagger API Docs
 
 ```
-http://localhost:4000/api-docs
+http://localhost:4000/api-docss
+```
+
+---
+
+## DATABASE Connect Table Plus or drizzle studio 
+
+```
+Host: localhost
+Port: 5432
+User: salzarea
+Password: 1234
+Database: todo_app
+```
+```
+https://local.drizzle.studio
 ```
 
 ---
