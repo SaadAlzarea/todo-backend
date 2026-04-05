@@ -1,10 +1,10 @@
-import { Actions, Subjects, defineAbilityFor } from "../casl";
+import type { RequestHandler } from "express";
+import { Actions, defineAbilityFor, Subjects } from "../casl";
 import { FORBIDDEN, UNAUTHORIZED } from "../utils";
 import { AppError } from "./errorMiddleware.middleware";
-import { RequestHandler } from "express";
 
 export interface AuthRequest extends Request {
-    user?: { generatedId: string; role: string };
+    user?: { user_id: string; role: string };
 }
 export function authorize(action: string, subject: string): RequestHandler {
     return (req, res, next) => {
@@ -12,6 +12,11 @@ export function authorize(action: string, subject: string): RequestHandler {
 
         if (!user) {
             return res.status(UNAUTHORIZED).json({ message: "Unauthorized" });
+        }
+        if (!user?.user_id) {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ message: "Unauthorized there is no user id (errorMiddleware)" });
         }
 
         const ability = defineAbilityFor(user);

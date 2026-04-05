@@ -1,5 +1,5 @@
 import { Type } from "@sinclair/typebox";
-import { EUserRole } from "../../definition";
+import { EUserRole } from "../../../definition";
 
 export const VRegisterDto = Type.Object({
     username: Type.String(),

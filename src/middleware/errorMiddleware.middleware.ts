@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { INTERNAL_SERVER_ERROR } from "../utils/http-status";
 
 export class AppError extends Error {

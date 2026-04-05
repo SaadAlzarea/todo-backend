@@ -1,3 +1,3 @@
 // ? VALIDATIONS INDEXES
-export * from "./todo.validation";
-export * from "./user.validation";
+export * from "./todoValidation";
+export * from "./userValidation";

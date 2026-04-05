@@ -11,7 +11,7 @@ export function initDI() {
     /**
      * * todo di
      */
-    const todoRepo = new TodoRepo(TodoModel);
+    const todoRepo = new TodoRepo(db);
     const todoMapper = new TodoMapper();
     const todoService = new TodoService(todoRepo, todoMapper);
     const todoController = new TodoClass(todoService);

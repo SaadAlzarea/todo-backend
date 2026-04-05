@@ -1,3 +1,3 @@
 // ? DTO INDEXES
-export * from "./todo.dot";
-export * from "./user.dto";
+export * from "./todoDTO";
+export * from "./userDTO";

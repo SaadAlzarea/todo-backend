@@ -1,39 +1,55 @@
-import mongoose from "mongoose";
 import { validator } from "../../adapter";
 import type { HttpRequest, HttpResponse } from "../../definition";
 import {
-    type ITodoDto,
-    VTodoDto,
-    VDeleteTodoByIdDto,
-    VTodoIdDto,
+    type ICreateNewTodoDoIn,
+    type ICreateNewTodoDoOut,
+    type IDeleteTodoByIdDtoIn,
+    // type ITodosWithFilterDtoIn,
+    type IUpdateTodoDtoIn,
+    type IUpdateTodoDtoOut,
+    VCreateNewTodoDoIn,
+    VDeleteTodoByIdDtoIn,
+    VTodosWithFilterDtoIn,
     VUpdateTodoDtoIn,
-    VTodoFilterDto,
 } from "../../domain";
-import { CREATED, OK } from "../../utils";
-import { TodoService } from "../services";
-import { userInfo } from "node:os";
+import { ensure, type IApiResponse, type IEmptyApiResponse } from "../../helper";
+import { AppError } from "../../middleware";
+import { CREATED, OK, UNAUTHORIZED } from "../../utils";
+import type { TodoService } from "../services";
 
 export class TodoClass {
     constructor(private readonly _todoService: TodoService) {}
 
-    async createNewTodo(httpRequest: HttpRequest<ITodoDto>): Promise<HttpResponse> {
+    async createNewTodo(
+        httpRequest: HttpRequest<ICreateNewTodoDoIn>,
+    ): Promise<IApiResponse<ICreateNewTodoDoOut>> {
         const body = httpRequest.body;
-        const user = (httpRequest as any).user;
+        const user = (httpRequest as any).user || "user";
+
+        console.log("USER =>", (httpRequest as any).user);
+        if (!user?.user_id) {
+            throw new AppError("Unauthorized - user not found", 401);
+        }
+        // ensure(user, "Unauthorized - user not found", UNAUTHORIZED);
+
+        validator(VCreateNewTodoDoIn, body);
 
         const createdData = await this._todoService.createNewTodoService(body, user);
 
         return {
             statusCode: CREATED,
             body: {
-                data: createdData,
                 message: "Created successfully",
+                data: createdData,
             },
         };
     }
 
-    async deleteTodoById(httpRequest: HttpRequest): Promise<HttpResponse> {
+    async deleteTodoById(
+        httpRequest: HttpRequest<IDeleteTodoByIdDtoIn>,
+    ): Promise<IEmptyApiResponse> {
         const body = httpRequest.body;
-        validator(VDeleteTodoByIdDto, body);
+        validator(VDeleteTodoByIdDtoIn, body);
 
         await this._todoService.deleteTodoByIdService(body);
 
@@ -45,58 +61,39 @@ export class TodoClass {
         };
     }
 
-    async updateTodoById(httpRequest: HttpRequest): Promise<HttpResponse> {
-        const todoId = httpRequest.params.todoId;
-        // validator(VTodoIdDto, { todoId });
-
+    async updateTodoById(
+        httpRequest: HttpRequest<IUpdateTodoDtoIn>,
+    ): Promise<IApiResponse<IUpdateTodoDtoOut>> {
         const body = httpRequest.body;
-        // validator(VUpdateTodoDtoIn, body);
+        validator(VUpdateTodoDtoIn, body);
 
-        const session = await mongoose.startSession();
+        const updatedData = await this._todoService.updateTodoByIdService(body);
 
-        try {
-            session.startTransaction();
-
-            const updatedData = await this._todoService.updateTodoByIdService(
-                {
-                    ...body,
-                    generatedId: todoId,
-                },
-                session,
-            );
-
-            await session.commitTransaction();
-
-            return {
-                statusCode: OK,
-                body: {
-                    data: updatedData,
-                    message: "Updated successfully",
-                },
-            };
-        } catch (error) {
-            await session.abortTransaction();
-            throw error;
-        } finally {
-            session.endSession();
-        }
+        return {
+            statusCode: OK,
+            body: {
+                data: updatedData,
+                message: "Updated successfully",
+            },
+        };
     }
 
-    async getTodoFilter(HttpRequest: HttpRequest): Promise<HttpResponse> {
+    async getTodoWithFilterAndLimit(HttpRequest: HttpRequest): Promise<IApiResponse<any>> {
         const body = HttpRequest.body;
         const user = (HttpRequest as any).user;
-        // validator(VTodoFilterDto, body);
 
-        const page = parseInt(HttpRequest.body.page, 10) || 1;
-        const limit = parseInt(HttpRequest.body.limit, 10) || 10;
+        validator(VTodosWithFilterDtoIn, body);
 
-        const getTodoFilter = await this._todoService.getAllAndFilterTodoByIdService(
+        const page = parseInt(body.page, 10) || 1;
+        const limit = parseInt(body.limit, 10) || 10;
+
+        const result = await this._todoService.getTodosWithFilterService(
             {
-                generatedId: body.generatedId,
+                todo_id: body.todo_id,
                 priority: body.priority,
                 status: body.status,
-                page: page,
-                limit: limit,
+                page,
+                limit,
             },
             user,
         );
@@ -104,97 +101,36 @@ export class TodoClass {
         return {
             statusCode: OK,
             body: {
-                data: getTodoFilter,
-                message: "get all filters todos successfully",
+                data: result,
+                message: "get all filtered todos successfully",
             },
         };
     }
-    // create todo
 
-    // async createNewTodo
-    // async createNewTodo(
-    //     req: Request<{}, {}, ITodoDto>,
-    //     res: Response,
-    //     next: NextFunction,
-    // ): Promise<void> {
-    //     const body = req.body;
-    //     validator(VTodoDto, body);
-    //     // const todoService = new TodoService();
-
-    //     try {
-    //         const createdData = await this._todoService.createNewTodoService(body);
-    //         res.status(CREATED).json({
-    //             message: `Created successfully`,
-    //             data: createdData,
-    //         });
-    //     } catch (error) {
-    //         next(error);
-    //     }
-    // }
-
-    // // delete todo
-    // async deleteTodoById(req: Request, res: Response, next: NextFunction) {
-    //     const body = req.body;
-    //     validator(VDeleteTodoByIdDto, body);
-
-    //     // const todoService = new TodoService();
-    //     try {
-    //         await this._todoService.deleteTodoByIdService(body);
-    //         res.status(OK).json({
-    //             message: `Deleted successfully`,
-    //         });
-    //     } catch (error) {
-    //         next(error);
-    //     }
-    // }
-
-    // //  update and __v+1
-    // async updateTodoById(req: Request, res: Response, next: NextFunction): Promise<void> {
-    //     const todoId = req.params.todoId;
-    //     validator(VTodoIdDto, { todoId });
-    //     const body = req.body;
+    // async updateTodoById(httpRequest: HttpRequest<IUpdateTodoDtoIn>): Promise<HttpResponse> {
+    //     const body = httpRequest.body;
     //     validator(VUpdateTodoDtoIn, body);
-    //     // const todoService = new TodoService();
 
-    //     // transaction
     //     const session = await mongoose.startSession();
+
     //     try {
     //         session.startTransaction();
 
-    //         const updatedData = await this._todoService.updateTodoByIdService(
-    //             {
-    //                 ...body,
-    //                 generatedId: todoId,
-    //             },
-    //             session,
-    //         );
-    //         res.status(OK).json({
-    //             message: `Updated is successfully`,
-    //             data: updatedData,
-    //         });
+    //         const updatedData = await this._todoService.updateTodoByIdService(body, session);
 
     //         await session.commitTransaction();
+
+    //         return {
+    //             statusCode: OK,
+    //             body: {
+    //                 data: updatedData,
+    //                 message: "Updated successfully",
+    //             },
+    //         };
     //     } catch (error) {
     //         await session.abortTransaction();
-    //         next(error);
+    //         throw error;
     //     } finally {
     //         session.endSession();
     //     }
-    // }
-
-    // details
-    // async getTodoDetailsById(req: Request, res: Response): Promise<void> {
-    //     const todoId = req.body.todoId;
-    //     validator(VTodoIdDto, { todoId });
-    //     try {
-    //         const SearchedTodoById = await Todo.findOne({ generatedId: todoId });
-    //         res.status(OK).json({
-    //             data: SearchedTodoById,
-    //         });
-    //     } catch (error) {
-    //         res.status(NOT_FOUND).json({
-    //             message: `No result ${error}`,
-    //         });
-    //     }
-    // }
 }

@@ -9,17 +9,17 @@ export class UserMapper {
         };
     }
 
-    mapperOutToNewUser(body: { generatedId: string; email: string; role: EUserRole }) {
+    mapperOutToNewUser(body: { user_id: string; email: string; role: EUserRole }) {
         return {
-            generatedId: body.generatedId,
+            user_id: body.user_id,
             email: body.email,
             role: body.role,
         };
     }
 
-    mapperOutToGetLoginUser(body: { generatedId: string; email: string; role: EUserRole }) {
+    mapperOutToGetLoginUser(body: { user_id: string; email: string; role: EUserRole }) {
         return {
-            generatedId: body.generatedId,
+            user_id: body.user_id,
             email: body.email,
             role: body.role,
         };

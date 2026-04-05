@@ -1,14 +1,14 @@
 import crypto from "crypto";
-import { promisify } from "util";
-import jwt, { type SignOptions } from "jsonwebtoken";
 import dotenv from "dotenv";
+import jwt, { type SignOptions } from "jsonwebtoken";
+import { promisify } from "util";
 
 dotenv.config();
 
 const scryptAsync = promisify(crypto.scrypt);
 
 export interface JwtPayload {
-    generatedId: string;
+    user_id: string;
     role: string;
 }
 
