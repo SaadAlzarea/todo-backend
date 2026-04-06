@@ -4,6 +4,8 @@ import {
     type ICreateNewTodoDoIn,
     type ICreateNewTodoDoOut,
     type IDeleteTodoByIdDtoIn,
+    type ITodosWithFilterDtoIn,
+    type ITodosWithFilterDtoOut,
     // type ITodosWithFilterDtoIn,
     type IUpdateTodoDtoIn,
     type IUpdateTodoDtoOut,
@@ -78,7 +80,9 @@ export class TodoClass {
         };
     }
 
-    async getTodoWithFilterAndLimit(HttpRequest: HttpRequest): Promise<IApiResponse<any>> {
+    async getTodoWithFilterAndLimit(
+        HttpRequest: HttpRequest,
+    ): Promise<IApiResponse<ITodosWithFilterDtoOut>> {
         const body = HttpRequest.body;
         const user = (HttpRequest as any).user;
 
@@ -101,7 +105,7 @@ export class TodoClass {
         return {
             statusCode: OK,
             body: {
-                data: result,
+                data: result.data,
                 message: "get all filtered todos successfully",
             },
         };

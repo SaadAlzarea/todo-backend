@@ -5,6 +5,7 @@ import type {
     VDeleteTodoByIdDtoIn,
     VTodoIdDto,
     VTodosWithFilterDtoIn,
+    VTodosWithFilterDtoOut,
     VUpdateTodoDtoIn,
     VUpdateTodoDtoOut,
 } from "../../validation";
@@ -22,6 +23,7 @@ export interface IUpdateTodoDtoOut extends Static<typeof VUpdateTodoDtoOut> {}
 
 // * GET ALL TODOS WITH FILTER
 export interface ITodosWithFilterDtoIn extends Static<typeof VTodosWithFilterDtoIn> {}
+export interface ITodosWithFilterDtoOut extends Static<typeof VTodosWithFilterDtoOut> {}
 
 export interface ITodoIdDto extends Static<typeof VTodoIdDto> {}
 // export interface ITodoFilterQuery extends Static<typeof VTodoFilterQuery> {}

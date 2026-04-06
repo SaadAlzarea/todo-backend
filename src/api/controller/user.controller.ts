@@ -1,8 +1,8 @@
 import { validator } from "../../adapter";
-import { HttpResponse, HttpRequest } from "../../definition";
-import { IRegisterDto, VRegisterDto, ILoginDto, VLoginDto } from "../../domain";
+import type { HttpRequest, HttpResponse } from "../../definition";
+import { type ILoginDto, type IRegisterDto, VLoginDto, VRegisterDto } from "../../domain";
 import { CREATED, OK } from "../../utils";
-import { UserService } from "../services";
+import type { UserService } from "../services";
 
 export class UserController {
     constructor(private readonly _userService: UserService) {}
