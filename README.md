@@ -13,9 +13,31 @@ JWT_EXPIRES_IN=1h
 ```
 ---
 
+## Tech Stack 
+```
+node.js → express with typescript
+Tools :
+ - Validation : TypeBox Validation
+ - Authentication & Authorization : JWT, and CASL with (User Role)
+ - SQL Database : drizzle, Postgres SQL - MongooseBD NoSQL ,and Table Plus
+ - NoSQL Database :  MongooseBD NoSQL
+ - Documentation : swagger and postman
+ - others : Git, Github 
+
+ Design Patterns: 
+ - Dependency Injection
+ - Express Adapter
+ - Validation Adapter
+ - Success Response Adapter 
+ - Error and Auth Middleware
+ - Rate limit request Middleware
+ - Error handle (ensure)
+```
+---
+
 ## Project Flow
 ```
-request → adapter → controller → service → repository → response
+request → adapter → controller → service → mapper → repository → response
 ```
 
 ---
