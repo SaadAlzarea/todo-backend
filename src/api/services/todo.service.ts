@@ -1,6 +1,8 @@
 import type {
     ICreateNewTodoDoIn,
     IDeleteTodoByIdDtoIn,
+    IGetTodoDetailsDtoIn,
+    IGetTodoDetailsDtoOut,
     ITodosWithFilterDtoIn,
     IUpdateTodoDtoIn,
 } from "../../domain";
@@ -25,7 +27,7 @@ export class TodoService {
             createNewTodoServiceMapper,
         );
 
-        ensure(createNewTodoRepo, "Error in create todo", NOT_FOUND);
+        ensure(!createNewTodoRepo, "Error in create todo", NOT_FOUND);
 
         const result = this._todoMapper.createNewTodoServiceDtoOut(createNewTodoRepo);
 
@@ -50,7 +52,7 @@ export class TodoService {
             data: result,
             page,
             limit,
-            totalTodo: totalTodos,
+            total: totalTodos,
         };
     }
 
@@ -59,10 +61,11 @@ export class TodoService {
         const { todo_id, ...updateFields } = updateTodoByIdBody;
 
         const hasUpdates = Object.values(updateFields).some((v) => v !== undefined);
-        ensure(hasUpdates, "No fields to update", BAD_REQUEST);
+
+        ensure(hasUpdates, `No fields to update in todo with id ${todo_id}`, BAD_REQUEST);
 
         const updatedTodo = await this._todoRepo.updateTodoByIdRepo(updateTodoByIdBody);
-        ensure(updatedTodo, `Todo with id ${todo_id} not found`, NOT_FOUND);
+        ensure(!updatedTodo, `Todo with id ${todo_id} not found`, NOT_FOUND);
 
         return updatedTodo;
     }
@@ -74,9 +77,17 @@ export class TodoService {
 
         const deleteTodo = await this._todoRepo.deleteTodoByIdRepo(deleteTodoByIdServiceMapper);
 
-        ensure(deleteTodo, "Error in delete todo", NOT_FOUND);
+        ensure(deleteTodo, `Error in delete todo with id ${deleteTodo.todo_id}`, NOT_FOUND);
 
         return deleteTodo;
+    }
+
+    async getTodoDetailsService(body: IGetTodoDetailsDtoIn): Promise<IGetTodoDetailsDtoOut> {
+        const todoDetails = await this._todoRepo.getTodoDetailsRepo(body);
+
+        ensure(!todoDetails, `Error in get todo with id ${todoDetails.todo_id}`, NOT_FOUND);
+
+        return todoDetails;
     }
 }
 

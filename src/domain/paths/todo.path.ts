@@ -6,4 +6,5 @@ export const todoPath = {
     getTodoById: "/get-todo-by-id",
     getTodoByStatus: "/get-todo-by-status",
     todoFilters: "/todo-filters",
+    getTodoDetails: "/todo-details",
 };

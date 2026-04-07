@@ -1,6 +1,13 @@
 import { and, desc, eq, sql } from "drizzle-orm";
-import { TodoTable } from "../../db";
-import type { IDeleteTodoByIdDtoIn, IUpdateTodoDtoIn } from "../../domain";
+import { TodoTable, UserTable } from "../../db";
+import type {
+    ICreateNewTodoDoOut,
+    IDeleteTodoByIdDtoIn,
+    IGetTodoDetailsDtoIn,
+    IGetTodoDetailsDtoOut,
+    IUpdateTodoDtoIn,
+    IUpdateTodoDtoOut,
+} from "../../domain";
 import type { ICreateNewTodoDoInQuery } from "../../domain/DTOs/todoDTO/todo.query.dto";
 
 export class TodoRepo {
@@ -40,7 +47,7 @@ export class TodoRepo {
         priority?: any;
         status?: any;
         progress?: any;
-        user_id: string; // 👈 إجباري
+        user_id: string;
         limit: number;
         offset: number;
     }) {
@@ -113,7 +120,7 @@ export class TodoRepo {
         return result[0] || null;
     }
 
-    async updateTodoByIdRepo(updateTodoByIdBody: IUpdateTodoDtoIn) {
+    async updateTodoByIdRepo(updateTodoByIdBody: IUpdateTodoDtoIn): Promise<IUpdateTodoDtoOut> {
         const { todo_id, ...updateFields } = updateTodoByIdBody;
 
         const cleanFields = Object.fromEntries(
@@ -128,6 +135,24 @@ export class TodoRepo {
             })
             .where(eq(TodoTable.todo_id, todo_id!))
             .returning();
+
+        return result[0] || null;
+    }
+
+    async getTodoDetailsRepo(body: { todo_id: string }): Promise<IGetTodoDetailsDtoOut> {
+        const { todo_id } = body;
+
+        const result = await this._db
+            .select({
+                todo_id: TodoTable.todo_id,
+                title: TodoTable.title,
+                body: TodoTable.body,
+                progress: TodoTable.progress,
+                priority: TodoTable.priority,
+                status: TodoTable.status,
+            })
+            .from(TodoTable)
+            .where(eq(TodoTable.todo_id, todo_id));
 
         return result[0] || null;
     }

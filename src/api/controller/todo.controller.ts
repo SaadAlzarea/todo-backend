@@ -4,6 +4,8 @@ import {
     type ICreateNewTodoDoIn,
     type ICreateNewTodoDoOut,
     type IDeleteTodoByIdDtoIn,
+    type IGetTodoDetailsDtoIn,
+    type IGetTodoDetailsDtoOut,
     type ITodosWithFilterDtoIn,
     type ITodosWithFilterDtoOut,
     // type ITodosWithFilterDtoIn,
@@ -11,6 +13,7 @@ import {
     type IUpdateTodoDtoOut,
     VCreateNewTodoDoIn,
     VDeleteTodoByIdDtoIn,
+    VGetTodoDetailsDtoIn,
     VTodosWithFilterDtoIn,
     VUpdateTodoDtoIn,
 } from "../../domain";
@@ -28,7 +31,7 @@ export class TodoClass {
         const body = httpRequest.body;
         const user = (httpRequest as any).user || "user";
 
-        console.log("USER =>", (httpRequest as any).user);
+        // console.log("USER =>", (httpRequest as any).user);
         if (!user?.user_id) {
             throw new AppError("Unauthorized - user not found", 401);
         }
@@ -105,8 +108,26 @@ export class TodoClass {
         return {
             statusCode: OK,
             body: {
-                data: result.data,
-                message: "get all filtered todos successfully",
+                data: result,
+                message: "Get all filtered todos successfully",
+            },
+        };
+    }
+
+    async getTodoDetailsController(
+        httpRequest: HttpRequest<IGetTodoDetailsDtoIn>,
+    ): Promise<IApiResponse<IGetTodoDetailsDtoOut>> {
+        const body = httpRequest.body;
+
+        validator(VGetTodoDetailsDtoIn, body);
+
+        const result = await this._todoService.getTodoDetailsService(body);
+
+        return {
+            statusCode: OK,
+            body: {
+                data: result,
+                message: `Get todo details is successfully`,
             },
         };
     }

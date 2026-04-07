@@ -7,7 +7,7 @@ import { authMiddleware, authorize } from "../../middleware";
 export const todoRouter = Router();
 
 const { todoController } = di;
-const { getTodoList, createNewTodo, deleteTodo, updateTodo, todoFilters } = todoPath;
+const { getTodoDetails, createNewTodo, deleteTodo, updateTodo, todoFilters } = todoPath;
 
 todoRouter
     // .post(
@@ -37,4 +37,8 @@ todoRouter
         todoFilters,
         authMiddleware,
         expressAdapter(todoController.getTodoWithFilterAndLimit.bind(todoController)),
+    )
+    .post(
+        getTodoDetails,
+        expressAdapter(todoController.getTodoDetailsController.bind(todoController)),
     );

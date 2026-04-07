@@ -3,7 +3,8 @@ import type {
     VCreateNewTodoDoIn,
     VCreateNewTodoDoOut,
     VDeleteTodoByIdDtoIn,
-    VTodoIdDto,
+    VGetTodoDetailsDtoIn,
+    VGetTodoDetailsDtoOut,
     VTodosWithFilterDtoIn,
     VTodosWithFilterDtoOut,
     VUpdateTodoDtoIn,
@@ -25,5 +26,6 @@ export interface IUpdateTodoDtoOut extends Static<typeof VUpdateTodoDtoOut> {}
 export interface ITodosWithFilterDtoIn extends Static<typeof VTodosWithFilterDtoIn> {}
 export interface ITodosWithFilterDtoOut extends Static<typeof VTodosWithFilterDtoOut> {}
 
-export interface ITodoIdDto extends Static<typeof VTodoIdDto> {}
-// export interface ITodoFilterQuery extends Static<typeof VTodoFilterQuery> {}
+// * GET TODO DETAILS
+export interface IGetTodoDetailsDtoIn extends Static<typeof VGetTodoDetailsDtoIn> {}
+export interface IGetTodoDetailsDtoOut extends Static<typeof VGetTodoDetailsDtoOut> {}

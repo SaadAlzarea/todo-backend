@@ -53,30 +53,31 @@ export const VTodosWithFilterDtoIn = Type.Object({
 });
 
 export const VTodosWithFilterDtoOut = Type.Object({
-    data: Type.Array(
-        Type.Object({
-            todo_id: Type.String(),
-            title: Type.String(),
-            priority: Type.Enum(ETodoPriority),
-            status: Type.Enum(ETodoStatus),
-            progress: Type.String(),
-        }),
-    ),
+    data: Type.Object({
+        data: Type.Array(
+            Type.Object({
+                todo_id: Type.String(),
+                title: Type.String(),
+                progress: Type.Optional(Type.String()),
+                priority: Type.Enum(ETodoPriority),
+                status: Type.Enum(ETodoStatus),
+            }),
+        ),
+    }),
     page: Type.Number(),
     limit: Type.Number(),
     total: Type.Number(),
 });
 
-export const VTodoIdDto = Type.Object({
-    todoId: Type.String(),
+// * GET TODO DETAILS
+export const VGetTodoDetailsDtoIn = Type.Object({
+    todo_id: Type.String(),
 });
-
-export const VTodoFilterQuery = Type.Object({
-    page: Type.Number(),
-    limit: Type.Number(),
-    query: Type.Object({
-        generatedId: Type.Optional(Type.String()),
-        priority: Type.Optional(Type.Enum(ETodoPriority)),
-        status: Type.Optional(Type.Enum(ETodoStatus)),
-    }),
+export const VGetTodoDetailsDtoOut = Type.Object({
+    todo_id: Type.String(),
+    title: Type.String(),
+    body: Type.String(),
+    progress: Type.String(),
+    priority: Type.Enum(ETodoPriority),
+    status: Type.Enum(ETodoStatus),
 });

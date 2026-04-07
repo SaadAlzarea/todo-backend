@@ -2,7 +2,6 @@
 import { TodoRepo, TodoService, TodoClass, UserRepo, UserService, UserController } from "./api";
 import { UserMapper } from "./api/mapper/user.mapper";
 import { TodoMapper } from "./api/mapper/todo.mapper";
-import { TodoModel, RegisterUserModel } from "./domain";
 import { db } from "./db";
 
 export function initDI() {
