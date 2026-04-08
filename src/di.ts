@@ -1,14 +1,25 @@
 // biome-ignore assist/source/organizeImports: <explanation>
-import { TodoRepo, TodoService, TodoClass, UserRepo, UserService, UserController } from "./api";
+import {
+    TodoRepo,
+    TodoService,
+    TodoClass,
+    UserRepo,
+    UserService,
+    UserController,
+    GroupRepo,
+    GroupService,
+    GroupController,
+} from "./api";
 import { UserMapper } from "./api/mapper/user.mapper";
 import { TodoMapper } from "./api/mapper/todo.mapper";
 import { db } from "./db";
+import { GroupMapper } from "./api/mapper/group.mapper";
 
 export function initDI() {
     //TODO : Dependency Injection ..
 
     /**
-     * * todo di
+     * * TODO DI
      */
     const todoRepo = new TodoRepo(db);
     const todoMapper = new TodoMapper();
@@ -16,24 +27,38 @@ export function initDI() {
     const todoController = new TodoClass(todoService);
 
     /**
-     * * user di
+     * * USER DI
      */
     const userRepo = new UserRepo(db);
     const userMapper = new UserMapper();
     const userService = new UserService(userRepo, userMapper);
     const userController = new UserController(userService);
+    /**
+     * * GROUP DI
+     */
+    const groupRepo = new GroupRepo(db);
+    const groupMapper = new GroupMapper();
+    const groupService = new GroupService(groupRepo, groupMapper, db);
+    const groupController = new GroupController(groupService);
 
     return {
-        //* === Todo classes ===
+        // * === TODO classes ===
         todoController,
         todoMapper,
         todoService,
         todoRepo,
-        //* === User classes ===
+
+        // * === USER classes ===
         userController,
         userMapper,
         userService,
         userRepo,
+
+        // * === GROUP classes ===
+        groupController,
+        groupMapper,
+        groupService,
+        groupRepo,
     };
 }
 

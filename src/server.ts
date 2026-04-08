@@ -6,6 +6,7 @@ import process = require("process");
 import cors from "cors";
 import { connectDB_postgres } from "../drizzle.config";
 import { todoRouter, userRouter } from "./api";
+import { groupRouter } from "./api/router/group.route";
 import connectDB from "./db/mongoose/dbConnect.db";
 import setupSwagger from "./docs/swagger/swaggerDocs.swagger";
 import { appPaths } from "./domain";
@@ -31,9 +32,10 @@ connectDB_postgres();
 app.use(errorHandler);
 
 // router
-const { user, todo } = appPaths;
+const { user, todo, group } = appPaths;
 app.use(todo, authMiddleware, todoRouter);
 app.use(user, userRouter);
+app.use(group, authMiddleware, groupRouter);
 
 // listener
 const PORT = Number(process.env.PORT);

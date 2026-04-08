@@ -1,3 +1,5 @@
 // ? ENUMS INDEXES
+
+export * from "./group.enum";
 export * from "./todo.enum";
-export * from "./userRole.role";
+export * from "./user.enum";

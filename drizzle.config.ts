@@ -33,10 +33,10 @@ export default defineConfig({
 /**
  * * this is commands
  * ! for create : pnpm drizzle-kit generate
- * ! to drop : pnpm drizzle-kit drop
  * ! to migrate : pnpm drizzle-kit migrate
+ * ! to push : pnpm drizzle-kit push
+ * ! to drop : pnpm drizzle-kit drop
  * ! to run drizzle studio : pnpm drizzle-kit studio
  * ! check on env : node -e "console.log()"
- * ! to push : pnpm drizzle-kit push
  * ! to delete migration folder : rm -rf src/db/drizzle/migrations
  */

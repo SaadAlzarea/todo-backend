@@ -24,7 +24,7 @@
 // }
 
 import { AbilityBuilder, createMongoAbility } from "@casl/ability";
-import { EUserRole } from "../definition/enums/userRole.role";
+import { EUserRole } from "../definition/enums/user.enum";
 
 export function defineAbilityFor(user: { generatedId: string; role: string }) {
     const { can, build } = new AbilityBuilder(createMongoAbility);

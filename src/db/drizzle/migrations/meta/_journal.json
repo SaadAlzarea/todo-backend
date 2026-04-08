@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1775226741547,
-      "tag": "0000_petite_leopardon",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1775303139420,
-      "tag": "0001_hesitant_hellcat",
+      "when": 1775672787596,
+      "tag": "0000_windy_scarlet_witch",
       "breakpoints": true
     }
   ]
