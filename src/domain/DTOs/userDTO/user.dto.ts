@@ -1,5 +1,6 @@
 import type { Static } from "@sinclair/typebox";
 import type {
+    VDeleteUserByAdminDtoIn,
     VGetAllUserWithFilterDtoIn,
     VGetAllUserWithFilterDtoOut,
     VLoginDtoIn,
@@ -19,3 +20,6 @@ export interface ILoginDtoOut extends Static<typeof VLoginDtoOut> {}
 // * GET ALL USER
 export interface IGetAllUserWithFilterDtoIn extends Static<typeof VGetAllUserWithFilterDtoIn> {}
 export interface IGetAllUserWithFilterDtoOut extends Static<typeof VGetAllUserWithFilterDtoOut> {}
+
+// * DELETE USER
+export interface IDeleteUserByAdminDtoIn extends Static<typeof VDeleteUserByAdminDtoIn> {}

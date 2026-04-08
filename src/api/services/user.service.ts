@@ -1,5 +1,6 @@
 import { EUserRole } from "../../definition";
 import type {
+    IDeleteUserByAdminDtoIn,
     IGetAllUserWithFilterDtoIn,
     IGetAllUserWithFilterDtoInQuery,
     IGetAllUserWithFilterDtoOut,
@@ -9,6 +10,7 @@ import type {
     IRegisterDtoOut,
 } from "../../domain";
 import { ensure } from "../../helper";
+import { requireRole } from "../../helper/isAdmin.helper";
 import { AppError } from "../../middleware";
 import { BAD_REQUEST, comparePassword, FORBIDDEN, generateToken, hashPassword } from "../../utils";
 import type { UserMapper } from "../mapper";
@@ -38,7 +40,7 @@ export class UserService {
         // create user
         const newUserInfo = await this._userRepo.registerRepository(mapperInToNewUser);
 
-        ensure(!newUserInfo, "Error in create user in service", BAD_REQUEST);
+        ensure(newUserInfo, "Error in create user in service ", BAD_REQUEST);
 
         // mapper out
         const mapperOutToNewUser = this._userMapper.mapperOutRegisterService(newUserInfo);
@@ -57,12 +59,12 @@ export class UserService {
 
         const userInfo = await this._userRepo.checkLoginEmailAndGetUserInfo({ email });
 
-        ensure(!userInfo, "Error in login Service", BAD_REQUEST);
+        ensure(userInfo, "Error in login Service", BAD_REQUEST);
 
         const storedPassword = userInfo.password;
         const comparePass = await comparePassword(storedPassword, password);
 
-        ensure(!comparePass, "Invalid email or password", BAD_REQUEST);
+        ensure(comparePass, "Invalid email or password", BAD_REQUEST);
 
         // mapper out
         const mapperOutToGetLoginUser = this._userMapper.mapperOutToGetLoginUser(userInfo);
@@ -91,5 +93,15 @@ export class UserService {
             total: count,
             limit: body.limit,
         };
+    }
+
+    async deleteUserByAdmin(body: IDeleteUserByAdminDtoIn, user: { role: EUserRole }) {
+        requireRole(user.role, EUserRole.SUPER_ADMIN);
+
+        const deleteUser = await this._userRepo.deleteUserByAdmin(body);
+
+        ensure(deleteUser, `Error on delete user with user id`, BAD_REQUEST);
+
+        return deleteUser;
     }
 }

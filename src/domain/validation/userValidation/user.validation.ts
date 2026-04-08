@@ -49,3 +49,8 @@ export const VGetAllUserWithFilterDtoOut = Type.Object({
     limit: Type.Number(),
     total: Type.Number(),
 });
+
+// * DELETE USER
+export const VDeleteUserByAdminDtoIn = Type.Object({
+    user_id: Type.String(),
+});

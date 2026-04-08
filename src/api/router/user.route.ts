@@ -8,7 +8,7 @@ import { limiter } from "../../middleware/rateLimit.middleware";
 export const userRouter = Router();
 const { userController } = di;
 
-const { register, login, getAllUsers } = userPath;
+const { register, login, getAllUsers, deleteUser } = userPath;
 
 userRouter
     .post(register, limiter, expressAdapter(userController.registerController.bind(userController)))
@@ -18,4 +18,9 @@ userRouter
         authMiddleware,
         // authorize("manage", "all"),
         expressAdapter(userController.getAllUserForSuperAdminWithFilter.bind(userController)),
+    )
+    .delete(
+        deleteUser,
+        authMiddleware,
+        expressAdapter(userController.deleteUserByAdmin.bind(userController)),
     );

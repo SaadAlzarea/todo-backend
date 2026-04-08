@@ -1,4 +1,4 @@
-import { Type } from "@sinclair/typebox";
+import { type Static, Type } from "@sinclair/typebox";
 import { ETodoPriority, ETodoStatus } from "../../../definition";
 
 // * CREATE NEW TODO

@@ -2,6 +2,7 @@ import { promises } from "node:dns";
 import { and, desc, eq, sql } from "drizzle-orm";
 import { UserTable } from "../../db";
 import type {
+    IDeleteUserByAdminDtoIn,
     IGetAllUserWithFilterDtoIn,
     IGetTodoDetailsDtoIn,
     ILoginDtoInQuery,
@@ -38,7 +39,7 @@ export class UserRepo {
     async registerRepository(body: IRegisterDtoInQuery) {
         const result = await this._db.insert(UserTable).values(body).returning();
 
-        return result[0] || null;
+        return result[0];
     }
 
     async checkLoginEmailAndGetUserInfo(body: ILoginDtoInQuery) {
@@ -95,5 +96,14 @@ export class UserRepo {
             );
 
         return result[0]?.count || 0;
+    }
+
+    async deleteUserByAdmin(body: IDeleteUserByAdminDtoIn) {
+        const result = await this._db
+            .delete(UserTable)
+            .where(eq(UserTable.user_id, body.user_id))
+            .returning();
+
+        return result[0] || null;
     }
 }

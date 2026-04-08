@@ -1,17 +1,19 @@
 import { validator } from "../../adapter";
 import type { HttpRequest, HttpResponse } from "../../definition";
 import {
+    type IDeleteUserByAdminDtoIn,
     type IGetAllUserWithFilterDtoIn,
     type IGetAllUserWithFilterDtoOut,
     type ILoginDtoIn,
     type ILoginDtoOut,
     type IRegisterDtoIn,
     type IRegisterDtoOut,
+    VDeleteUserByAdminDtoIn,
     VGetAllUserWithFilterDtoIn,
     VLoginDtoIn,
     VRegisterDtoIn,
 } from "../../domain";
-import type { IApiResponse } from "../../helper";
+import type { IApiResponse, IEmptyApiResponse } from "../../helper";
 import { CREATED, OK } from "../../utils";
 import type { UserService } from "../services";
 
@@ -70,6 +72,25 @@ export class UserController {
             body: {
                 data: result,
                 message: "Get all filtered users successfully",
+            },
+        };
+    }
+
+    async deleteUserByAdmin(
+        httpRequest: HttpRequest<IDeleteUserByAdminDtoIn>,
+    ): Promise<IApiResponse<any>> {
+        const body = httpRequest.body;
+        const user = (httpRequest as any).user;
+
+        validator(VDeleteUserByAdminDtoIn, body);
+
+        const deleteUser = await this._userService.deleteUserByAdmin(body, user!);
+
+        return {
+            statusCode: OK,
+            body: {
+                data: deleteUser,
+                message: "Success in Delete User",
             },
         };
     }

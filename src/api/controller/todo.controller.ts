@@ -6,7 +6,6 @@ import {
     type IDeleteTodoByIdDtoIn,
     type IGetTodoDetailsDtoIn,
     type IGetTodoDetailsDtoOut,
-    type ITodosWithFilterDtoIn,
     type ITodosWithFilterDtoOut,
     // type ITodosWithFilterDtoIn,
     type IUpdateTodoDtoIn,
@@ -17,9 +16,9 @@ import {
     VTodosWithFilterDtoIn,
     VUpdateTodoDtoIn,
 } from "../../domain";
-import { ensure, type IApiResponse, type IEmptyApiResponse } from "../../helper";
+import type { IApiResponse, IEmptyApiResponse } from "../../helper";
 import { AppError } from "../../middleware";
-import { CREATED, OK, UNAUTHORIZED } from "../../utils";
+import { CREATED, OK } from "../../utils";
 import type { TodoService } from "../services";
 
 export class TodoClass {
