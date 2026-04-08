@@ -80,4 +80,6 @@ export const VGetTodoDetailsDtoOut = Type.Object({
     progress: Type.String(),
     priority: Type.Enum(ETodoPriority),
     status: Type.Enum(ETodoStatus),
+    createdAt: Type.Date(),
+    updatedAt: Type.Date(),
 });

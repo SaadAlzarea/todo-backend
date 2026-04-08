@@ -37,9 +37,12 @@ export class TodoService {
     async getTodosWithFilterService(body: ITodosWithFilterDtoIn, user: { user_id: string }) {
         const { page = 1, limit = 10, todo_id, priority, status } = body;
 
-        const mapped = this._todoMapper.getTodosWithFilterServiceMapper(body, user);
+        const getTodosWithFilterServiceMapper = this._todoMapper.getTodosWithFilterServiceMapper(
+            body,
+            user,
+        );
 
-        const result = await this._todoRepo.getAllTodosWithFilter(mapped);
+        const result = await this._todoRepo.getAllTodosWithFilter(getTodosWithFilterServiceMapper);
 
         const totalTodos = await this._todoRepo.getTotalTodosCount({
             user_id: user.user_id,

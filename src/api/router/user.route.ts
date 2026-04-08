@@ -11,11 +11,11 @@ const { userController } = di;
 const { register, login, getAllUsers } = userPath;
 
 userRouter
-    .post(register, limiter, expressAdapter(userController.registerNewUser.bind(userController)))
-    .post(login, limiter, expressAdapter(userController.userLogin.bind(userController)))
+    .post(register, limiter, expressAdapter(userController.registerController.bind(userController)))
+    .post(login, limiter, expressAdapter(userController.userLoginController.bind(userController)))
     .post(
         getAllUsers,
         authMiddleware,
         // authorize("manage", "all"),
-        expressAdapter(userController.getAllUserForSuperAdmin.bind(userController)),
+        expressAdapter(userController.getAllUserForSuperAdminWithFilter.bind(userController)),
     );

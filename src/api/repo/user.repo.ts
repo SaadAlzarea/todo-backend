@@ -1,6 +1,15 @@
-import { eq } from "drizzle-orm";
+import { promises } from "node:dns";
+import { and, desc, eq, sql } from "drizzle-orm";
 import { UserTable } from "../../db";
-import type { IRegisterDto } from "../../domain";
+import type {
+    IGetAllUserWithFilterDtoIn,
+    IGetTodoDetailsDtoIn,
+    ILoginDtoInQuery,
+    ILoginDtoOutResult,
+    IRegisterDtoIn,
+    IRegisterDtoInQuery,
+    IRegisterDtoOut,
+} from "../../domain";
 
 export class UserRepo {
     constructor(private readonly _db: any) {}
@@ -26,13 +35,13 @@ export class UserRepo {
         return result.length > 0;
     }
 
-    async createNewUser(body: IRegisterDto) {
+    async registerRepository(body: IRegisterDtoInQuery) {
         const result = await this._db.insert(UserTable).values(body).returning();
 
-        return result[0];
+        return result[0] || null;
     }
 
-    async checkLoginEmailAndGetUserInfo(email: string) {
+    async checkLoginEmailAndGetUserInfo(body: ILoginDtoInQuery) {
         const result = await this._db
             .select({
                 user_id: UserTable.user_id,
@@ -41,14 +50,50 @@ export class UserRepo {
                 role: UserTable.role,
             })
             .from(UserTable)
-            .where(eq(UserTable.email, email))
+            .where(eq(UserTable.email, body.email))
             .limit(1);
 
         return result[0] || null;
     }
 
-    async getAllUserForSuperAdmin() {
-        const result = await this._db.select().from(UserTable);
+    async getAllUserForSuperAdmin(body: IGetAllUserWithFilterDtoIn) {
+        const result = await this._db
+            .select({
+                user_id: UserTable.user_id,
+                username: UserTable.username,
+                email: UserTable.email,
+                role: UserTable.role,
+                createdAt: UserTable.createdAt,
+                updatedAt: UserTable.updatedAt,
+            })
+            .from(UserTable)
+            .where(
+                and(
+                    ...(body.user_id ? [eq(UserTable.user_id, body.user_id)] : []),
+                    ...(body.username ? [eq(UserTable.username, body.username)] : []),
+                    ...(body.email ? [eq(UserTable.email, body.email)] : []),
+                ),
+            )
+            .limit(body.limit)
+            .orderBy(desc(UserTable.createdAt));
+
         return result;
+    }
+
+    async getTotalUserCount(body: IGetAllUserWithFilterDtoIn): Promise<number> {
+        const result = await this._db
+            .select({
+                count: sql<number>`COUNT(*)`,
+            })
+            .from(UserTable)
+            .where(
+                and(
+                    body.user_id ? eq(UserTable.user_id, body.user_id) : undefined,
+                    body.username ? eq(UserTable.username, body.username) : undefined,
+                    body.email ? eq(UserTable.email, body.email) : undefined,
+                ),
+            );
+
+        return result[0]?.count || 0;
     }
 }

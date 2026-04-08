@@ -150,6 +150,8 @@ export class TodoRepo {
                 progress: TodoTable.progress,
                 priority: TodoTable.priority,
                 status: TodoTable.status,
+                createdAt: TodoTable.createdAt,
+                updatedAt: TodoTable.updatedAt,
             })
             .from(TodoTable)
             .where(eq(TodoTable.todo_id, todo_id));
