@@ -10,6 +10,7 @@ export const connectDB_postgres = () => {
         // console.log(DB_URL_SQL_POSTGRESQL);
     }
 };
+console.log("postgres run on", process.env.DB_URL_SQL_POSTGRESQL);
 export default defineConfig({
     out: "./src/db/drizzle/migrations",
     schema: "./src/db/drizzle/schema.ts",
@@ -20,15 +21,6 @@ export default defineConfig({
     // verbose: true,
     // strict: true,
 });
-
-// export default defineConfig({
-//   out: './drizzle',
-//   schema: './src/db/schema.ts',
-//   dialect: 'postgresql',
-//   dbCredentials: {
-//     url: process.env.DATABASE_URL!,
-//   },
-// });
 
 /**
  * * this is commands

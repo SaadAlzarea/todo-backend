@@ -7,10 +7,16 @@ import { authMiddleware } from "../../middleware";
 export const groupRouter = Router();
 
 const { groupController } = di;
-const { createGroupWithAdminUser } = groupPath;
+const { createGroupWithAdminUser, addNewMemberToGroup } = groupPath;
 
-groupRouter.post(
-    createGroupWithAdminUser,
-    authMiddleware,
-    expressAdapter(groupController.createGroup.bind(groupController)),
-);
+groupRouter
+    .post(
+        createGroupWithAdminUser,
+        authMiddleware,
+        expressAdapter(groupController.createGroup.bind(groupController)),
+    )
+    .post(
+        addNewMemberToGroup,
+        authMiddleware,
+        expressAdapter(groupController.addedNewMemberToGroup.bind(groupController)),
+    );

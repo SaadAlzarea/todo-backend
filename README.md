@@ -7,7 +7,6 @@ Create a `.env` file:
 ```
 PORT=4000
 DB_URL=mongodb+srv://root:Saad2002@myfirstprojectcluster.fvuwkr4.mongodb.net/?appName=MyFirstProjectCluster
-
 JWT_SECRET=supersecretkey123ffff
 JWT_EXPIRES_IN=1h
 ```

@@ -1,6 +1,10 @@
-import type { ICreateGroupDtoIn } from "../../domain";
+import { error } from "node:console";
+import { is } from "drizzle-orm";
+import { EGroupMemberRole } from "../../definition";
+import type { IAddMemberToGroupDtoIn, ICreateGroupDtoIn } from "../../domain";
 import { ensure } from "../../helper";
-import { BAD_REQUEST } from "../../utils";
+import { AppError } from "../../middleware";
+import { BAD_REQUEST, UNAUTHORIZED } from "../../utils";
 import type { GroupController } from "../controller";
 import type { GroupMapper } from "../mapper/group.mapper";
 import type { GroupRepo } from "../repo";
@@ -39,6 +43,46 @@ export class GroupService {
             );
 
             return createdGroup;
+        });
+    }
+    async addedNewMemberToGroup(body: IAddMemberToGroupDtoIn, AdminUserinfo: { user_id: string }) {
+        return await this._db.transaction(async (transactionDB: any) => {
+            const mapperToCheckIsAdmin = this._groupMapper.mapperToCheckIsAdmin(
+                body,
+                AdminUserinfo,
+            );
+            // if this user admin or not
+            const isAdmin = await this._groupRepo.checkAdminRole(
+                mapperToCheckIsAdmin,
+                transactionDB,
+            );
+
+            ensure(
+                isAdmin?.group_member_role === EGroupMemberRole.ADMIN,
+                "You are unauthorized",
+                UNAUTHORIZED,
+            );
+
+            const mapperToAddedNewMemberToGroup =
+                this._groupMapper.mapperToAddedNewMemberToGroup(body);
+            console.log("i am here ");
+
+            try {
+                const result = await this._groupRepo.addMember(
+                    transactionDB,
+                    mapperToAddedNewMemberToGroup,
+                );
+                return result;
+            } catch (error: any) {
+                if (error?.cause?.code === "23505") {
+                    throw new AppError(
+                        `User with user id ${mapperToAddedNewMemberToGroup.member_user_id} already added to this group`,
+                        BAD_REQUEST,
+                    );
+                }
+
+                throw error;
+            }
         });
     }
 }

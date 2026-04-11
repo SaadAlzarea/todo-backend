@@ -7,7 +7,7 @@ import cors from "cors";
 import { connectDB_postgres } from "../drizzle.config";
 import { todoRouter, userRouter } from "./api";
 import { groupRouter } from "./api/router/group.route";
-import connectDB from "./db/mongoose/dbConnect.db";
+// import connectDB from "./db/mongoose/dbConnect.db";
 import setupSwagger from "./docs/swagger/swaggerDocs.swagger";
 import { appPaths } from "./domain";
 import { authMiddleware, errorHandler } from "./middleware";
@@ -25,7 +25,7 @@ app.use(
 );
 app.use(express.json());
 
-connectDB();
+// connectDB();
 connectDB_postgres();
 
 //middleware

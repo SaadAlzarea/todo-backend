@@ -3,10 +3,10 @@ CREATE TYPE "public"."todo_status" AS ENUM('active', 'in-progress', 'archived', 
 CREATE TYPE "public"."group_member_role" AS ENUM('admin', 'member');--> statement-breakpoint
 CREATE TYPE "public"."user_role" AS ENUM('super-admin', 'admin', 'user');--> statement-breakpoint
 CREATE TABLE "group_members" (
-	"group_member_id" uuid PRIMARY KEY NOT NULL,
+	"group_member_id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"group_id" uuid NOT NULL,
 	"user_id" uuid NOT NULL,
-	"group_member_role" "group_member_role" NOT NULL
+	"group_member_role" "group_member_role" DEFAULT 'member' NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "groups" (
@@ -21,8 +21,8 @@ CREATE TABLE "todos" (
 	"title" varchar(255) NOT NULL,
 	"body" varchar NOT NULL,
 	"progress" varchar,
-	"priority" "todo_priority" NOT NULL,
-	"status" "todo_status" NOT NULL,
+	"priority" "todo_priority" DEFAULT 'low' NOT NULL,
+	"status" "todo_status" DEFAULT 'in-progress' NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	"user_id" uuid NOT NULL
