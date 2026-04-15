@@ -1,4 +1,5 @@
 import { type Static, Type } from "@sinclair/typebox";
+import { Types } from "mongoose";
 import { ETodoPriority, ETodoStatus } from "../../../definition";
 
 // * CREATE NEW TODO
@@ -82,4 +83,18 @@ export const VGetTodoDetailsDtoOut = Type.Object({
     status: Type.Enum(ETodoStatus),
     createdAt: Type.Date(),
     updatedAt: Type.Date(),
+});
+
+// * ASSIGN TODO
+export const VAssignTodoDtoIn = Type.Object({
+    assign_todo_id: Type.String(),
+    assign_todo_from: Type.String(),
+    assign_todo_to: Type.String(),
+    title: Type.String(),
+    body: Type.String(),
+    progress: Type.Optional(Type.String()),
+    priority: Type.String(),
+    status: Type.String(),
+    createdAt: Type.String(),
+    updatedAt: Type.String(),
 });

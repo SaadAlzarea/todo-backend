@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1775835012576,
-      "tag": "0000_fearless_tigra",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1775845749868,
-      "tag": "0001_premium_speed_demon",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1775926717735,
-      "tag": "0002_brown_toad_men",
+      "when": 1776200771493,
+      "tag": "0000_broken_captain_britain",
       "breakpoints": true
     }
   ]

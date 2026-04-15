@@ -1,5 +1,5 @@
 import { and, desc, eq, sql } from "drizzle-orm";
-import { TodoTable, UserTable } from "../../db";
+import { PersonalProjectTodoTable, UserTable } from "../../db";
 import type {
     ICreateNewTodoDoOut,
     IDeleteTodoByIdDtoIn,
@@ -18,7 +18,7 @@ export class TodoRepo {
 
     async createNewTodoRepo(body: ICreateNewTodoDoInQuery) {
         const result = await this._db
-            .insert(TodoTable)
+            .insert(PersonalProjectTodoTable)
             .values({
                 title: body.title,
                 body: body.body,
@@ -53,27 +53,27 @@ export class TodoRepo {
     }) {
         return await this._db
             .select({
-                todo_id: TodoTable.todo_id,
-                title: TodoTable.title,
-                priority: TodoTable.priority,
-                status: TodoTable.status,
-                progress: TodoTable.progress,
+                todo_id: PersonalProjectTodoTable.todo_id,
+                title: PersonalProjectTodoTable.title,
+                priority: PersonalProjectTodoTable.priority,
+                status: PersonalProjectTodoTable.status,
+                progress: PersonalProjectTodoTable.progress,
             })
-            .from(TodoTable)
+            .from(PersonalProjectTodoTable)
             .where(
                 and(
-                    eq(TodoTable.user_id, user_id),
+                    eq(PersonalProjectTodoTable.user_id, user_id),
 
-                    todo_id ? eq(TodoTable.todo_id, todo_id) : undefined,
-                    title ? eq(TodoTable.title, title) : undefined,
-                    priority ? eq(TodoTable.priority, priority) : undefined,
-                    status ? eq(TodoTable.status, status) : undefined,
-                    progress ? eq(TodoTable.progress, progress) : undefined,
+                    todo_id ? eq(PersonalProjectTodoTable.todo_id, todo_id) : undefined,
+                    title ? eq(PersonalProjectTodoTable.title, title) : undefined,
+                    priority ? eq(PersonalProjectTodoTable.priority, priority) : undefined,
+                    status ? eq(PersonalProjectTodoTable.status, status) : undefined,
+                    progress ? eq(PersonalProjectTodoTable.progress, progress) : undefined,
                 ),
             )
             .limit(limit)
             .offset(offset)
-            .orderBy(desc(TodoTable.createdAt));
+            .orderBy(desc(PersonalProjectTodoTable.createdAt));
     }
 
     async getTotalTodosCount({
@@ -93,16 +93,16 @@ export class TodoRepo {
     }) {
         const result = await this._db
             .select({ count: sql<number>`count(*)` })
-            .from(TodoTable)
+            .from(PersonalProjectTodoTable)
             .where(
                 and(
-                    eq(TodoTable.user_id, user_id),
+                    eq(PersonalProjectTodoTable.user_id, user_id),
 
-                    todo_id ? eq(TodoTable.todo_id, todo_id) : undefined,
-                    title ? eq(TodoTable.title, title) : undefined,
-                    priority ? eq(TodoTable.priority, priority) : undefined,
-                    status ? eq(TodoTable.status, status) : undefined,
-                    progress ? eq(TodoTable.progress, progress) : undefined,
+                    todo_id ? eq(PersonalProjectTodoTable.todo_id, todo_id) : undefined,
+                    title ? eq(PersonalProjectTodoTable.title, title) : undefined,
+                    priority ? eq(PersonalProjectTodoTable.priority, priority) : undefined,
+                    status ? eq(PersonalProjectTodoTable.status, status) : undefined,
+                    progress ? eq(PersonalProjectTodoTable.progress, progress) : undefined,
                 ),
             );
 
@@ -113,8 +113,8 @@ export class TodoRepo {
         const { todo_id } = body;
 
         const result = await this._db
-            .delete(TodoTable)
-            .where(eq(TodoTable.todo_id, todo_id))
+            .delete(PersonalProjectTodoTable)
+            .where(eq(PersonalProjectTodoTable.todo_id, todo_id))
             .returning();
 
         return result[0] || null;
@@ -128,12 +128,12 @@ export class TodoRepo {
         );
 
         const result = await this._db
-            .update(TodoTable)
+            .update(PersonalProjectTodoTable)
             .set({
                 ...cleanFields,
                 updatedAt: new Date(),
             })
-            .where(eq(TodoTable.todo_id, todo_id!))
+            .where(eq(PersonalProjectTodoTable.todo_id, todo_id!))
             .returning();
 
         return result[0] || null;
@@ -144,17 +144,17 @@ export class TodoRepo {
 
         const result = await this._db
             .select({
-                todo_id: TodoTable.todo_id,
-                title: TodoTable.title,
-                body: TodoTable.body,
-                progress: TodoTable.progress,
-                priority: TodoTable.priority,
-                status: TodoTable.status,
-                createdAt: TodoTable.createdAt,
-                updatedAt: TodoTable.updatedAt,
+                todo_id: PersonalProjectTodoTable.todo_id,
+                title: PersonalProjectTodoTable.title,
+                body: PersonalProjectTodoTable.body,
+                progress: PersonalProjectTodoTable.progress,
+                priority: PersonalProjectTodoTable.priority,
+                status: PersonalProjectTodoTable.status,
+                createdAt: PersonalProjectTodoTable.createdAt,
+                updatedAt: PersonalProjectTodoTable.updatedAt,
             })
-            .from(TodoTable)
-            .where(eq(TodoTable.todo_id, todo_id));
+            .from(PersonalProjectTodoTable)
+            .where(eq(PersonalProjectTodoTable.todo_id, todo_id));
 
         return result[0] || null;
     }

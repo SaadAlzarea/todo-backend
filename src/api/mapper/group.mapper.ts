@@ -46,4 +46,24 @@ export class GroupMapper {
             group_member_role: EGroupMemberRole.MEMBER,
         };
     }
+
+    mapperToCheckIsAdminINDeleteMember(
+        body: { group_id: string },
+        AdminUserinfo: { user_id: string },
+    ) {
+        return {
+            admin_user_id: AdminUserinfo.user_id,
+            group_id: body.group_id,
+        };
+    }
+
+    mapperToCheckIsAdminINDeleteGroup(
+        body: { group_id: string },
+        AdminUserinfo: { user_id: string },
+    ) {
+        return {
+            admin_user_id: AdminUserinfo.user_id,
+            group_id: body.group_id,
+        };
+    }
 }

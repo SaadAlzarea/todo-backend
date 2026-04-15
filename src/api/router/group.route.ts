@@ -1,3 +1,4 @@
+import { group } from "node:console";
 import { Router } from "express";
 import { expressAdapter } from "../../adapter";
 import { di } from "../../di";
@@ -7,7 +8,13 @@ import { authMiddleware } from "../../middleware";
 export const groupRouter = Router();
 
 const { groupController } = di;
-const { createGroupWithAdminUser, addNewMemberToGroup } = groupPath;
+const {
+    createGroupWithAdminUser,
+    addNewMemberToGroup,
+    deleteMemberFromGroup,
+    getAllGroupMember,
+    deleteGroup,
+} = groupPath;
 
 groupRouter
     .post(
@@ -19,4 +26,19 @@ groupRouter
         addNewMemberToGroup,
         authMiddleware,
         expressAdapter(groupController.addedNewMemberToGroup.bind(groupController)),
+    )
+    .delete(
+        deleteMemberFromGroup,
+        authMiddleware,
+        expressAdapter(groupController.deleteMemberFromGroup.bind(groupController)),
+    )
+    .post(
+        getAllGroupMember,
+        authMiddleware,
+        expressAdapter(groupController.getAllGroupMemberById.bind(groupController)),
+    )
+    .delete(
+        deleteGroup,
+        authMiddleware,
+        expressAdapter(groupController.deleteGroup.bind(groupController)),
     );

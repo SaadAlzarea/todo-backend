@@ -1,5 +1,6 @@
 import type { Static } from "@sinclair/typebox";
 import type {
+    VAssignTodoDtoIn,
     VCreateNewTodoDoIn,
     VCreateNewTodoDoOut,
     VDeleteTodoByIdDtoIn,
@@ -29,3 +30,6 @@ export interface ITodosWithFilterDtoOut extends Static<typeof VTodosWithFilterDt
 // * GET TODO DETAILS
 export interface IGetTodoDetailsDtoIn extends Static<typeof VGetTodoDetailsDtoIn> {}
 export interface IGetTodoDetailsDtoOut extends Static<typeof VGetTodoDetailsDtoOut> {}
+
+// * ASSIGN TODO
+export interface IAssignTodoDtoIn extends Static<typeof VAssignTodoDtoIn> {}

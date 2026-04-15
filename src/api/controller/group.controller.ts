@@ -2,9 +2,17 @@ import { validator } from "../../adapter";
 import type { HttpRequest, HttpResponse } from "../../definition";
 import {
     type IAddMemberToGroupDtoIn,
+    type IAssignTodoDtoIn,
     type ICreateGroupDtoIn,
+    type IDeleteGroupDtoIn,
+    type IDeleteMemberFromGroupDtoIn,
+    type IGetAllGroupMemberByIdDtoIn,
+    type IGetAllGroupMemberByIdDtoOut,
     VAddMemberToGroupDtoIn,
     VCreateGroupDtoIn,
+    VDeleteGroupDtoIn,
+    VDeleteMemberFromGroupDtoIn,
+    VGetAllGroupMemberByIdDtoIn,
 } from "../../domain";
 import type { IApiResponse } from "../../helper";
 import { OK } from "../../utils";
@@ -44,5 +52,60 @@ export class GroupController {
                 message: `Success in added user with user_id ${body.member_user_id}`,
             },
         };
+    }
+
+    async deleteMemberFromGroup(
+        httpRequest: HttpRequest<IDeleteMemberFromGroupDtoIn>,
+    ): Promise<IApiResponse<any>> {
+        const body = httpRequest.body;
+        const AdminUserinfo = (httpRequest as any).user;
+
+        validator(VDeleteMemberFromGroupDtoIn, body);
+        const result = await this._groupService.deleteMemberFromGroup(body, AdminUserinfo);
+
+        return {
+            statusCode: OK,
+            body: {
+                data: result,
+                message: `Success in delete user with user_id ${body.member_user_id} from group`,
+            },
+        };
+    }
+
+    async getAllGroupMemberById(
+        httpRequest: HttpRequest<IGetAllGroupMemberByIdDtoIn>,
+    ): Promise<IApiResponse<IGetAllGroupMemberByIdDtoOut>> {
+        const body = httpRequest.body;
+
+        validator(VGetAllGroupMemberByIdDtoIn, body);
+
+        const result = await this._groupService.getAllGroupMemberById(body);
+
+        return {
+            statusCode: OK,
+            body: {
+                data: result,
+                message: `Success in get group member with group_id ${body.group_id}`,
+            },
+        };
+    }
+
+    async deleteGroup(httpRequest: HttpRequest<IDeleteGroupDtoIn>): Promise<IApiResponse<any>> {
+        const body = httpRequest.body;
+        const AdminUserinfo = (httpRequest as any).user;
+        validator(VDeleteGroupDtoIn, body);
+        const result = await this._groupService.deleteGroup(body, AdminUserinfo);
+        return {
+            statusCode: OK,
+            body: {
+                data: result,
+                message: `Success in delete group with group_id ${body.group_id}`,
+            },
+        };
+    }
+
+    async assignTodo(httpRequest: HttpRequest<IAssignTodoDtoIn>): Promise<IApiResponse<any>> {
+        const body = httpRequest.body;
+        const AdminUserinfo = (httpRequest as any).user;
     }
 }
