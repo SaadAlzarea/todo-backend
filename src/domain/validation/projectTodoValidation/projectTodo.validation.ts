@@ -2,34 +2,10 @@ import { type Static, Type } from "@sinclair/typebox";
 import { Types } from "mongoose";
 import { ETodoPriority, ETodoStatus } from "../../../definition";
 
-// ! PERSONAL PROJECT
-// * CREATE PROJECT
-export const VCreatePersonalProjectDtoIn = Type.Object({
-    project_name: Type.String(),
-    project_deadline: Type.String(),
-});
-
-// * DELETE PERSONAL PROJECT
-export const VDeletePersonalProjectDtoIn = Type.Object({
-    project_id: Type.String(),
-});
-
-export const VGetAllPersonalProjectDtoOut = Type.Object({
-    data: Type.Array(
-        Type.Object({
-            project_name: Type.String(),
-            project_id: Type.String(),
-            project_deadline: Type.String(),
-            createdAt: Type.String(),
-        }),
-    ),
-    message: Type.String(),
-});
-
 // ! TODOS
 
 // * CREATE NEW TODO INSIDE PERSONAL PROJECT
-export const VCreateNewTodoDoIn = Type.Object({
+export const VCreateNewProjectTodoDoIn = Type.Object({
     project_id: Type.String(),
     title: Type.String({ minLength: 1 }),
     body: Type.String({ minLength: 1 }),
@@ -38,29 +14,17 @@ export const VCreateNewTodoDoIn = Type.Object({
     todo_deadline: Type.String(),
 });
 
-// todo_id: uuid("todo_id").primaryKey().defaultRandom(),
-// project_id: uuid("project_id")
-//     .notNull()
-//     .references(() => PersonalProjectTable.project_id, { onDelete: "cascade" }),
-// user_id: uuid("user_id")
-//     .notNull()
-//     .references(() => UserTable.user_id, { onDelete: "cascade" }),
-// title: varchar("title", { length: 255 }).notNull(),
-// body: varchar("body").notNull(),
-// priority: todoPriorityEnum("priority").default("low"),
-// status: todoStatusEnum("status").default("in-progress"),
-// todo_deadline: timestamp("todo_deadline"),
-// createdAt: timestamp("created_at").defaultNow(),
-// updatedAt: timestamp("updated_at").defaultNow(),
-
-export const VCreateNewTodoDoOut = Type.Object({
+export const VCreateNewProjectTodoDoOut = Type.Object({
     todo_id: Type.String(),
-    title: Type.String({ minLength: 1 }),
-    body: Type.String({ minLength: 1 }),
-    progress: Type.Optional(Type.Union([Type.String(), Type.Null()])),
+    project_id: Type.String(),
+    user_id: Type.String(),
+    title: Type.String(),
+    body: Type.String(),
     priority: Type.Enum(ETodoPriority),
     status: Type.Enum(ETodoStatus),
-    user_id: Type.String(),
+    todo_deadline: Type.Date(),
+    createdAt: Type.Date(),
+    updatedAt: Type.Date(),
 });
 
 // * DELETE TODO

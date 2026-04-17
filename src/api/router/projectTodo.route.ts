@@ -20,7 +20,9 @@ todoRouter
         createNewTodo,
         authMiddleware,
         authorize("create", "Todo"),
-        expressAdapter(projectTodoController.createNewTodo.bind(projectTodoController)),
+        expressAdapter(
+            projectTodoController.createNewProjectTodoController.bind(projectTodoController),
+        ),
     )
     .delete(
         deleteTodo,

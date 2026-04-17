@@ -1,7 +1,7 @@
 import type { Static } from "@sinclair/typebox";
 import type {
-    VCreateNewTodoDoInQuery,
-    VCreateNewTodoDoOutResult,
+    VCreateNewProjectTodoDtoInQuery,
+    VCreateNewProjectTodoDtoOutResult,
     VCreatePersonalProjectDtoIn,
     VDeleteTodoByIdDtoInQuery,
 } from "../../validation";
@@ -10,8 +10,10 @@ import type {
 export interface ICreatePersonalProjectDtoIn extends Static<typeof VCreatePersonalProjectDtoIn> {}
 
 // * CREATE NEW TODO QUERY
-export interface ICreateNewTodoDoInQuery extends Static<typeof VCreateNewTodoDoInQuery> {}
-export interface ICreateNewTodoDoOutResult extends Static<typeof VCreateNewTodoDoOutResult> {}
+export interface ICreateNewProjectTodoDtoInQuery
+    extends Static<typeof VCreateNewProjectTodoDtoInQuery> {}
+export interface ICreateNewProjectTodoDtoOutResult
+    extends Static<typeof VCreateNewProjectTodoDtoOutResult> {}
 
 // * DELETE TODO QUERY
 export interface IDeleteTodoByIdDtoInQuery extends Static<typeof VDeleteTodoByIdDtoInQuery> {}

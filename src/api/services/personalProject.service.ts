@@ -1,5 +1,4 @@
-import type { IDeletePersonalProjectDtoIn } from "../../domain";
-import type { ICreatePersonalProjectDtoIn } from "../../domain/DTOs/todoDTO/todo.query.dto";
+import type { ICreatePersonalProjectDtoIn, IDeletePersonalProjectDtoIn } from "../../domain";
 import { ensure } from "../../helper";
 import { BAD_REQUEST } from "../../utils";
 import type { PersonalProjectMapper } from "../mapper";

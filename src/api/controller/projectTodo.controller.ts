@@ -1,8 +1,8 @@
 import { validator } from "../../adapter";
 import type { HttpRequest, HttpResponse } from "../../definition";
 import {
-    type ICreateNewTodoDoIn,
-    type ICreateNewTodoDoOut,
+    type ICreateNewProjectTodoDoIn,
+    type ICreateNewProjectTodoDoOut,
     type IDeleteTodoByIdDtoIn,
     type IGetTodoDetailsDtoIn,
     type IGetTodoDetailsDtoOut,
@@ -10,13 +10,14 @@ import {
     // type ITodosWithFilterDtoIn,
     type IUpdateTodoDtoIn,
     type IUpdateTodoDtoOut,
-    VCreateNewTodoDoIn,
+    VCreateNewProjectTodoDoIn,
     VDeleteTodoByIdDtoIn,
     VGetTodoDetailsDtoIn,
     VTodosWithFilterDtoIn,
     VUpdateTodoDtoIn,
 } from "../../domain";
 import type { IApiResponse, IEmptyApiResponse } from "../../helper";
+import { dateValidator } from "../../helper/dateValidator.helper";
 import { AppError } from "../../middleware";
 import { CREATED, OK, UNAUTHORIZED } from "../../utils";
 import type { ProjectTodoService } from "../services/projectTodo.service";
@@ -25,23 +26,25 @@ import type { ProjectTodoService } from "../services/projectTodo.service";
 export class ProjectTodoController {
     constructor(private readonly _todoService: ProjectTodoService) {}
 
-    // * PERSONAL PROJECT
-
     // * TODOS
-    async createNewTodo(
-        httpRequest: HttpRequest<ICreateNewTodoDoIn>,
-    ): Promise<IApiResponse<ICreateNewTodoDoOut>> {
+    async createNewProjectTodoController(
+        httpRequest: HttpRequest<ICreateNewProjectTodoDoIn>,
+    ): Promise<IApiResponse<ICreateNewProjectTodoDoOut>> {
         const body = httpRequest.body;
         const user = (httpRequest as any).user;
+
+        const project_deadline = dateValidator(body.todo_deadline);
 
         if (!user?.user_id) {
             throw new AppError("Unauthorized - user not found", UNAUTHORIZED);
         }
         // ensure(user, "Unauthorized - user not found", UNAUTHORIZED);
 
-        validator(VCreateNewTodoDoIn, body);
+        validator(VCreateNewProjectTodoDoIn, body);
 
-        const createdData = await this._todoService.createNewTodoService(body, user);
+        const createdData = await this._todoService.createNewProjectTodoService(body, user, {
+            project_deadline,
+        });
 
         return {
             statusCode: CREATED,

@@ -1,12 +1,12 @@
 import { and, desc, eq, sql } from "drizzle-orm";
 import { PersonalProjectTodoTable } from "../../db";
 import type {
+    ICreateNewProjectTodoDtoInQuery,
     IDeleteTodoByIdDtoIn,
     IGetTodoDetailsDtoOut,
     IUpdateTodoDtoIn,
     IUpdateTodoDtoOut,
 } from "../../domain";
-import type { ICreateNewTodoDoInQuery } from "../../domain/DTOs/todoDTO/todo.query.dto";
 
 export class ProjectTodoRepo {
     constructor(
@@ -15,15 +15,17 @@ export class ProjectTodoRepo {
     ) {}
 
     // * TODOS
-    async createNewTodoRepo(body: ICreateNewTodoDoInQuery) {
+    async createNewTodoRepo(body: ICreateNewProjectTodoDtoInQuery) {
         const result = await this._db
             .insert(PersonalProjectTodoTable)
             .values({
+                project_id: body.project_id,
+                user_id: body.user_id,
                 title: body.title,
                 body: body.body,
                 priority: body.priority,
                 status: body.status,
-                user_id: body.user_id,
+                todo_deadline: body.todo_deadline,
             })
             .returning();
 

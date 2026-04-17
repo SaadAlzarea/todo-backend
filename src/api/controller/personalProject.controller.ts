@@ -1,12 +1,13 @@
 import { validator } from "../../adapter";
 import type { HttpRequest } from "../../definition";
 import {
+    type ICreatePersonalProjectDtoIn,
     type IDeletePersonalProjectDtoIn,
     type IGetAllPersonalProjectDtoOut,
     VCreatePersonalProjectDtoIn,
     VDeletePersonalProjectDtoIn,
 } from "../../domain";
-import type { ICreatePersonalProjectDtoIn } from "../../domain/DTOs/todoDTO/todo.query.dto";
+
 import type { IApiResponse } from "../../helper";
 import { dateValidator } from "../../helper/dateValidator.helper";
 import { OK } from "../../utils";

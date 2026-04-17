@@ -1,5 +1,6 @@
 // ? DTO INDEXES
 
 export * from "./groupDTO";
-export * from "./todoDTO";
+export * from "./personalProjectDTO";
+export * from "./projectTodoDTO";
 export * from "./userDTO";

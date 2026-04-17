@@ -1,12 +1,9 @@
 import type { Static } from "@sinclair/typebox";
 import type {
     VAssignTodoDtoIn,
-    VCreateNewTodoDoIn,
-    VCreateNewTodoDoOut,
-    VCreatePersonalProjectDtoInQuery,
-    VDeletePersonalProjectDtoIn,
+    VCreateNewProjectTodoDoIn,
+    VCreateNewProjectTodoDoOut,
     VDeleteTodoByIdDtoIn,
-    VGetAllPersonalProjectDtoOut,
     VGetTodoDetailsDtoIn,
     VGetTodoDetailsDtoOut,
     VTodosWithFilterDtoIn,
@@ -15,23 +12,10 @@ import type {
     VUpdateTodoDtoOut,
 } from "../../validation";
 
-// ! PERSONAL PROJECT
-
-// * CREATE PERSONAL PROJECT
-export interface ICreatePersonalProjectDtoInQuery
-    extends Static<typeof VCreatePersonalProjectDtoInQuery> {}
-
-// * DELETE PERSONAL PROJECT
-export interface IDeletePersonalProjectDtoIn extends Static<typeof VDeletePersonalProjectDtoIn> {}
-
-// * GET ALL PERSONAL PROJECT
-export interface IGetAllPersonalProjectDtoOut extends Static<typeof VGetAllPersonalProjectDtoOut> {}
-
 // ! TODO
-
 // * CREATE NEW TODO
-export interface ICreateNewTodoDoIn extends Static<typeof VCreateNewTodoDoIn> {}
-export interface ICreateNewTodoDoOut extends Static<typeof VCreateNewTodoDoOut> {}
+export interface ICreateNewProjectTodoDoIn extends Static<typeof VCreateNewProjectTodoDoIn> {}
+export interface ICreateNewProjectTodoDoOut extends Static<typeof VCreateNewProjectTodoDoOut> {}
 
 // * DELETE TODO
 export interface IDeleteTodoByIdDtoIn extends Static<typeof VDeleteTodoByIdDtoIn> {}

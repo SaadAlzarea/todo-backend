@@ -1,10 +1,11 @@
-import type { ETodoPriority, ETodoStatus } from "../../definition";
-import type { ICreateNewTodoDoIn, IDeleteTodoByIdDtoIn } from "../../domain";
+import type { ETodoPriority, ETodoStatus, IUserPayload } from "../../definition";
 import type {
-    ICreateNewTodoDoInQuery,
-    ICreateNewTodoDoOutResult,
+    ICreateNewProjectTodoDoIn,
+    ICreateNewProjectTodoDtoInQuery,
+    ICreateNewProjectTodoDtoOutResult,
+    IDeleteTodoByIdDtoIn,
     IDeleteTodoByIdDtoInQuery,
-} from "../../domain/DTOs/todoDTO/todo.query.dto";
+} from "../../domain";
 
 export class ProjectTodoMapper {
     /**
@@ -21,37 +22,44 @@ export class ProjectTodoMapper {
      *  * TODOS
      */
     createNewTodoServiceMapper(
-        todoData: ICreateNewTodoDoIn,
-        user: { user_id: string },
-    ): ICreateNewTodoDoInQuery {
+        todoData: ICreateNewProjectTodoDoIn,
+        user: IUserPayload,
+        date: { project_deadline: Date },
+    ): ICreateNewProjectTodoDtoInQuery {
         return {
             project_id: todoData.project_id,
             title: todoData.title,
             body: todoData.body,
             priority: todoData.priority,
             status: todoData.status,
+            todo_deadline: date.project_deadline,
             user_id: user.user_id,
         };
     }
 
-    createNewTodoServiceDtoOut(createNewTodoRepo: {
+    createNewTodoServiceDtoOut(body: {
         todo_id: string;
         title: string;
         body: string;
-        progress?: string;
         priority: ETodoPriority;
         status: ETodoStatus;
         user_id: string;
         project_id: string;
-    }): ICreateNewTodoDoOutResult {
+        todo_deadline: Date;
+        createdAt: Date;
+        updatedAt: Date;
+    }): ICreateNewProjectTodoDtoOutResult {
         return {
-            project_id: createNewTodoRepo.project_id,
-            todo_id: createNewTodoRepo.todo_id,
-            title: createNewTodoRepo.title,
-            body: createNewTodoRepo.body,
-            priority: createNewTodoRepo.priority,
-            status: createNewTodoRepo.status,
-            user_id: createNewTodoRepo.user_id,
+            todo_id: body.todo_id,
+            project_id: body.project_id,
+            user_id: body.user_id,
+            title: body.title,
+            body: body.body,
+            priority: body.priority,
+            status: body.status,
+            todo_deadline: body.todo_deadline,
+            createdAt: body.createdAt,
+            updatedAt: body.updatedAt,
         };
     }
 

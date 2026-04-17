@@ -1,5 +1,7 @@
+import type { IUserPayload } from "../../definition";
 import type {
-    ICreateNewTodoDoIn,
+    ICreateNewProjectTodoDoIn,
+    ICreateNewProjectTodoDoOut,
     IDeleteTodoByIdDtoIn,
     IGetTodoDetailsDtoIn,
     IGetTodoDetailsDtoOut,
@@ -16,16 +18,22 @@ export class ProjectTodoService {
         private readonly _todoRepo: ProjectTodoRepo,
         private readonly _todoMapper: ProjectTodoMapper,
     ) {}
-    async createNewTodoService(todoData: ICreateNewTodoDoIn, user: { user_id: string }) {
+    async createNewProjectTodoService(
+        todoData: ICreateNewProjectTodoDoIn,
+        user: IUserPayload,
+        date: { project_deadline: Date },
+    ): Promise<ICreateNewProjectTodoDoOut> {
         const createNewTodoServiceMapper = this._todoMapper.createNewTodoServiceMapper(
             todoData,
             user,
+            date,
         );
+
         const createNewTodoRepo = await this._todoRepo.createNewTodoRepo(
             createNewTodoServiceMapper,
         );
 
-        ensure(!createNewTodoRepo, "Error in create todo", NOT_FOUND);
+        ensure(createNewTodoRepo, "Error in create todo", NOT_FOUND);
 
         const result = this._todoMapper.createNewTodoServiceDtoOut(createNewTodoRepo);
 
@@ -66,7 +74,7 @@ export class ProjectTodoService {
         ensure(hasUpdates, `No fields to update in todo with id ${todo_id}`, BAD_REQUEST);
 
         const updatedTodo = await this._todoRepo.updateTodoByIdRepo(updateTodoByIdBody);
-        ensure(!updatedTodo, `Todo with id ${todo_id} not found`, NOT_FOUND);
+        ensure(!!updatedTodo, `Todo with id ${todo_id} not found`, NOT_FOUND);
 
         return updatedTodo;
     }
