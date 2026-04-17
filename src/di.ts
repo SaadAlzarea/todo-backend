@@ -1,20 +1,30 @@
-// biome-ignore assist/source/organizeImports: <explanation>
 import {
-    TodoRepo,
-    TodoService,
-    TodoClass,
-    UserRepo,
-    UserService,
-    UserController,
-    GroupRepo,
-    GroupService,
+    EmailService,
     GroupController,
+    GroupMapper,
+    GroupRepo,
+    PersonalProjectController,
+    // GroupService,
+    PersonalProjectMapper,
+    PersonalProjectRepo,
+    // PersonalProjectService,
+    ProjectTodoController,
+    ProjectTodoMapper,
+    ProjectTodoRepo,
+    // ProjectTodoService,
+    UserController,
+    UserMapper,
+    UserRepo,
+    // UserService,
 } from "./api";
-import { UserMapper } from "./api/mapper/user.mapper";
-import { TodoMapper } from "./api/mapper/todo.mapper";
+// import { EmailService } from "./api/clients";
+
+import { GroupService } from "./api/services/group.service";
+import { PersonalProjectService } from "./api/services/personalProject.service";
+import { ProjectTodoService } from "./api/services/projectTodo.service";
+import { UserService } from "./api/services/user.service";
+
 import { db } from "./db";
-import { GroupMapper } from "./api/mapper/group.mapper";
-import { EmailService } from "./api/clients";
 
 export function initDI() {
     //TODO : Dependency Injection ..
@@ -23,13 +33,14 @@ export function initDI() {
      * * THIRD PARTY
      */
     const emailService = new EmailService();
+
     /**
      * * TODO DI
      */
-    const todoRepo = new TodoRepo(db);
-    const todoMapper = new TodoMapper();
-    const todoService = new TodoService(todoRepo, todoMapper);
-    const todoController = new TodoClass(todoService);
+    const projectTodoRepo = new ProjectTodoRepo(db);
+    const projectTodoMapper = new ProjectTodoMapper();
+    const projectTodoService = new ProjectTodoService(projectTodoRepo, projectTodoMapper);
+    const projectTodoController = new ProjectTodoController(projectTodoService);
 
     /**
      * * USER DI
@@ -38,6 +49,7 @@ export function initDI() {
     const userMapper = new UserMapper();
     const userService = new UserService(userRepo, userMapper);
     const userController = new UserController(userService);
+
     /**
      * * GROUP DI
      */
@@ -46,12 +58,24 @@ export function initDI() {
     const groupService = new GroupService(groupRepo, groupMapper, db, emailService);
     const groupController = new GroupController(groupService);
 
+    /**
+     * * PERSONAL PROJECT DI
+     */
+    const personalProjectRepo = new PersonalProjectRepo(db);
+    const personalProjectMapper = new PersonalProjectMapper();
+    const personalProjectService = new PersonalProjectService(
+        personalProjectRepo,
+        personalProjectMapper,
+        db,
+    );
+    const personalProjectController = new PersonalProjectController(personalProjectService);
+
     return {
-        // * === TODO classes ===
-        todoController,
-        todoMapper,
-        todoService,
-        todoRepo,
+        // * === PROJECT TODO classes ===
+        projectTodoController,
+        projectTodoMapper,
+        projectTodoService,
+        projectTodoRepo,
 
         // * === USER classes ===
         userController,
@@ -64,6 +88,12 @@ export function initDI() {
         groupMapper,
         groupService,
         groupRepo,
+
+        // * === PERSONAL PROJECT classes ===
+        personalProjectController,
+        personalProjectMapper,
+        personalProjectService,
+        personalProjectRepo,
     };
 }
 

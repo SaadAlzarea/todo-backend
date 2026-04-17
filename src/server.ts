@@ -5,7 +5,7 @@ import process = require("process");
 
 import cors from "cors";
 import { connectDB_postgres } from "../drizzle.config";
-import { todoRouter, userRouter } from "./api";
+import { personalProjectRouter, todoRouter, userRouter } from "./api";
 import { groupRouter } from "./api/router/group.route";
 // import connectDB from "./db/mongoose/dbConnect.db";
 import setupSwagger from "./docs/swagger/swaggerDocs.swagger";
@@ -14,7 +14,11 @@ import { authMiddleware, errorHandler } from "./middleware";
 
 dotenv.config();
 export const app = express();
+
+// * SWAGGER
 setupSwagger(app);
+
+// * CORS => access
 app.use(
     cors({
         origin: "http://localhost:4001",
@@ -25,19 +29,20 @@ app.use(
 );
 app.use(express.json());
 
-// connectDB();
+// * DATABASE;
 connectDB_postgres();
 
-//middleware
+// * MIDDLEWARE
 app.use(errorHandler);
 
-// router
-const { user, todo, group } = appPaths;
+// * ROUTER
+const { user, todo, group, personalProject } = appPaths;
 app.use(todo, authMiddleware, todoRouter);
 app.use(user, userRouter);
 app.use(group, authMiddleware, groupRouter);
+app.use(personalProject, authMiddleware, personalProjectRouter);
 
-// listener
+// * LISTENER
 const PORT = Number(process.env.PORT);
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

@@ -1,3 +1,5 @@
+import type { EUserRole } from "../enums";
+
 export interface HttpRequest<T = any> {
     body: T;
     params: any;
@@ -10,4 +12,10 @@ export interface HttpResponse {
     statusCode: number;
     body?: any;
     message?: string;
+}
+
+export interface IUserPayload {
+    user_id: string;
+    roles: EUserRole[];
+    email: string;
 }

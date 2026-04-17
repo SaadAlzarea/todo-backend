@@ -18,21 +18,24 @@ import {
 } from "../../domain";
 import type { IApiResponse, IEmptyApiResponse } from "../../helper";
 import { AppError } from "../../middleware";
-import { CREATED, OK } from "../../utils";
-import type { TodoService } from "../services";
+import { CREATED, OK, UNAUTHORIZED } from "../../utils";
+import type { ProjectTodoService } from "../services/projectTodo.service";
+// import type { ProjectTodoService } from "../services";
 
-export class TodoClass {
-    constructor(private readonly _todoService: TodoService) {}
+export class ProjectTodoController {
+    constructor(private readonly _todoService: ProjectTodoService) {}
 
+    // * PERSONAL PROJECT
+
+    // * TODOS
     async createNewTodo(
         httpRequest: HttpRequest<ICreateNewTodoDoIn>,
     ): Promise<IApiResponse<ICreateNewTodoDoOut>> {
         const body = httpRequest.body;
-        const user = (httpRequest as any).user || "user";
+        const user = (httpRequest as any).user;
 
-        // console.log("USER =>", (httpRequest as any).user);
         if (!user?.user_id) {
-            throw new AppError("Unauthorized - user not found", 401);
+            throw new AppError("Unauthorized - user not found", UNAUTHORIZED);
         }
         // ensure(user, "Unauthorized - user not found", UNAUTHORIZED);
 

@@ -1,6 +1,6 @@
 import { error, log } from "node:console";
 import { is } from "drizzle-orm";
-import { EGroupMemberRole } from "../../definition";
+import { EGroupMemberRole, type IUserPayload } from "../../definition";
 import type {
     IAddMemberToGroupDtoIn,
     ICreateGroupDtoIn,
@@ -24,7 +24,7 @@ export class GroupService {
         private readonly _emailService: EmailService,
     ) {}
 
-    async createGroup(body: ICreateGroupDtoIn, user: { user_id: string }) {
+    async createGroup(body: ICreateGroupDtoIn, user: IUserPayload) {
         return await this._db.transaction(async (TransactionDB: any) => {
             const mapperToCreateGroup = this._groupMapper.mapperInCreateGroup(body, user);
 

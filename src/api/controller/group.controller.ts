@@ -2,7 +2,6 @@ import { validator } from "../../adapter";
 import type { HttpRequest, HttpResponse } from "../../definition";
 import {
     type IAddMemberToGroupDtoIn,
-    type IAssignTodoDtoIn,
     type ICreateGroupDtoIn,
     type IDeleteGroupDtoIn,
     type IDeleteMemberFromGroupDtoIn,
@@ -15,6 +14,7 @@ import {
     VGetAllGroupMemberByIdDtoIn,
 } from "../../domain";
 import type { IApiResponse } from "../../helper";
+import { dateValidator } from "../../helper/dateValidator.helper";
 import { OK } from "../../utils";
 import type { GroupService } from "../services";
 
@@ -104,8 +104,8 @@ export class GroupController {
         };
     }
 
-    async assignTodo(httpRequest: HttpRequest<IAssignTodoDtoIn>): Promise<IApiResponse<any>> {
-        const body = httpRequest.body;
-        const AdminUserinfo = (httpRequest as any).user;
-    }
+    // async assignTodo(httpRequest: HttpRequest<IAssignTodoDtoIn>): Promise<IApiResponse<any>> {
+    //     const body = httpRequest.body;
+    //     const AdminUserinfo = (httpRequest as any).user;
+    // }
 }

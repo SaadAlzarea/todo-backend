@@ -1,15 +1,8 @@
 // ? API INDEXES
-// * CONTROLLER
+
+export * from "./clients";
 export * from "./controller";
-
-// * SERVICE
-export * from "./services";
-
-// * REPO
-export * from "./repo";
-
-// * ROUTER
-export * from "./router";
-
-// * REPO HELPER
 export * from "./mapper";
+export * from "./repo";
+export * from "./router";
+export * from "./services";

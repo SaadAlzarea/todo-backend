@@ -3,7 +3,10 @@ import type {
     VAssignTodoDtoIn,
     VCreateNewTodoDoIn,
     VCreateNewTodoDoOut,
+    VCreatePersonalProjectDtoInQuery,
+    VDeletePersonalProjectDtoIn,
     VDeleteTodoByIdDtoIn,
+    VGetAllPersonalProjectDtoOut,
     VGetTodoDetailsDtoIn,
     VGetTodoDetailsDtoOut,
     VTodosWithFilterDtoIn,
@@ -11,6 +14,20 @@ import type {
     VUpdateTodoDtoIn,
     VUpdateTodoDtoOut,
 } from "../../validation";
+
+// ! PERSONAL PROJECT
+
+// * CREATE PERSONAL PROJECT
+export interface ICreatePersonalProjectDtoInQuery
+    extends Static<typeof VCreatePersonalProjectDtoInQuery> {}
+
+// * DELETE PERSONAL PROJECT
+export interface IDeletePersonalProjectDtoIn extends Static<typeof VDeletePersonalProjectDtoIn> {}
+
+// * GET ALL PERSONAL PROJECT
+export interface IGetAllPersonalProjectDtoOut extends Static<typeof VGetAllPersonalProjectDtoOut> {}
+
+// ! TODO
 
 // * CREATE NEW TODO
 export interface ICreateNewTodoDoIn extends Static<typeof VCreateNewTodoDoIn> {}

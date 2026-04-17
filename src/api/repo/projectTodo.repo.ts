@@ -1,28 +1,26 @@
 import { and, desc, eq, sql } from "drizzle-orm";
-import { PersonalProjectTodoTable, UserTable } from "../../db";
+import { PersonalProjectTodoTable } from "../../db";
 import type {
-    ICreateNewTodoDoOut,
     IDeleteTodoByIdDtoIn,
-    IGetTodoDetailsDtoIn,
     IGetTodoDetailsDtoOut,
     IUpdateTodoDtoIn,
     IUpdateTodoDtoOut,
 } from "../../domain";
 import type { ICreateNewTodoDoInQuery } from "../../domain/DTOs/todoDTO/todo.query.dto";
 
-export class TodoRepo {
+export class ProjectTodoRepo {
     constructor(
         // private readonly _todoModel: any,
         private readonly _db: any,
     ) {}
 
+    // * TODOS
     async createNewTodoRepo(body: ICreateNewTodoDoInQuery) {
         const result = await this._db
             .insert(PersonalProjectTodoTable)
             .values({
                 title: body.title,
                 body: body.body,
-                progress: body.progress,
                 priority: body.priority,
                 status: body.status,
                 user_id: body.user_id,
@@ -37,7 +35,6 @@ export class TodoRepo {
         title,
         priority,
         status,
-        progress,
         user_id,
         limit,
         offset,
@@ -57,7 +54,6 @@ export class TodoRepo {
                 title: PersonalProjectTodoTable.title,
                 priority: PersonalProjectTodoTable.priority,
                 status: PersonalProjectTodoTable.status,
-                progress: PersonalProjectTodoTable.progress,
             })
             .from(PersonalProjectTodoTable)
             .where(
@@ -68,7 +64,6 @@ export class TodoRepo {
                     title ? eq(PersonalProjectTodoTable.title, title) : undefined,
                     priority ? eq(PersonalProjectTodoTable.priority, priority) : undefined,
                     status ? eq(PersonalProjectTodoTable.status, status) : undefined,
-                    progress ? eq(PersonalProjectTodoTable.progress, progress) : undefined,
                 ),
             )
             .limit(limit)
@@ -102,7 +97,6 @@ export class TodoRepo {
                     title ? eq(PersonalProjectTodoTable.title, title) : undefined,
                     priority ? eq(PersonalProjectTodoTable.priority, priority) : undefined,
                     status ? eq(PersonalProjectTodoTable.status, status) : undefined,
-                    progress ? eq(PersonalProjectTodoTable.progress, progress) : undefined,
                 ),
             );
 
@@ -147,7 +141,6 @@ export class TodoRepo {
                 todo_id: PersonalProjectTodoTable.todo_id,
                 title: PersonalProjectTodoTable.title,
                 body: PersonalProjectTodoTable.body,
-                progress: PersonalProjectTodoTable.progress,
                 priority: PersonalProjectTodoTable.priority,
                 status: PersonalProjectTodoTable.status,
                 createdAt: PersonalProjectTodoTable.createdAt,

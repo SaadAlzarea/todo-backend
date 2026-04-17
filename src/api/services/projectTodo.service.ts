@@ -7,18 +7,15 @@ import type {
     IUpdateTodoDtoIn,
 } from "../../domain";
 import { ensure } from "../../helper";
-
 import { BAD_REQUEST, NOT_FOUND } from "../../utils";
-import type { TodoMapper } from "../mapper";
-import type { TodoRepo } from "../repo";
+import type { ProjectTodoMapper } from "../mapper";
+import type { ProjectTodoRepo } from "../repo";
 
-export class TodoService {
+export class ProjectTodoService {
     constructor(
-        private readonly _todoRepo: TodoRepo,
-        private readonly _todoMapper: TodoMapper,
+        private readonly _todoRepo: ProjectTodoRepo,
+        private readonly _todoMapper: ProjectTodoMapper,
     ) {}
-
-    // * CREATE NEW TODO
     async createNewTodoService(todoData: ICreateNewTodoDoIn, user: { user_id: string }) {
         const createNewTodoServiceMapper = this._todoMapper.createNewTodoServiceMapper(
             todoData,

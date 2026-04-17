@@ -1,8 +1,4 @@
-import { table } from "node:console";
-import { date } from "drizzle-orm/mysql-core";
 import { pgEnum, pgTable, timestamp, uniqueIndex, uuid, varchar } from "drizzle-orm/pg-core";
-import { assign } from "nodemailer/lib/shared";
-import { ETodoPriority, ETodoStatus, EUserRole } from "../../definition";
 
 /**
  * * ENUMS

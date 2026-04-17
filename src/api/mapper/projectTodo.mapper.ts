@@ -6,15 +6,28 @@ import type {
     IDeleteTodoByIdDtoInQuery,
 } from "../../domain/DTOs/todoDTO/todo.query.dto";
 
-export class TodoMapper {
+export class ProjectTodoMapper {
+    /**
+     *
+     * @param todoData
+     * @param user
+     * @returns
+     */
+    /**
+     *  * PERSONAL PROJECT MAPPER
+     */
+
+    /**
+     *  * TODOS
+     */
     createNewTodoServiceMapper(
         todoData: ICreateNewTodoDoIn,
         user: { user_id: string },
     ): ICreateNewTodoDoInQuery {
         return {
+            project_id: todoData.project_id,
             title: todoData.title,
             body: todoData.body,
-            progress: todoData.progress ?? null,
             priority: todoData.priority,
             status: todoData.status,
             user_id: user.user_id,
@@ -29,12 +42,13 @@ export class TodoMapper {
         priority: ETodoPriority;
         status: ETodoStatus;
         user_id: string;
+        project_id: string;
     }): ICreateNewTodoDoOutResult {
         return {
+            project_id: createNewTodoRepo.project_id,
             todo_id: createNewTodoRepo.todo_id,
             title: createNewTodoRepo.title,
             body: createNewTodoRepo.body,
-            progress: createNewTodoRepo.progress ?? null,
             priority: createNewTodoRepo.priority,
             status: createNewTodoRepo.status,
             user_id: createNewTodoRepo.user_id,

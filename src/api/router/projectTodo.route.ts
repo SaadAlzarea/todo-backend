@@ -1,3 +1,4 @@
+import { todo } from "node:test";
 import { Router } from "express";
 import { expressAdapter } from "../../adapter";
 import { di } from "../../di";
@@ -6,7 +7,7 @@ import { authMiddleware, authorize } from "../../middleware";
 
 export const todoRouter = Router();
 
-const { todoController } = di;
+const { projectTodoController } = di;
 const { getTodoDetails, createNewTodo, deleteTodo, updateTodo, todoFilters } = todoPath;
 
 todoRouter
@@ -19,26 +20,26 @@ todoRouter
         createNewTodo,
         authMiddleware,
         authorize("create", "Todo"),
-        expressAdapter(todoController.createNewTodo.bind(todoController)),
+        expressAdapter(projectTodoController.createNewTodo.bind(projectTodoController)),
     )
     .delete(
         deleteTodo,
         authMiddleware,
         authorize("delete", "Todo"),
-        expressAdapter(todoController.deleteTodoById.bind(todoController)),
+        expressAdapter(projectTodoController.deleteTodoById.bind(projectTodoController)),
     )
     .put(
         `${updateTodo}`,
         authMiddleware,
         authorize("update", "Todo"),
-        expressAdapter(todoController.updateTodoById.bind(todoController)),
+        expressAdapter(projectTodoController.updateTodoById.bind(projectTodoController)),
     )
     .post(
         todoFilters,
         authMiddleware,
-        expressAdapter(todoController.getTodoWithFilterAndLimit.bind(todoController)),
+        expressAdapter(projectTodoController.getTodoWithFilterAndLimit.bind(projectTodoController)),
     )
     .post(
         getTodoDetails,
-        expressAdapter(todoController.getTodoDetailsController.bind(todoController)),
+        expressAdapter(projectTodoController.getTodoDetailsController.bind(projectTodoController)),
     );
