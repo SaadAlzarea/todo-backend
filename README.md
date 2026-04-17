@@ -21,6 +21,7 @@ Tools :
  - SQL Database : drizzle, Postgres SQL - MongooseBD NoSQL ,and Table Plus
  - NoSQL Database :  MongooseBD NoSQL
  - Documentation : swagger and postman
+ - email message : nodemailer
  - others : Git, Github 
 
  Design Patterns: 
@@ -36,7 +37,7 @@ Tools :
 
 ## Project Flow
 ```
-request → adapter → controller → service → mapper → repository → response
+request → adapter → controller → service → mapper → repository → mapper → response
 ```
 
 ---
@@ -64,7 +65,7 @@ http://localhost:4000/api-docss
 
 ---
 
-## DATABASE Connect Table Plus or drizzle studio 
+## DATABASE to Connect with Table Plus or drizzle studio 
 
 ```
 Host: localhost

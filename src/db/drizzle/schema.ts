@@ -83,12 +83,38 @@ export const GroupMemberTable = pgTable(
     }),
 );
 
+export const GroupProjectTable = pgTable(
+    "group_projects",
+    {
+        project_id: uuid("project_id").primaryKey().defaultRandom(),
+        project_name: varchar("project_name", { length: 255 }).notNull(),
+        group_id: uuid("group_id")
+            .notNull()
+            .references(() => GroupTable.group_id, { onDelete: "cascade" }),
+        created_by: uuid("created_by")
+            .notNull()
+            .references(() => UserTable.user_id),
+        project_deadline: timestamp("project_deadline"),
+        createdAt: timestamp("created_at").notNull().defaultNow(),
+        updatedAt: timestamp("updated_at").notNull().defaultNow(),
+    },
+    (table) => ({
+        uniqueGroupProject: uniqueIndex("unique_group_project").on(
+            table.group_id,
+            table.project_name,
+        ),
+    }),
+);
+
 // * GROUP TODO (has assign from and assign to)
 export const AssignTodo = pgTable("assign_todo", {
     assign_todo_id: uuid("assign_todo_id").primaryKey().defaultRandom(),
     group_id: uuid("group_id")
         .notNull()
         .references(() => GroupTable.group_id, { onDelete: "cascade" }),
+    project_id: uuid("project_id")
+        .notNull()
+        .references(() => GroupProjectTable.project_id, { onDelete: "cascade" }),
     assign_from: uuid("assign_todo_from")
         .notNull()
         .references(() => UserTable.user_id),
