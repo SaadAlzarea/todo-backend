@@ -1,0 +1,2 @@
+CREATE TYPE "public"."attachment_status" AS ENUM('pending', 'scanning', 'ready', 'rejected');--> statement-breakpoint
+ALTER TABLE "assign_todo_attachments" ADD COLUMN "status" "attachment_status" DEFAULT 'pending' NOT NULL;

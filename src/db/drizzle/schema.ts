@@ -3,6 +3,7 @@ import { pgEnum, pgTable, timestamp, uniqueIndex, uuid, varchar } from "drizzle-
 /**
  * * ENUMS
  */
+
 export const userRoleEnum = pgEnum("user_role", ["super-admin", "admin", "user"]);
 export const todoPriorityEnum = pgEnum("todo_priority", ["critical", "high", "medium", "low"]);
 export const todoStatusEnum = pgEnum("todo_status", [
@@ -12,7 +13,13 @@ export const todoStatusEnum = pgEnum("todo_status", [
     "canceled",
 ]);
 export const userGroupMemberEnum = pgEnum("group_member_role", ["admin", "member"]);
-
+export const attachmentTypeEnum = pgEnum("attachment_type", ["image", "file", "zip"]);
+export const attachmentStatusEnum = pgEnum("attachment_status", [
+    "pending",
+    "scanning",
+    "ready",
+    "rejected",
+]);
 /**
  * * SCHEMAS
  */
@@ -83,6 +90,7 @@ export const GroupMemberTable = pgTable(
     }),
 );
 
+// * GROUP PROJECTS
 export const GroupProjectTable = pgTable(
     "group_projects",
     {
@@ -128,4 +136,22 @@ export const AssignTodo = pgTable("assign_todo", {
     deadline: timestamp("deadline"),
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// * ATTACHMENTS WITH ASSIGN TODO IN GROUP PROJECT
+export const AssignTodoAttachment = pgTable("assign_todo_attachments", {
+    attachment_id: uuid("attachment_id").primaryKey().defaultRandom(),
+    assign_todo_id: uuid("assign_todo_id")
+        .notNull()
+        .references(() => AssignTodo.assign_todo_id, { onDelete: "cascade" }),
+    file_url: varchar("file_url").notNull(),
+    public_id: varchar("public_id").notNull(),
+    file_type: attachmentTypeEnum("attachment_type").notNull().default("zip"),
+    file_name: varchar("file_name").notNull(),
+    file_size: varchar("file_size"),
+    status: attachmentStatusEnum("status").notNull().default("pending"),
+    uploaded_by: uuid("uploaded_by")
+        .notNull()
+        .references(() => UserTable.user_id),
+    createdAt: timestamp("created_at").defaultNow(),
 });

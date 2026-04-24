@@ -20,8 +20,11 @@ Tools :
  - Authentication & Authorization : JWT, and CASL with (User Role)
  - SQL Database : drizzle, Postgres SQL - MongooseBD NoSQL ,and Table Plus
  - NoSQL Database :  MongooseBD NoSQL
+ - Storage : Minio cloud
+ - Redis : To write queue job in cache 
+ - 
  - Documentation : swagger and postman
- - email message : nodemailer
+ - Email message : nodemailer
  - others : Git, Github 
 
  Design Patterns: 
@@ -38,6 +41,11 @@ Tools :
 ## Project Flow
 ```
 request → adapter → controller → service → mapper → repository → mapper → response
+```
+
+## Upload Attachment Flow
+```
+Client upload → MinIO storage → DB (pending) → scanQueue.add() → Worker → scan file → update DB
 ```
 
 ---

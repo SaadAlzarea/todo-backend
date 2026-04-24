@@ -3,4 +3,6 @@ export const appPaths = {
     todo: "/api/todo-app/todo",
     group: "/api/todo-app/groups",
     personalProject: "/api/todo-app/personal-project",
+    groupProject: "/api/todo-app/group-project",
+    assignTodoWithAttachment: "/api/todo-app/assign-todo",
 };

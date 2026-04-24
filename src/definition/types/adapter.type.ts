@@ -6,12 +6,16 @@ export interface HttpRequest<T = any> {
     query: any;
     headers: any;
     user?: { user_id: string; role: string };
+    files?: any;
+
+    // files: req.files;
+    // file: req.file;
 }
 
-export interface HttpResponse {
+export interface HttpResponse<T = unknown> {
     statusCode: number;
-    body?: any;
     message?: string;
+    data?: T;
 }
 
 export interface IUserPayload {

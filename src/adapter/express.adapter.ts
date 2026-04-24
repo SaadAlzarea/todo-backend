@@ -10,6 +10,9 @@ export const expressAdapter = (controller: any) => {
                 query: req.query,
                 headers: req.headers,
                 user: (req as any).user,
+
+                files: req.files,
+                // file: req.file,
             };
             const response = await controller(httpRequest);
             return res.status(response.statusCode).json(response.body);
