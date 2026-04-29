@@ -16,7 +16,7 @@ import { groupRouter } from "./api/router/group.route";
 // import connectDB from "./db/mongoose/dbConnect.db";
 import setupSwagger from "./docs/swagger/swaggerDocs.swagger";
 import { appPaths } from "./domain";
-import { bootstrap } from "./integrations/scanner/scannerRun";
+// import { bootstrap } from "./integrations/scanner/scannerRun";
 import { authMiddleware, errorHandler } from "./middleware";
 import "./integrations/queue/scan.worker";
 dotenv.config();
@@ -40,7 +40,7 @@ app.use(express.json());
 connectDB_postgres();
 
 // * FILE SCANNER
-bootstrap();
+// bootstrap();
 
 // * MIDDLEWARE
 app.use(errorHandler);

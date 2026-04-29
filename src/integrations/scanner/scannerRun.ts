@@ -1,7 +1,7 @@
-import { initScanner } from "./scanner.init";
+// import { initScanner } from "./scanner.init";
 
-export async function bootstrap() {
-    await initScanner();
+// export async function bootstrap() {
+//     await initScanner();
 
-    console.log("App started with scanner ready");
-}
+//     console.log("App started with scanner ready");
+// }
