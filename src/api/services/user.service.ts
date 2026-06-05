@@ -1,9 +1,7 @@
 import { EUserRole } from "../../definition";
 import type {
     IDeleteUserByAdminDtoIn,
-    IGetAllUserWithFilterDtoIn,
     IGetAllUserWithFilterDtoInQuery,
-    IGetAllUserWithFilterDtoOut,
     ILoginDtoIn,
     ILoginDtoOut,
     IRegisterDtoIn,
@@ -59,7 +57,7 @@ export class UserService {
 
         const userInfo = await this._userRepo.checkLoginEmailAndGetUserInfo({ email });
 
-        ensure(userInfo, "Error in login Service", BAD_REQUEST);
+        ensure(userInfo, "Invalid email or password", BAD_REQUEST);
 
         const storedPassword = userInfo.password;
         const comparePass = await comparePassword(storedPassword, password);

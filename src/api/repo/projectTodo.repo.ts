@@ -7,6 +7,7 @@ import type {
     IUpdateTodoDtoIn,
     IUpdateTodoDtoOut,
 } from "../../domain";
+import { personalProjectPath } from "../../domain/paths/personalProject.path";
 
 export class ProjectTodoRepo {
     constructor(
@@ -33,6 +34,7 @@ export class ProjectTodoRepo {
     }
 
     async getAllTodosWithFilter({
+        project_id,
         todo_id,
         title,
         priority,
@@ -41,6 +43,7 @@ export class ProjectTodoRepo {
         limit,
         offset,
     }: {
+        project_id: string;
         todo_id?: string;
         title?: string;
         priority?: any;
@@ -52,15 +55,18 @@ export class ProjectTodoRepo {
     }) {
         return await this._db
             .select({
+                project_id: PersonalProjectTodoTable.project_id,
                 todo_id: PersonalProjectTodoTable.todo_id,
                 title: PersonalProjectTodoTable.title,
                 priority: PersonalProjectTodoTable.priority,
                 status: PersonalProjectTodoTable.status,
+                isCompleted: PersonalProjectTodoTable.isCompleted,
             })
             .from(PersonalProjectTodoTable)
             .where(
                 and(
                     eq(PersonalProjectTodoTable.user_id, user_id),
+                    eq(PersonalProjectTodoTable.project_id, project_id),
 
                     todo_id ? eq(PersonalProjectTodoTable.todo_id, todo_id) : undefined,
                     title ? eq(PersonalProjectTodoTable.title, title) : undefined,
@@ -78,14 +84,12 @@ export class ProjectTodoRepo {
         title,
         priority,
         status,
-        progress,
         user_id,
     }: {
         todo_id?: any;
         title?: any;
         priority?: any;
         status?: any;
-        progress?: any;
         user_id: string;
     }) {
         const result = await this._db
@@ -147,6 +151,7 @@ export class ProjectTodoRepo {
                 status: PersonalProjectTodoTable.status,
                 createdAt: PersonalProjectTodoTable.createdAt,
                 updatedAt: PersonalProjectTodoTable.updatedAt,
+                todo_deadline: PersonalProjectTodoTable.todo_deadline,
             })
             .from(PersonalProjectTodoTable)
             .where(eq(PersonalProjectTodoTable.todo_id, todo_id));

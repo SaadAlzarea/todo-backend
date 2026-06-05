@@ -28,7 +28,7 @@ setupSwagger(app);
 // * CORS => access
 app.use(
     cors({
-        origin: "http://localhost:4001",
+        origin: ["http://localhost:4001", "http://localhost:4002", "http://localhost:4003"],
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization"],
         credentials: true,

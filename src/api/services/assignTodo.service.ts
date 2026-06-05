@@ -35,24 +35,6 @@ export class AssignTodoService {
             BAD_REQUEST,
         );
 
-        // * upload attachment
-        // if (files?.length) {
-        //     await Promise.all(
-        //         files.map(async (file) => {
-        //             const uploaded = await this._minioService.upload(file);
-        //             await this._assignTodoRepo.addAttachment({
-        //                 assign_todo_id: assignTodo?.assign_todo_id,
-        //                 file_url: uploaded.url,
-        //                 public_id: uploaded.key,
-        //                 attachment_type: file.mimetype,
-        //                 file_name: file.originalname,
-        //                 file_size: file.size?.toString(),
-        //                 uploaded_by: user.user_id,
-        //                 status: EAssignTodoAttachment.PENDING,
-        //             });
-        //         }),
-        //     );
-        // }
         if (files?.length) {
             await Promise.all(
                 files.map(async (file) => {
@@ -69,8 +51,9 @@ export class AssignTodoService {
                         status: "pending",
                     });
 
-                    console.log("here is scanning");
+                    // todo console.log("here is scanning");
 
+                    // ! added to queue for scanning
                     await scanQueue.add("scan", {
                         attachment_id: attachment?.attachment_id,
                         file_key: uploaded.key,

@@ -1,4 +1,12 @@
-import { pgEnum, pgTable, timestamp, uniqueIndex, uuid, varchar } from "drizzle-orm/pg-core";
+import {
+    pgEnum,
+    pgTable,
+    timestamp,
+    uniqueIndex,
+    uuid,
+    varchar,
+    boolean,
+} from "drizzle-orm/pg-core";
 
 /**
  * * ENUMS
@@ -59,6 +67,7 @@ export const PersonalProjectTodoTable = pgTable("todos", {
     body: varchar("body").notNull(),
     priority: todoPriorityEnum("priority").default("low"),
     status: todoStatusEnum("status").default("in-progress"),
+    isCompleted: boolean("isCompleted").notNull().default(false),
     todo_deadline: timestamp("todo_deadline"),
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow(),
@@ -130,6 +139,7 @@ export const AssignTodo = pgTable("assign_todo", {
         .notNull()
         .references(() => UserTable.user_id),
     title: varchar("title", { length: 255 }).notNull(),
+    isCompleted: boolean("isCompleted").notNull().default(false),
     body: varchar("body").notNull(),
     priority: todoPriorityEnum("priority").default("low"),
     status: todoStatusEnum("status").default("in-progress"),

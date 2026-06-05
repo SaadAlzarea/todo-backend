@@ -52,6 +52,7 @@ export const VUpdateTodoDtoOut = Type.Object({
 
 // * GET ALL TODOS WITH FILTER
 export const VTodosWithFilterDtoIn = Type.Object({
+    project_id: Type.String(),
     todo_id: Type.Optional(Type.String()),
     priority: Type.Optional(Type.Enum(ETodoPriority)),
     status: Type.Optional(Type.Enum(ETodoStatus)),
@@ -68,6 +69,7 @@ export const VTodosWithFilterDtoOut = Type.Object({
                 progress: Type.Optional(Type.String()),
                 priority: Type.Enum(ETodoPriority),
                 status: Type.Enum(ETodoStatus),
+                isCompleted: Type.Boolean(),
             }),
         ),
     }),
@@ -87,6 +89,7 @@ export const VGetTodoDetailsDtoOut = Type.Object({
     progress: Type.String(),
     priority: Type.Enum(ETodoPriority),
     status: Type.Enum(ETodoStatus),
+    todo_deadline: Type.Date(),
     createdAt: Type.Date(),
     updatedAt: Type.Date(),
 });

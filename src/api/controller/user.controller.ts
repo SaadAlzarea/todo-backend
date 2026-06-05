@@ -61,7 +61,7 @@ export class UserController {
         const user = httpRequest.user;
         const body = httpRequest.body;
 
-        validator(VGetAllUserWithFilterDtoIn, body);
+        // validator(VGetAllUserWithFilterDtoIn, body);
 
         const limit: number = Number(body.limit) || 10;
 

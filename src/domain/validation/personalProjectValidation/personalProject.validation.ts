@@ -12,6 +12,7 @@ export const VDeletePersonalProjectDtoIn = Type.Object({
     project_id: Type.String(),
 });
 
+
 export const VGetAllPersonalProjectDtoOut = Type.Object({
     data: Type.Array(
         Type.Object({

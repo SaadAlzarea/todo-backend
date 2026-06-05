@@ -101,6 +101,7 @@ export class ProjectTodoController {
 
         const result = await this._todoService.getTodosWithFilterService(
             {
+                project_id: body.project_id,
                 todo_id: body.todo_id,
                 priority: body.priority,
                 status: body.status,

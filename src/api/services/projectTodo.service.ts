@@ -41,7 +41,7 @@ export class ProjectTodoService {
     }
 
     async getTodosWithFilterService(body: ITodosWithFilterDtoIn, user: { user_id: string }) {
-        const { page = 1, limit = 10, todo_id, priority, status } = body;
+        const { page = 1, limit = 10, todo_id, priority, status, project_id } = body;
 
         const getTodosWithFilterServiceMapper = this._todoMapper.getTodosWithFilterServiceMapper(
             body,
@@ -94,7 +94,7 @@ export class ProjectTodoService {
     async getTodoDetailsService(body: IGetTodoDetailsDtoIn): Promise<IGetTodoDetailsDtoOut> {
         const todoDetails = await this._todoRepo.getTodoDetailsRepo(body);
 
-        ensure(!todoDetails, `Error in get todo with id ${todoDetails.todo_id}`, NOT_FOUND);
+        ensure(!!todoDetails, `Error in get todo with id ${todoDetails.todo_id}`, NOT_FOUND);
 
         return todoDetails;
     }

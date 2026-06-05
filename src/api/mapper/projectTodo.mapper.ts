@@ -73,6 +73,7 @@ export class ProjectTodoMapper {
 
     getTodosWithFilterServiceMapper(
         body: {
+            project_id: string;
             todo_id?: string;
             priority?: ETodoPriority;
             status?: ETodoStatus;
@@ -81,11 +82,12 @@ export class ProjectTodoMapper {
         },
         user: { user_id: string },
     ) {
-        const { todo_id, priority, status, page = 1, limit = 10 } = body;
+        const { project_id, todo_id, priority, status, page = 1, limit = 10 } = body;
 
         const offset = (page - 1) * limit;
 
         return {
+            project_id,
             user_id: user.user_id,
             ...(todo_id && { todo_id }),
             ...(priority && { priority }),
