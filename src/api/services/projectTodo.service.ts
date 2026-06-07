@@ -5,6 +5,7 @@ import type {
     IDeleteTodoByIdDtoIn,
     IGetTodoDetailsDtoIn,
     IGetTodoDetailsDtoOut,
+    IMakePersonalProjectTodoIsCompletedDtoIn,
     ITodosWithFilterDtoIn,
     IUpdateTodoDtoIn,
 } from "../../domain";
@@ -97,6 +98,16 @@ export class ProjectTodoService {
         ensure(!!todoDetails, `Error in get todo with id ${todoDetails.todo_id}`, NOT_FOUND);
 
         return todoDetails;
+    }
+
+    async makeTodoIsCompleted(body: IMakePersonalProjectTodoIsCompletedDtoIn) {
+        const makeTodoIsCompleted = await this._todoRepo.makeTodoIsCompleted(body);
+        ensure(
+            makeTodoIsCompleted,
+            `Error in make todo complete in todo with id ${body.todo_id}`,
+            BAD_REQUEST,
+        );
+        return makeTodoIsCompleted;
     }
 }
 

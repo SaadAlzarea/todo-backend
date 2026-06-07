@@ -6,6 +6,7 @@ import {
     type IDeleteTodoByIdDtoIn,
     type IGetTodoDetailsDtoIn,
     type IGetTodoDetailsDtoOut,
+    IMakePersonalProjectTodoIsCompletedDtoIn,
     type ITodosWithFilterDtoOut,
     // type ITodosWithFilterDtoIn,
     type IUpdateTodoDtoIn,
@@ -13,6 +14,7 @@ import {
     VCreateNewProjectTodoDoIn,
     VDeleteTodoByIdDtoIn,
     VGetTodoDetailsDtoIn,
+    VMakePersonalProjectTodoIsCompletedDtoIn,
     VTodosWithFilterDtoIn,
     VUpdateTodoDtoIn,
 } from "../../domain";
@@ -134,6 +136,23 @@ export class ProjectTodoController {
             body: {
                 data: result,
                 message: `Get todo details is successfully`,
+            },
+        };
+    }
+
+    async makeTodoIsCompleted(
+        httpRequest: HttpRequest<IMakePersonalProjectTodoIsCompletedDtoIn>,
+    ): Promise<IApiResponse<any>> {
+        const body = httpRequest.body;
+        validator(VMakePersonalProjectTodoIsCompletedDtoIn, body);
+
+        const result = await this._todoService.makeTodoIsCompleted(body);
+
+        return {
+            statusCode: OK,
+            body: {
+                data: result,
+                message: `Make todo with id ${body.todo_id} done is successfully`,
             },
         };
     }

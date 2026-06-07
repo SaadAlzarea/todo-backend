@@ -4,6 +4,7 @@ import type {
     VCreateNewProjectTodoDtoOutResult,
     VCreatePersonalProjectDtoIn,
     VDeleteTodoByIdDtoInQuery,
+    VMakePersonalProjectTodoIsCompletedDtoIn,
 } from "../../validation";
 
 // * CREATE PERSONAL PROJECT
@@ -17,3 +18,7 @@ export interface ICreateNewProjectTodoDtoOutResult
 
 // * DELETE TODO QUERY
 export interface IDeleteTodoByIdDtoInQuery extends Static<typeof VDeleteTodoByIdDtoInQuery> {}
+
+// * MAKE PERSONAL PROJECT IS COMPLETED
+export interface IMakePersonalProjectTodoIsCompletedDtoIn
+    extends Static<typeof VMakePersonalProjectTodoIsCompletedDtoIn> {}

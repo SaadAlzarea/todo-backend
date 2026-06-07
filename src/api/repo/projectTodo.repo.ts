@@ -4,10 +4,12 @@ import type {
     ICreateNewProjectTodoDtoInQuery,
     IDeleteTodoByIdDtoIn,
     IGetTodoDetailsDtoOut,
+    IMakePersonalProjectTodoIsCompletedDtoIn,
     IUpdateTodoDtoIn,
     IUpdateTodoDtoOut,
 } from "../../domain";
 import { personalProjectPath } from "../../domain/paths/personalProject.path";
+import { afterEach } from "node:test";
 
 export class ProjectTodoRepo {
     constructor(
@@ -155,6 +157,16 @@ export class ProjectTodoRepo {
             })
             .from(PersonalProjectTodoTable)
             .where(eq(PersonalProjectTodoTable.todo_id, todo_id));
+
+        return result[0] || null;
+    }
+
+    async makeTodoIsCompleted(body: IMakePersonalProjectTodoIsCompletedDtoIn) {
+        const result = await this._db
+            .update(PersonalProjectTodoTable)
+            .set({ isCompleted: true })
+            .where(eq(PersonalProjectTodoTable.todo_id, body.todo_id))
+            .returning();
 
         return result[0] || null;
     }

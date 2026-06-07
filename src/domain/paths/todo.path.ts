@@ -7,4 +7,5 @@ export const todoPath = {
     getTodoByStatus: "/get-todo-by-status",
     todoFilters: "/todo-filters",
     getTodoDetails: "/todo-details",
+    makeIsCompleted: "/todo-is-completed",
 };

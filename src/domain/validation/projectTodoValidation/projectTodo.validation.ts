@@ -94,6 +94,11 @@ export const VGetTodoDetailsDtoOut = Type.Object({
     updatedAt: Type.Date(),
 });
 
+// MAKE IS COMPLETED
+export const VMakePersonalProjectTodoIsCompletedDtoIn = Type.Object({
+    todo_id: Type.String(),
+});
+
 // * ASSIGN TODO
 export const VAssignTodoDtoIn = Type.Object({
     assign_todo_id: Type.String(),

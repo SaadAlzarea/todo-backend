@@ -8,7 +8,8 @@ import { authMiddleware, authorize } from "../../middleware";
 export const todoRouter = Router();
 
 const { projectTodoController } = di;
-const { getTodoDetails, createNewTodo, deleteTodo, updateTodo, todoFilters } = todoPath;
+const { getTodoDetails, createNewTodo, deleteTodo, updateTodo, todoFilters, makeIsCompleted } =
+    todoPath;
 
 todoRouter
     // .post(
@@ -44,4 +45,9 @@ todoRouter
     .post(
         getTodoDetails,
         expressAdapter(projectTodoController.getTodoDetailsController.bind(projectTodoController)),
+    )
+    .post(
+        makeIsCompleted,
+        authMiddleware,
+        expressAdapter(projectTodoController.makeTodoIsCompleted.bind(projectTodoController)),
     );
