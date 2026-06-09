@@ -47,6 +47,7 @@ export class UserRepo {
             .select({
                 user_id: UserTable.user_id,
                 username: UserTable.username,
+                email: UserTable.email,
                 password: UserTable.password,
                 role: UserTable.role,
             })

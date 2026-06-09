@@ -1,4 +1,4 @@
-import { error, log } from "node:console";
+import { error, group, log } from "node:console";
 import { is } from "drizzle-orm";
 import { EGroupMemberRole, type IUserPayload } from "../../definition";
 import type {
@@ -7,6 +7,7 @@ import type {
     IDeleteGroupDtoIn,
     IDeleteMemberFromGroupDtoIn,
     IGetAllGroupMemberByIdDtoIn,
+    IGetAllUserGroupsByUserIdDtoIn,
 } from "../../domain";
 import { ensure } from "../../helper";
 import { AppError } from "../../middleware";
@@ -53,6 +54,8 @@ export class GroupService {
             return createdGroup;
         });
     }
+
+    // async getAllGroups (body : )
     async addedNewMemberToGroup(body: IAddMemberToGroupDtoIn, AdminUserinfo: { user_id: string }) {
         return await this._db.transaction(async (transactionDB: any) => {
             const mapperToCheckIsAdmin = this._groupMapper.mapperToCheckIsAdmin(
@@ -154,5 +157,19 @@ export class GroupService {
         ensure(deletedGroup, `Error in delete group with group_id ${body.group_id}`, BAD_REQUEST);
 
         return deletedGroup;
+    }
+
+    async getAllUserGroupsByUserId(body: IUserPayload) {
+        const getUserGroupsIds = await this._groupRepo.getUserGroupsIds(body);
+        ensure(
+            getUserGroupsIds,
+            `Error in get user with id ${body.user_id} groups ids `,
+            BAD_REQUEST,
+        );
+
+        const getGroupInfo = await this._groupRepo.getGroupInfoByGroupId(getUserGroupsIds);
+        ensure(getGroupInfo, `Error in get groups to user with id ${body.user_id}`, BAD_REQUEST);
+
+        return getGroupInfo;
     }
 }

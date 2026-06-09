@@ -6,6 +6,8 @@ import type {
     VDeleteMemberFromGroupDtoIn,
     VGetAllGroupMemberByIdDtoIn,
     VGetAllGroupMemberByIdDtoOut,
+    VGetAllUserGroupsByUserIdDtoIn,
+    VGetAllUserGroupsByUserIdDtoOut,
 } from "../../validation";
 
 // * CREATE GROUP
@@ -23,3 +25,9 @@ export interface IGetAllGroupMemberByIdDtoOut extends Static<typeof VGetAllGroup
 
 // * DELETE GROUP
 export interface IDeleteGroupDtoIn extends Static<typeof VDeleteGroupDtoIn> {}
+
+// * GET ALL GROUPS
+export interface IGetAllUserGroupsByUserIdDtoIn
+    extends Static<typeof VGetAllUserGroupsByUserIdDtoIn> {}
+export interface IGetAllUserGroupsByUserIdDtoOut
+    extends Static<typeof VGetAllUserGroupsByUserIdDtoOut> {}

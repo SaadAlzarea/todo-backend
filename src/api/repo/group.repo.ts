@@ -1,7 +1,7 @@
 import { group } from "node:console";
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { GroupMemberTable, GroupTable, UserTable } from "../../db";
-import { EGroupMemberRole } from "../../definition";
+import { EGroupMemberRole, IUserPayload } from "../../definition";
 import type {
     IAddMemberToGroupDtoInQuery,
     IAddNewMemberToGroupDtoInQuery,
@@ -112,6 +112,33 @@ export class GroupRepo {
             .delete(GroupTable)
             .where(and(eq(GroupTable.group_id, body.group_id)))
             .returning();
+
+        return result || null;
+    }
+    async getUserGroupsIds(body: IUserPayload) {
+        const result = await this._db
+            .select({
+                group_id: GroupMemberTable.group_id,
+            })
+            .from(GroupMemberTable)
+            .where(eq(GroupMemberTable.user_id, body.user_id));
+
+        return result || null;
+    }
+
+    async getGroupInfoByGroupId(groups: { group_id: string }[]) {
+        const result = await this._db
+            .select({
+                group_id: GroupTable.group_id,
+                group_name: GroupTable.group_name,
+            })
+            .from(GroupTable)
+            .where(
+                inArray(
+                    GroupTable.group_id,
+                    groups.map((g) => g.group_id),
+                ),
+            );
 
         return result || null;
     }

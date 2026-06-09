@@ -7,6 +7,8 @@ import {
     type IDeleteMemberFromGroupDtoIn,
     type IGetAllGroupMemberByIdDtoIn,
     type IGetAllGroupMemberByIdDtoOut,
+    IGetAllUserGroupsByUserIdDtoIn,
+    IGetAllUserGroupsByUserIdDtoOut,
     VAddMemberToGroupDtoIn,
     VCreateGroupDtoIn,
     VDeleteGroupDtoIn,
@@ -100,6 +102,22 @@ export class GroupController {
             body: {
                 data: result,
                 message: `Success in delete group with group_id ${body.group_id}`,
+            },
+        };
+    }
+
+    async getAllUserGroupsByUserId(
+        httpRequest: HttpRequest<IGetAllUserGroupsByUserIdDtoIn>,
+    ): Promise<IApiResponse<IGetAllUserGroupsByUserIdDtoOut>> {
+        const userInfo = (httpRequest as any).user;
+
+        const result = await this._groupService.getAllUserGroupsByUserId(userInfo);
+
+        return {
+            statusCode: OK,
+            body: {
+                data: result,
+                message: `Success in get all groups to user with id ${userInfo.user_id}`,
             },
         };
     }

@@ -23,6 +23,8 @@ export const VLoginDtoIn = Type.Object({
 export const VLoginDtoOut = Type.Object({
     token: Type.String(),
     role: Type.Enum(EUserRole),
+    username: Type.String(),
+    email: Type.String(),
 });
 
 // * GET ALL USER

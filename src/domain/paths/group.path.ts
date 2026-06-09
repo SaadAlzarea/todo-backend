@@ -4,4 +4,5 @@ export const groupPath = {
     deleteMemberFromGroup: "/delete-member",
     getAllGroupMember: "/all-group-member",
     deleteGroup: "/delete-group",
+    getAllUserGroupsByUserId: "/get-all-groups",
 };

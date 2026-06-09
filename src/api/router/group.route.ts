@@ -14,6 +14,7 @@ const {
     deleteMemberFromGroup,
     getAllGroupMember,
     deleteGroup,
+    getAllUserGroupsByUserId,
 } = groupPath;
 
 groupRouter
@@ -41,4 +42,9 @@ groupRouter
         deleteGroup,
         authMiddleware,
         expressAdapter(groupController.deleteGroup.bind(groupController)),
+    )
+    .post(
+        getAllUserGroupsByUserId,
+        authMiddleware,
+        expressAdapter(groupController.getAllUserGroupsByUserId.bind(groupController)),
     );

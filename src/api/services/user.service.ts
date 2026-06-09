@@ -70,6 +70,8 @@ export class UserService {
         const token = generateToken(mapperOutToGetLoginUser);
 
         return {
+            username: userInfo.username,
+            email: userInfo.email,
             token,
             role: mapperOutToGetLoginUser.role,
         };
