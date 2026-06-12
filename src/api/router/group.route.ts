@@ -26,9 +26,9 @@ groupRouter
     .post(
         addNewMemberToGroup,
         authMiddleware,
-        expressAdapter(groupController.addedNewMemberToGroup.bind(groupController)),
+        expressAdapter(groupController.addedNewMemberToGroupByUserEmail.bind(groupController)),
     )
-    .delete(
+    .post(
         deleteMemberFromGroup,
         authMiddleware,
         expressAdapter(groupController.deleteMemberFromGroup.bind(groupController)),
@@ -36,9 +36,9 @@ groupRouter
     .post(
         getAllGroupMember,
         authMiddleware,
-        expressAdapter(groupController.getAllGroupMemberById.bind(groupController)),
+        expressAdapter(groupController.getAllGroupMemberByGroupId.bind(groupController)),
     )
-    .delete(
+    .post(
         deleteGroup,
         authMiddleware,
         expressAdapter(groupController.deleteGroup.bind(groupController)),

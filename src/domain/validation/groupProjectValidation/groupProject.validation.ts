@@ -30,3 +30,11 @@ export const VEditGroupProjectDtoIn = Type.Object({
     project_deadline: Type.Date(),
     updatedAt: Type.Date(),
 });
+
+export const VGetAllGroupProjectDtoIn = Type.Object({
+    group_id: Type.String(),
+});
+
+export const VGetAllGroupProjectDtoOut = Type.Object({
+    group_id: Type.String(),
+});

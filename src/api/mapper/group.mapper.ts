@@ -5,6 +5,7 @@ import type {
     IAddNewMemberToGroupDtoInQuery,
     ICreateGroupDtoIn,
     ICreateGroupDtoInQuery,
+    IGroupMembersInfoDtoOutResult,
 } from "../../domain";
 
 export class GroupMapper {
@@ -38,11 +39,11 @@ export class GroupMapper {
 
     mapperToAddedNewMemberToGroup(body: {
         group_id: string;
-        member_user_id: string;
+        member_email: string;
     }): IAddNewMemberToGroupDtoInQuery {
         return {
             group_id: body.group_id,
-            member_user_id: body.member_user_id,
+            member_email: body.member_email,
             group_member_role: EGroupMemberRole.MEMBER,
         };
     }
@@ -65,5 +66,27 @@ export class GroupMapper {
             admin_user_id: AdminUserinfo.user_id,
             group_id: body.group_id,
         };
+    }
+
+    mapToCollectMemberInfo(
+        users: {
+            email: string;
+            username: string;
+        }[],
+        members: {
+            group_member_id: string;
+            group_id: string;
+            user_id: string;
+            group_member_role: EGroupMemberRole;
+        }[],
+    ) {
+        return members.map((member, index) => ({
+            email: users[index]?.email ?? "",
+            username: users[index]?.username ?? "",
+            group_member_id: member.group_member_id,
+            group_id: member.group_id,
+            user_id: member.user_id,
+            group_member_role: member.group_member_role,
+        }));
     }
 }

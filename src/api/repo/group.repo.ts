@@ -50,7 +50,7 @@ export class GroupRepo {
             .insert(GroupMemberTable)
             .values({
                 group_id: body.group_id,
-                user_id: body.member_user_id,
+                user_id: body.member_email,
                 group_member_role: EGroupMemberRole.MEMBER,
             })
             .returning();
@@ -58,11 +58,11 @@ export class GroupRepo {
         return result[0] || null;
     }
 
-    async getUserEmailAndUsername(body: { member_user_id: string }, transactionDB = this._db) {
+    async getUserEmailAndUsername(body: { member_email: string }, transactionDB = this._db) {
         const result = await transactionDB
             .select({ email: UserTable.email, username: UserTable.username })
             .from(UserTable)
-            .where(eq(UserTable.user_id, body.member_user_id));
+            .where(eq(UserTable.email, body.member_email));
 
         return result[0] || null;
     }
@@ -103,6 +103,23 @@ export class GroupRepo {
             .select()
             .from(GroupMemberTable)
             .where(eq(GroupMemberTable.group_id, body.group_id));
+
+        return result || null;
+    }
+
+    async getUsersInfoByUserId(body: any) {
+        const result = await this._db
+            .select({
+                email: UserTable.email,
+                username: UserTable.username,
+            })
+            .from(UserTable)
+            .where(
+                inArray(
+                    UserTable.user_id,
+                    body.map((user: any) => user.user_id),
+                ),
+            );
 
         return result || null;
     }

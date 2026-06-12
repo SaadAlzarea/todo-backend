@@ -14,7 +14,24 @@ export const VAddMemberToGroupDtoInQuery = Type.Object({
 });
 
 export const VAddedNewMemberToGroupDtoInQuery = Type.Object({
-    member_user_id: Type.String(),
+    member_email: Type.String(),
     group_id: Type.String(),
+    group_member_role: Type.String(),
+});
+
+// export const VGroupMembersInfoDtoOutResult = Type.Object({
+//     email: Type.String(),
+//     username: Type.String(),
+//     group_member_id: Type.String(),
+//     group_id: Type.String(),
+//     user_id: Type.String(),
+//     group_member_role: Type.String(),
+// });
+export const VGroupMembersInfoDtoOutResult = Type.Object({
+    email: Type.String(),
+    username: Type.String(),
+    group_member_id: Type.String(),
+    group_id: Type.String(),
+    user_id: Type.String(),
     group_member_role: Type.String(),
 });

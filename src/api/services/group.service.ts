@@ -74,6 +74,7 @@ export class GroupService {
                 UNAUTHORIZED,
             );
 
+            // added member
             const mapperToAddedNewMemberToGroup =
                 this._groupMapper.mapperToAddedNewMemberToGroup(body);
 
@@ -98,7 +99,7 @@ export class GroupService {
             } catch (error: any) {
                 if (error?.cause?.code === "23505") {
                     throw new AppError(
-                        `User with user id ${mapperToAddedNewMemberToGroup.member_user_id} already added to this group`,
+                        `User with user id ${mapperToAddedNewMemberToGroup.member_email} already added to this group`,
                         BAD_REQUEST,
                     );
                 }
@@ -137,12 +138,20 @@ export class GroupService {
         return deleteMemberFromGroup;
     }
 
-    async getAllGroupMemberById(body: IGetAllGroupMemberByIdDtoIn) {
+    async getAllGroupMemberByGroupId(body: IGetAllGroupMemberByIdDtoIn) {
         const allMember = await this._groupRepo.getAllGroupMemberById(body);
 
         ensure(allMember, `Error in get group member with group_id ${body.group_id}`, BAD_REQUEST);
 
-        return allMember;
+        const getUsersInfoByUserId = await this._groupRepo.getUsersInfoByUserId(allMember);
+
+        ensure(getUsersInfoByUserId, `Error in get info to user in group`, BAD_REQUEST);
+
+        const mapToCollectMemberInfo = this._groupMapper.mapToCollectMemberInfo(
+            getUsersInfoByUserId,
+            allMember,
+        );
+        return mapToCollectMemberInfo;
     }
 
     async deleteGroup(body: IDeleteGroupDtoIn, AdminUserinfo: { user_id: string }) {

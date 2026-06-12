@@ -24,7 +24,7 @@ export const VGetAllUserGroupsByUserIdDtoOut = Type.Object({
 
 // * ADD MEMBER TO GROUP
 export const VAddMemberToGroupDtoIn = Type.Object({
-    member_user_id: Type.String(),
+    member_email: Type.String(),
     group_id: Type.String(),
 });
 
@@ -39,17 +39,16 @@ export const VGetAllGroupMemberByIdDtoIn = Type.Object({
     group_id: Type.String(),
 });
 
-export const VGetAllGroupMemberByIdDtoOut = Type.Object({
-    data: Type.Array(
-        Type.Object({
-            group_member_id: Type.String(),
-            group_id: Type.String(),
-            user_id: Type.String(),
-            group_member_role: Type.Enum(EGroupMemberRole),
-        }),
-    ),
-    message: Type.String(),
-});
+export const VGetAllGroupMemberByIdDtoOut = Type.Array(
+    Type.Object({
+        email: Type.String(),
+        username: Type.String(),
+        group_member_id: Type.String(),
+        group_id: Type.String(),
+        user_id: Type.String(),
+        group_member_role: Type.Enum(EGroupMemberRole),
+    }),
+);
 
 // * DELETE GROUP
 export const VDeleteGroupDtoIn = Type.Object({

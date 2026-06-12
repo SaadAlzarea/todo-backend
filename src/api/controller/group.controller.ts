@@ -37,7 +37,7 @@ export class GroupController {
             },
         };
     }
-    async addedNewMemberToGroup(
+    async addedNewMemberToGroupByUserEmail(
         httpRequest: HttpRequest<IAddMemberToGroupDtoIn>,
     ): Promise<IApiResponse<any>> {
         const body = httpRequest.body;
@@ -51,7 +51,7 @@ export class GroupController {
             statusCode: OK,
             body: {
                 data: result,
-                message: `Success in added user with user_id ${body.member_user_id}`,
+                message: `Success in added user with user_id ${body.member_email}`,
             },
         };
     }
@@ -74,14 +74,14 @@ export class GroupController {
         };
     }
 
-    async getAllGroupMemberById(
+    async getAllGroupMemberByGroupId(
         httpRequest: HttpRequest<IGetAllGroupMemberByIdDtoIn>,
     ): Promise<IApiResponse<IGetAllGroupMemberByIdDtoOut>> {
         const body = httpRequest.body;
 
         validator(VGetAllGroupMemberByIdDtoIn, body);
 
-        const result = await this._groupService.getAllGroupMemberById(body);
+        const result = await this._groupService.getAllGroupMemberByGroupId(body);
 
         return {
             statusCode: OK,
