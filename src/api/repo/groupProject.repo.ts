@@ -1,10 +1,11 @@
-import { and, eq } from "drizzle-orm";
-import { GroupMemberTable, GroupProjectTable } from "../../db";
+import { and, eq, inArray } from "drizzle-orm";
+import { GroupMemberTable, GroupProjectTable, UserTable } from "../../db";
 import type {
     ICheckIsAdminToDeleteGroupProjectDtoInQuery,
     ICreateGroupProjectDtoInQuery,
     ICreateGroupProjectDtoOutResult,
     IDeleteGroupProjectDtoInQuery,
+    IGetAllGroupProjectsDtoIn,
 } from "../../domain";
 
 export class GroupProjectRepo {
@@ -54,5 +55,35 @@ export class GroupProjectRepo {
             .returning();
 
         return result[0] || null;
+    }
+
+    async getAllGroupProject(body: IGetAllGroupProjectsDtoIn) {
+        const result = await this._db
+            .select({
+                project_name: GroupProjectTable.project_name,
+                created_by: GroupProjectTable.created_by,
+                project_deadline: GroupProjectTable.project_deadline,
+            })
+            .from(GroupProjectTable)
+            .where(eq(GroupProjectTable.group_id, body.group_id));
+
+        return result || null;
+    }
+
+    async getGroupProjectCreator(body: { user_id: string }[]) {
+        const result = await this._db
+            .select({
+                user_id: UserTable.user_id,
+                username: UserTable.username,
+            })
+            .from(UserTable)
+            .where(
+                inArray(
+                    UserTable.user_id,
+                    body.map((user) => user.user_id),
+                ),
+            );
+
+        return result || null;
     }
 }

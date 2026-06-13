@@ -4,6 +4,7 @@ import type {
     ICreateGroupProjectDtoOut,
     IDeleteGroupProjectDtoIn,
     IEditGroupProjectDtoIn,
+    IGetAllGroupProjectsDtoIn,
 } from "../../domain";
 import { ensure } from "../../helper";
 import { BAD_REQUEST, UNAUTHORIZED } from "../../utils";
@@ -59,6 +60,34 @@ export class GroupProjectService {
         );
 
         return deletedGroupProject;
+    }
+
+    async getAllGroupProject(body: IGetAllGroupProjectsDtoIn) {
+        const getAllGroupProject = await this._groupProjectRepo.getAllGroupProject(body);
+        ensure(
+            getAllGroupProject,
+            `Error in get project to group with id ${body.group_id}`,
+            BAD_REQUEST,
+        );
+
+        const mapToGetGroupProjectCreator =
+            this._groupProjectMapper.mapToGetGroupProjectCreator(getAllGroupProject);
+
+        const getGroupProjectCreator = await this._groupProjectRepo.getGroupProjectCreator(
+            mapToGetGroupProjectCreator,
+        );
+        ensure(
+            getGroupProjectCreator,
+            `Error in get project to group with id ${body.group_id}`,
+            BAD_REQUEST,
+        );
+
+        const mapToCollectGroupProjects = this._groupProjectMapper.mapToCollectGroupProjects(
+            getAllGroupProject,
+            getGroupProjectCreator,
+        );
+
+        return mapToCollectGroupProjects;
     }
 
     // async editGroupProject(body: IEditGroupProjectDtoIn, user: IUserPayload) {

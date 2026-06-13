@@ -31,10 +31,16 @@ export const VEditGroupProjectDtoIn = Type.Object({
     updatedAt: Type.Date(),
 });
 
-export const VGetAllGroupProjectDtoIn = Type.Object({
+// * GET ALL GROUP PROJECTS
+export const VGetAllGroupProjectsDtoIn = Type.Object({
     group_id: Type.String(),
 });
 
-export const VGetAllGroupProjectDtoOut = Type.Object({
-    group_id: Type.String(),
-});
+export const VGetAllGroupProjectsDtoOut = Type.Array(
+    Type.Object({
+        project_name: Type.String(),
+        project_deadline: Type.String(),
+        created_by: Type.String(),
+        username: Type.Optional(Type.String()),
+    }),
+);

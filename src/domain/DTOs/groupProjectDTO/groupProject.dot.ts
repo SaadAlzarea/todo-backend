@@ -4,6 +4,8 @@ import type {
     VCreateGroupProjectDtoOut,
     VDeleteGroupProjectDtoIn,
     VEditGroupProjectDtoIn,
+    VGetAllGroupProjectsDtoIn,
+    VGetAllGroupProjectsDtoOut,
 } from "../../validation";
 
 // * CREATE GROUP PROJECT
@@ -12,6 +14,10 @@ export interface ICreateGroupProjectDtoOut extends Static<typeof VCreateGroupPro
 
 // * DELETE GROUP PROJECT
 export interface IDeleteGroupProjectDtoIn extends Static<typeof VDeleteGroupProjectDtoIn> {}
+
+// * GET ALL GROUP PROJECTS
+export interface IGetAllGroupProjectsDtoIn extends Static<typeof VGetAllGroupProjectsDtoIn> {}
+export interface IGetAllGroupProjectsDtoOut extends Static<typeof VGetAllGroupProjectsDtoOut> {}
 
 // * EDIT GROUP PROJECT
 export interface IEditGroupProjectDtoIn extends Static<typeof VEditGroupProjectDtoIn> {}

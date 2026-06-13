@@ -51,4 +51,26 @@ export class GroupProjectMapper {
             user_id: user.user_id,
         };
     }
+
+    mapToGetGroupProjectCreator(getAllGroupProject: { created_by: string }[]) {
+        return getAllGroupProject.map((e) => ({
+            user_id: e.created_by,
+        }));
+    }
+
+    mapToCollectGroupProjects(
+        getAllGroupProject: {
+            project_name: string;
+            created_by: string;
+            project_deadline: string;
+        }[],
+        getGroupProjectCreator: { username: string }[],
+    ) {
+        return getAllGroupProject.map((element, index) => ({
+            project_name: element.project_name,
+            project_deadline: element.project_deadline,
+            created_by: element.created_by,
+            username: getGroupProjectCreator[index]?.username || "",
+        }));
+    }
 }

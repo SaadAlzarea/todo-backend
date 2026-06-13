@@ -5,9 +5,12 @@ import {
     type ICreateGroupProjectDtoOut,
     type IDeleteGroupProjectDtoIn,
     type IEditGroupProjectDtoIn,
+    IGetAllGroupProjectsDtoIn,
+    IGetAllGroupProjectsDtoOut,
     VCreateGroupProjectDtoIn,
     VDeleteGroupProjectDtoIn,
     VEditGroupProjectDtoIn,
+    VGetAllGroupProjectsDtoIn,
 } from "../../domain";
 import type { IApiResponse } from "../../helper";
 import { dateValidator } from "../../helper/dateValidator.helper";
@@ -38,6 +41,7 @@ export class GroupProjectController {
             },
         };
     }
+
     async deleteGroupProject(
         httpRequest: HttpRequest<IDeleteGroupProjectDtoIn>,
     ): Promise<IApiResponse<any>> {
@@ -53,6 +57,24 @@ export class GroupProjectController {
             body: {
                 data: result,
                 message: `Success in delete group project with id ${body.project_id}`,
+            },
+        };
+    }
+
+    async getAllGroupProject(
+        httpRequest: HttpRequest<IGetAllGroupProjectsDtoIn>,
+    ): Promise<IApiResponse<IGetAllGroupProjectsDtoOut>> {
+        const body = httpRequest.body;
+
+        validator(VGetAllGroupProjectsDtoIn, body);
+
+        const result = await this._groupProjectService.getAllGroupProject(body);
+
+        return {
+            statusCode: OK,
+            body: {
+                data: result,
+                message: `Success in get all project to group with id ${body.group_id}`,
             },
         };
     }

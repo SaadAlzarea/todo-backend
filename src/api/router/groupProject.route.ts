@@ -7,7 +7,7 @@ import { authMiddleware } from "../../middleware";
 export const groupProjectRouter = Router();
 
 const { groupProjectController } = di;
-const { createGroupProject, deleteGroupProject } = groupProjectPath;
+const { createGroupProject, deleteGroupProject, getAllGroupProjects } = groupProjectPath;
 
 groupProjectRouter
     .post(
@@ -19,4 +19,9 @@ groupProjectRouter
         deleteGroupProject,
         authMiddleware,
         expressAdapter(groupProjectController.deleteGroupProject.bind(groupProjectController)),
+    )
+    .post(
+        getAllGroupProjects,
+        authMiddleware,
+        expressAdapter(groupProjectController.getAllGroupProject.bind(groupProjectController)),
     );
