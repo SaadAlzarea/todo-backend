@@ -26,7 +26,7 @@ groupRouter
     .post(
         addNewMemberToGroup,
         authMiddleware,
-        expressAdapter(groupController.addedNewMemberToGroupByUserEmail.bind(groupController)),
+        expressAdapter(groupController.addNewMemberToGroupByUserEmail.bind(groupController)),
     )
     .post(
         deleteMemberFromGroup,

@@ -37,13 +37,16 @@ export class GroupMapper {
         };
     }
 
-    mapperToAddedNewMemberToGroup(body: {
-        group_id: string;
-        member_email: string;
-    }): IAddNewMemberToGroupDtoInQuery {
+    mapperToAddedNewMemberToGroup(
+        body: {
+            group_id: string;
+            member_email: string;
+        },
+        getUserIdByUserEmail: { user_id: string },
+    ): IAddNewMemberToGroupDtoInQuery {
         return {
+            user_id: getUserIdByUserEmail.user_id,
             group_id: body.group_id,
-            member_email: body.member_email,
             group_member_role: EGroupMemberRole.MEMBER,
         };
     }

@@ -3,6 +3,7 @@ import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { GroupMemberTable, GroupTable, UserTable } from "../../db";
 import { EGroupMemberRole, IUserPayload } from "../../definition";
 import type {
+    IAddMemberToGroupDtoIn,
     IAddMemberToGroupDtoInQuery,
     IAddNewMemberToGroupDtoInQuery,
     ICreateGroupDtoIn,
@@ -50,10 +51,19 @@ export class GroupRepo {
             .insert(GroupMemberTable)
             .values({
                 group_id: body.group_id,
-                user_id: body.member_email,
+                user_id: body.user_id,
                 group_member_role: EGroupMemberRole.MEMBER,
             })
             .returning();
+
+        return result[0] || null;
+    }
+
+    async getUserIdByUserEmail(body: IAddMemberToGroupDtoIn) {
+        const result = await this._db
+            .select({ user_id: UserTable.user_id })
+            .from(UserTable)
+            .where(eq(UserTable.email, body.member_email));
 
         return result[0] || null;
     }

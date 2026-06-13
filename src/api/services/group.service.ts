@@ -75,20 +75,25 @@ export class GroupService {
             );
 
             // added member
-            const mapperToAddedNewMemberToGroup =
-                this._groupMapper.mapperToAddedNewMemberToGroup(body);
+            const getUserIdByUserEmail = await this._groupRepo.getUserIdByUserEmail(body);
 
-            const getUserEmailAndUsername = await this._groupRepo.getUserEmailAndUsername(
-                mapperToAddedNewMemberToGroup,
-                transactionDB,
+            const mapperToAddedNewMemberToGroup = this._groupMapper.mapperToAddedNewMemberToGroup(
+                body,
+                getUserIdByUserEmail,
             );
-            const html = groupInviteTemplate(getUserEmailAndUsername.username, "My Group");
 
-            await this._emailService.sendEmail(
-                getUserEmailAndUsername.email,
-                "You've been added to a group 🎉",
-                html,
-            );
+            // * send email
+            // const getUserEmailAndUsername = await this._groupRepo.getUserEmailAndUsername(
+            //     mapperToAddedNewMemberToGroup,
+            //     transactionDB,
+            // );
+            // const html = groupInviteTemplate(getUserEmailAndUsername.username, "My Group");
+
+            // await this._emailService.sendEmail(
+            //     getUserEmailAndUsername.email,
+            //     "You've been added to a group 🎉",
+            //     html,
+            // );
 
             try {
                 const result = await this._groupRepo.addMember(
@@ -99,7 +104,7 @@ export class GroupService {
             } catch (error: any) {
                 if (error?.cause?.code === "23505") {
                     throw new AppError(
-                        `User with user id ${mapperToAddedNewMemberToGroup.member_email} already added to this group`,
+                        `User with user id ${mapperToAddedNewMemberToGroup.user_id} already added to this group`,
                         BAD_REQUEST,
                     );
                 }

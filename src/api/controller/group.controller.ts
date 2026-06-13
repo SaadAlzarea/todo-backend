@@ -37,7 +37,7 @@ export class GroupController {
             },
         };
     }
-    async addedNewMemberToGroupByUserEmail(
+    async addNewMemberToGroupByUserEmail(
         httpRequest: HttpRequest<IAddMemberToGroupDtoIn>,
     ): Promise<IApiResponse<any>> {
         const body = httpRequest.body;

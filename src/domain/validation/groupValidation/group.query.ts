@@ -14,7 +14,7 @@ export const VAddMemberToGroupDtoInQuery = Type.Object({
 });
 
 export const VAddedNewMemberToGroupDtoInQuery = Type.Object({
-    member_email: Type.String(),
+    user_id: Type.String(),
     group_id: Type.String(),
     group_member_role: Type.String(),
 });
