@@ -11,20 +11,51 @@ import type {
 export class GroupProjectRepo {
     constructor(private readonly _db: any) {}
 
+    // async createGroupProject(
+    //     body: ICreateGroupProjectDtoInQuery,
+    // ): Promise<ICreateGroupProjectDtoOutResult> {
+    //     const result = await this._db
+    //         .insert(GroupProjectTable)
+    //         .values({
+    //             project_name: body.project_name,
+    //             group_id: body.group_id,
+    //             created_by: body.created_by,
+    //             project_deadline: body.project_deadline,
+    //         })
+    //         .returning();
+
+    //     return result[0] || null;
+    // }
     async createGroupProject(
         body: ICreateGroupProjectDtoInQuery,
     ): Promise<ICreateGroupProjectDtoOutResult> {
-        const result = await this._db
-            .insert(GroupProjectTable)
-            .values({
-                project_name: body.project_name,
-                group_id: body.group_id,
-                created_by: body.created_by,
-                project_deadline: body.project_deadline,
-            })
-            .returning();
+        try {
+            const result = await this._db
+                .insert(GroupProjectTable)
+                .values({
+                    project_name: body.project_name,
+                    group_id: body.group_id,
+                    created_by: body.created_by,
+                    project_deadline: body.project_deadline,
+                })
+                .returning();
 
-        return result[0] || null;
+            return result[0] || null;
+        } catch (error: any) {
+            console.error("ERROR:");
+            console.error(error);
+
+            console.error("CAUSE:");
+            console.error(error?.cause);
+
+            console.error("DETAIL:");
+            console.error(error?.cause?.detail);
+
+            console.error("CONSTRAINT:");
+            console.error(error?.cause?.constraint);
+
+            throw error;
+        }
     }
 
     async checkIsGroupAdmin(body: ICheckIsAdminToDeleteGroupProjectDtoInQuery) {
