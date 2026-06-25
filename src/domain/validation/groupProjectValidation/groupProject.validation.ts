@@ -38,6 +38,7 @@ export const VGetAllGroupProjectsDtoIn = Type.Object({
 
 export const VGetAllGroupProjectsDtoOut = Type.Array(
     Type.Object({
+        project_id: Type.String(),
         project_name: Type.String(),
         project_deadline: Type.String(),
         created_by: Type.String(),

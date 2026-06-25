@@ -1,6 +1,10 @@
 import type { IUserPayload } from "../../definition";
 import { EAssignTodoAttachment } from "../../definition/enums/assignTodo.enum";
-import type { ICreateAssignTodoInGroupProjectDtoIn } from "../../domain/DTOs/assignTodoDTO";
+import type {
+    ICreateAssignTodoInGroupProjectDtoIn,
+    IGetAllAssignTodoInGroupProjectListDtoIn,
+    IGetAssignTodoInGroupProjectDetailsWithAttachmentDtoIn,
+} from "../../domain/DTOs/assignTodoDTO";
 import { ensure } from "../../helper";
 import type { MinioService } from "../../integrations/minio/minio.service";
 import { scanQueue } from "../../integrations/queue/scan.queue";
@@ -22,46 +26,69 @@ export class AssignTodoService {
         files: Express.Multer.File[],
         deadline: { deadline: Date },
     ) {
-        const mapToAssignTodo_createAssignTodo =
-            this._assignTodoMapper.mapToAssignTodo_createAssignTodo(user, body, deadline);
+        const todos = this._assignTodoMapper.mapToAssignTodo_createAssignTodo(user, body, deadline);
 
-        const assignTodo = await this._assignTodoRepo.createAssignTodoInGroupProject(
-            mapToAssignTodo_createAssignTodo,
-        );
+        const assignTodos = await this._assignTodoRepo.createAssignTodoInGroupProject(todos);
 
-        ensure(
-            !!assignTodo,
-            `Error in save todo with id ${assignTodo?.assign_todo_id}`,
-            BAD_REQUEST,
-        );
+        ensure(!!assignTodos, `Error in save todo`, BAD_REQUEST);
 
         if (files?.length) {
             await Promise.all(
-                files.map(async (file) => {
-                    const uploaded = await this._minioService.upload(file);
+                assignTodos.map(async (todo) => {
+                    await Promise.all(
+                        files.map(async (file) => {
+                            const uploaded = await this._minioService.upload(file);
 
-                    const attachment = await this._assignTodoRepo.addAttachment({
-                        assign_todo_id: assignTodo?.assign_todo_id,
-                        file_url: uploaded.url,
-                        public_id: uploaded.key,
-                        attachment_type: file.mimetype,
-                        file_name: file.originalname,
-                        file_size: file.size?.toString(),
-                        uploaded_by: user.user_id,
-                        status: "pending",
-                    });
+                            const attachment = await this._assignTodoRepo.addAttachment({
+                                assign_todo_id: todo.assign_todo_id,
+                                file_url: uploaded.url,
+                                public_id: uploaded.key,
+                                attachment_type: file.mimetype,
+                                file_name: file.originalname,
+                                file_size: file.size?.toString(),
+                                uploaded_by: user.user_id,
+                                status: "pending",
+                            });
 
-                    // todo console.log("here is scanning");
-
-                    // ! added to queue for scanning
-                    await scanQueue.add("scan", {
-                        attachment_id: attachment?.attachment_id,
-                        file_key: uploaded.key,
-                    });
+                            await scanQueue.add("scan", {
+                                attachment_id: attachment?.attachment_id,
+                                file_key: uploaded.key,
+                            });
+                        }),
+                    );
                 }),
             );
         }
 
-        return assignTodo;
+        return assignTodos;
+    }
+    async getAllAssignTodoInGroupProjectList(body: IGetAllAssignTodoInGroupProjectListDtoIn) {
+        const getAssignTodoList = await this._assignTodoRepo.getAllAssignTodoInGroupProject(body);
+        ensure(
+            !!getAssignTodoList,
+            `Error in get assign todo to project with id ${body.project_id}`,
+            BAD_REQUEST,
+        );
+        return getAssignTodoList;
+    }
+    async getAssignTodoInGroupProjectDetailsWithAttachment(
+        body: IGetAssignTodoInGroupProjectDetailsWithAttachmentDtoIn,
+    ) {
+        //  get todo
+        const assignTodoDetails = await this._assignTodoRepo.getAssignTodoDetails(body);
+        ensure(
+            !assignTodoDetails,
+            `Error in get todo with id ${body.assign_todo_id} details`,
+            BAD_REQUEST,
+        );
+
+        // get attachment if there is
+        const getAssignTodoAttachment = await this._assignTodoRepo.getAssignTodoAttachment(body);
+        ensure(!!getAssignTodoAttachment, `Error in get todo attachment`, BAD_REQUEST);
+
+        return {
+            assignTodoDetails,
+            getAssignTodoAttachment,
+        };
     }
 }

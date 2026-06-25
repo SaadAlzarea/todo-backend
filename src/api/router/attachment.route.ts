@@ -9,11 +9,21 @@ import { upload } from "../../middleware/multer.middleware";
 export const attachmentRouter = Router();
 
 const { attachmentController, assignTodoController } = di;
-const { uploadAttachment, assignTodo } = attachmentTodoPath;
+const { uploadAttachment, getAllAssignTodoInGroupProjectList, assignTodo } = attachmentTodoPath;
 
-attachmentRouter.post(
-    assignTodo,
-    upload.array("attachments"),
-    authMiddleware,
-    expressAdapter(assignTodoController.createAssignTodoInGroupProject.bind(assignTodoController)),
-);
+attachmentRouter
+    .post(
+        assignTodo,
+        upload.array("attachments"),
+        authMiddleware,
+        expressAdapter(
+            assignTodoController.createAssignTodoInGroupProject.bind(assignTodoController),
+        ),
+    )
+    .post(
+        getAllAssignTodoInGroupProjectList,
+        authMiddleware,
+        expressAdapter(
+            assignTodoController.getAllAssignTodoInGroupProjectList.bind(assignTodoController),
+        ),
+    );

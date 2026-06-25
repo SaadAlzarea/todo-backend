@@ -94,6 +94,7 @@ export class GroupProjectRepo {
                 project_name: GroupProjectTable.project_name,
                 created_by: GroupProjectTable.created_by,
                 project_deadline: GroupProjectTable.project_deadline,
+                project_id: GroupProjectTable.project_id,
             })
             .from(GroupProjectTable)
             .where(eq(GroupProjectTable.group_id, body.group_id));

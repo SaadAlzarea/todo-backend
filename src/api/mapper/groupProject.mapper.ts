@@ -63,10 +63,12 @@ export class GroupProjectMapper {
             project_name: string;
             created_by: string;
             project_deadline: string;
+            project_id: string;
         }[],
         getGroupProjectCreator: { username: string }[],
     ) {
         return getAllGroupProject.map((element, index) => ({
+            project_id: element.project_id,
             project_name: element.project_name,
             project_deadline: element.project_deadline,
             created_by: element.created_by,
