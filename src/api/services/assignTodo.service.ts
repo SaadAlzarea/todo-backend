@@ -30,7 +30,7 @@ export class AssignTodoService {
 
         const assignTodos = await this._assignTodoRepo.createAssignTodoInGroupProject(todos);
 
-        ensure(!!assignTodos, `Error in save todo`, BAD_REQUEST);
+        ensure(assignTodos, `Error in save todo`, BAD_REQUEST);
 
         if (files?.length) {
             await Promise.all(
@@ -64,9 +64,23 @@ export class AssignTodoService {
     }
 
     async getAllAssignTodoInGroupProjectList(body: IGetAllAssignTodoInGroupProjectListDtoIn) {
-        const getAssignTodoList = await this._assignTodoRepo.getAllAssignTodoInGroupProject(body);
+        // if search by user name
+        let getUserIdByUsername: { user_id: string } | null = null;
+        if (body.user_username) {
+            getUserIdByUsername = await this._assignTodoRepo.getUserIdByUsername({
+                user_username: body.user_username,
+            });
+
+            ensure(getUserIdByUsername, `Username is not member in this group`, BAD_REQUEST);
+        }
+
+        const getAssignTodoList = await this._assignTodoRepo.getAllAssignTodoInGroupProject(
+            body,
+            getUserIdByUsername,
+        );
+
         ensure(
-            !!getAssignTodoList,
+            getAssignTodoList,
             `Error in get assign todo to project with id ${body.project_id}`,
             BAD_REQUEST,
         );
@@ -101,7 +115,7 @@ export class AssignTodoService {
         const assignTodoDetails = await this._assignTodoRepo.getAssignTodoDetails(body);
 
         ensure(
-            !assignTodoDetails,
+            assignTodoDetails,
             `Error in get todo with id ${body.assign_todo_id} details`,
             BAD_REQUEST,
         );

@@ -1,6 +1,6 @@
 import { AppError } from "../middleware";
 
-export const ensure = (condition: boolean, message: string, status: number) => {
+export const ensure = (condition: unknown, message: string, status: number) => {
     const place = "in service";
 
     if (!condition) {

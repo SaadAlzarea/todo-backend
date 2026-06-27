@@ -36,6 +36,7 @@ export const VCreateAssignTodoInGroupProjectDtoOut = Type.Object({
 export const VGetAllAssignTodoInGroupProjectListDtoIn = Type.Object({
     group_id: Type.String(),
     project_id: Type.String(),
+    user_username: Type.Optional(Type.String()),
 });
 
 export const VGetAllAssignTodoInGroupProjectListDtoOut = Type.Array(

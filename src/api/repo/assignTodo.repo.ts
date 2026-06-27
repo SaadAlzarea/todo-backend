@@ -5,7 +5,9 @@ import type {
     IGetAllAssignTodoInGroupProjectListDtoIn,
     IGetAssignTodoInGroupProjectDetailsWithAttachmentDtoIn,
 } from "../../domain/DTOs/assignTodoDTO";
-
+import { RepositoryException } from "../../helper/repositoryException";
+import { EErrorStatusCode } from "../../helper/errorStatusCode.helper";
+import to from "await-to-js";
 export class AssignTodoRepo {
     constructor(private readonly _db = db) {}
 
@@ -42,26 +44,62 @@ export class AssignTodoRepo {
         return result[0] || null;
     }
 
-    async getAllAssignTodoInGroupProject(body: IGetAllAssignTodoInGroupProjectListDtoIn) {
-        const result = await this._db
-            .select({
-                assign_todo_id: AssignTodo.assign_todo_id,
-                project_id: AssignTodo.project_id,
-                assign_from: AssignTodo.assign_from,
-                assign_to: AssignTodo.assign_to,
-                title: AssignTodo.title,
-                priority: AssignTodo.priority,
-                status: AssignTodo.status,
-                isCompleted: AssignTodo.isCompleted,
-                deadline: AssignTodo.deadline,
-            })
-            .from(AssignTodo)
-            .where(
-                and(
-                    eq(AssignTodo.project_id, body.project_id),
-                    eq(AssignTodo.group_id, body.group_id),
-                ),
+    async getUserIdByUsername(body: { user_username: string }) {
+        const [error, result] = await to(
+            this._db
+                .select({
+                    user_id: UserTable.user_id,
+                })
+                .from(UserTable)
+                .where(eq(UserTable.username, body.user_username)),
+        );
+
+        if (error) {
+            throw new RepositoryException(
+                EErrorStatusCode.REPOSITORY_ERROR_ASSIGN_TODO_GET_USER_ID_BY_USER_USERNAME,
+                `while select user id by user username: ${body.user_username}. details: ${error}`,
+                `${this.constructor.name}.${this.getUserIdByUsername.name}.error`,
             );
+        }
+        return result[0] || null;
+    }
+
+    async getAllAssignTodoInGroupProject(
+        body: IGetAllAssignTodoInGroupProjectListDtoIn,
+        getUserIdByUsername: { user_id: string } | null,
+    ) {
+        const [error, result] = await to(
+            this._db
+                .select({
+                    assign_todo_id: AssignTodo.assign_todo_id,
+                    project_id: AssignTodo.project_id,
+                    assign_from: AssignTodo.assign_from,
+                    assign_to: AssignTodo.assign_to,
+                    title: AssignTodo.title,
+                    priority: AssignTodo.priority,
+                    status: AssignTodo.status,
+                    isCompleted: AssignTodo.isCompleted,
+                    deadline: AssignTodo.deadline,
+                })
+                .from(AssignTodo)
+                .where(
+                    and(
+                        eq(AssignTodo.project_id, body.project_id),
+                        eq(AssignTodo.group_id, body.group_id),
+                        getUserIdByUsername?.user_id
+                            ? eq(AssignTodo.assign_to, getUserIdByUsername?.user_id)
+                            : undefined,
+                    ),
+                ),
+        );
+
+        if (error) {
+            throw new RepositoryException(
+                EErrorStatusCode.REPOSITORY_ERROR_GET_ALL_TODO_IN_GROUP_PROJECT,
+                `while select todo ${body}, details ${error}`,
+                `${this.constructor.name}.${this.getAllAssignTodoInGroupProject.name}.error`,
+            );
+        }
 
         return result || null;
     }

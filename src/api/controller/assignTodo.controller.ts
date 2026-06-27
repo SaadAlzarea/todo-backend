@@ -10,12 +10,16 @@ import type {
 } from "../../domain/DTOs/assignTodoDTO";
 import {
     VCreateAssignTodoInGroupProjectDtoIn,
+    VGetAllAssignTodoInGroupProjectListDtoIn,
     VGetAssignTodoInGroupProjectDetailsWithAttachmentDtoIn,
 } from "../../domain/validation/assignTodoValidation";
 import type { IApiResponse } from "../../helper";
 import { dateValidator } from "../../helper/dateValidator.helper";
 import { OK } from "../../utils";
 import type { AssignTodoService } from "../services";
+import to from "await-to-js";
+import { error } from "node:console";
+import { EErrorStatusCode } from "../../helper/errorStatusCode.helper";
 
 export class AssignTodoController {
     constructor(private readonly _assignTodoService: AssignTodoService) {}
@@ -56,13 +60,20 @@ export class AssignTodoController {
     ): Promise<IApiResponse<IGetAllAssignTodoInGroupProjectListDtoOut>> {
         const body = httpRequest.body;
 
+        validator(
+            VGetAllAssignTodoInGroupProjectListDtoIn,
+            body,
+            EErrorStatusCode.BODY_VALIDATION_ERROR_GET_ALL_ASSIGN_TODO_GROUP_PROJECT_LIST,
+            `Error in get all todo group project. More details : ${error}`,
+        );
+
         const result = await this._assignTodoService.getAllAssignTodoInGroupProjectList(body);
 
         return {
             statusCode: OK,
             body: {
                 data: result,
-                message: `Success in get assign todo with id ${result[0]?.project_id}`,
+                message: `Success in get assign todo with id ${result}`,
             },
         };
     }

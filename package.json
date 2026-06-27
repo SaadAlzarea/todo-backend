@@ -33,6 +33,7 @@
         "@sinclair/typebox": "^0.30.4",
         "ajv": "^8.17.1",
         "ajv-formats": "^3.0.1",
+        "await-to-js": "^3.0.0",
         "bullmq": "^5.75.2",
         "clamscan": "^2.4.0",
         "cloudinary": "^2.9.0",
