@@ -22,4 +22,16 @@ export class AssignTodoMapper {
             deadline: deadline.deadline,
         }));
     }
+
+    mapToGetAssignTodoToAndAssignTodoFrom(
+        body: {
+            assign_from: string;
+            assign_to: string;
+        }[],
+    ) {
+        return body.map((user) => ({
+            assign_from: user.assign_from,
+            assign_to: user.assign_to,
+        }));
+    }
 }

@@ -44,6 +44,8 @@ export const VGetAllAssignTodoInGroupProjectListDtoOut = Type.Array(
         project_id: Type.String(),
         assign_from: Type.String(),
         assign_to: Type.String(),
+        assign_from_username: Type.Union([Type.String(), Type.Null()]),
+        assign_to_username: Type.Union([Type.String(), Type.Null()]),
         title: Type.String(),
         priority: Type.Union([Type.Enum(ETodoPriority), Type.Null()]),
         status: Type.Union([Type.Enum(ETodoStatus), Type.Null()]),

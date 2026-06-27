@@ -1,4 +1,4 @@
-import type { IUserPayload } from "../../definition";
+import type { ETodoPriority, ETodoStatus, IUserPayload } from "../../definition";
 import { EAssignTodoAttachment } from "../../definition/enums/assignTodo.enum";
 import type {
     ICreateAssignTodoInGroupProjectDtoIn,
@@ -62,6 +62,7 @@ export class AssignTodoService {
 
         return assignTodos;
     }
+
     async getAllAssignTodoInGroupProjectList(body: IGetAllAssignTodoInGroupProjectListDtoIn) {
         const getAssignTodoList = await this._assignTodoRepo.getAllAssignTodoInGroupProject(body);
         ensure(
@@ -69,13 +70,36 @@ export class AssignTodoService {
             `Error in get assign todo to project with id ${body.project_id}`,
             BAD_REQUEST,
         );
-        return getAssignTodoList;
+
+        const mapToGetAssignTodoToAndAssignTodoFrom =
+            this._assignTodoMapper.mapToGetAssignTodoToAndAssignTodoFrom(getAssignTodoList);
+
+        const getUserUsernameById = await this._assignTodoRepo.getUsernameById(
+            mapToGetAssignTodoToAndAssignTodoFrom,
+        );
+
+        const allAssignTodoList = getAssignTodoList.map((todo) => {
+            const assignFromUser = getUserUsernameById.find((u) => u.user_id === todo.assign_from);
+            const assignToUser = getUserUsernameById.find((u) => u.user_id === todo.assign_to);
+
+            return {
+                ...todo,
+                priority: todo.priority as ETodoPriority | null,
+                status: todo.status as ETodoStatus | null,
+                assign_from_username: assignFromUser?.username ?? null,
+                assign_to_username: assignToUser?.username ?? null,
+            };
+        });
+
+        return allAssignTodoList;
     }
+
     async getAssignTodoInGroupProjectDetailsWithAttachment(
         body: IGetAssignTodoInGroupProjectDetailsWithAttachmentDtoIn,
     ) {
         //  get todo
         const assignTodoDetails = await this._assignTodoRepo.getAssignTodoDetails(body);
+
         ensure(
             !assignTodoDetails,
             `Error in get todo with id ${body.assign_todo_id} details`,

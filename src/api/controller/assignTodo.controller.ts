@@ -53,7 +53,7 @@ export class AssignTodoController {
 
     async getAllAssignTodoInGroupProjectList(
         httpRequest: HttpRequest<IGetAllAssignTodoInGroupProjectListDtoIn>,
-    ): Promise<IApiResponse<any>> {
+    ): Promise<IApiResponse<IGetAllAssignTodoInGroupProjectListDtoOut>> {
         const body = httpRequest.body;
 
         const result = await this._assignTodoService.getAllAssignTodoInGroupProjectList(body);

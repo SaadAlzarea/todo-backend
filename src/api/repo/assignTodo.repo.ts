@@ -1,5 +1,5 @@
-import { and, eq } from "drizzle-orm";
-import { AssignTodo, AssignTodoAttachment, db } from "../../db";
+import { and, eq, inArray } from "drizzle-orm";
+import { AssignTodo, AssignTodoAttachment, db, UserTable } from "../../db";
 import type {
     ICreateAssignTodoInGroupProjectDtoInQuery,
     IGetAllAssignTodoInGroupProjectListDtoIn,
@@ -64,6 +64,21 @@ export class AssignTodoRepo {
             );
 
         return result || null;
+    }
+    async getUsernameById(query: { assign_from: string; assign_to: string }[]) {
+        const assignFromIds = query.map((u) => u.assign_from);
+        const assignToIds = query.map((u) => u.assign_to);
+        const allIds = [...assignFromIds, ...assignToIds];
+
+        const result = await this._db
+            .select({
+                user_id: UserTable.user_id,
+                username: UserTable.username,
+            })
+            .from(UserTable)
+            .where(inArray(UserTable.user_id, allIds));
+
+        return result;
     }
 
     async getAssignTodoDetails(body: IGetAssignTodoInGroupProjectDetailsWithAttachmentDtoIn) {
