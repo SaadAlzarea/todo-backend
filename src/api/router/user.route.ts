@@ -13,12 +13,12 @@ const { register, login, getAllUsers, deleteUser } = userPath;
 userRouter
     .post(register, limiter, expressAdapter(userController.registerController.bind(userController)))
     .post(login, limiter, expressAdapter(userController.userLoginController.bind(userController)))
-    .post(
-        getAllUsers,
-        authMiddleware,
-        // authorize("manage", "all"),
-        expressAdapter(userController.getAllUserForSuperAdminWithFilter.bind(userController)),
-    )
+    // .post(
+    //     getAllUsers,
+    //     authMiddleware,
+    //     // authorize("manage", "all"),
+    //     expressAdapter(userController.getAllUserForSuperAdminWithFilter.bind(userController)),
+    // )
     .delete(
         deleteUser,
         authMiddleware,

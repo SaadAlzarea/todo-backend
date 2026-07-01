@@ -55,26 +55,26 @@ export class UserController {
         };
     }
 
-    async getAllUserForSuperAdminWithFilter(
-        httpRequest: HttpRequest<IGetAllUserWithFilterDtoIn>,
-    ): Promise<IApiResponse<IGetAllUserWithFilterDtoOut>> {
-        const user = httpRequest.user;
-        const body = httpRequest.body;
+    // async getAllUserForSuperAdminWithFilter(
+    //     httpRequest: HttpRequest<IGetAllUserWithFilterDtoIn>,
+    // ): Promise<IApiResponse<IGetAllUserWithFilterDtoOut>> {
+    //     const user = httpRequest.user;
+    //     const body = httpRequest.body;
 
-        // validator(VGetAllUserWithFilterDtoIn, body);
+    //     // validator(VGetAllUserWithFilterDtoIn, body);
 
-        const limit: number = Number(body.limit) || 10;
+    //     const limit: number = Number(body.limit) || 10;
 
-        const result = await this._userService.getAllUserForSuperAdmin({ ...body, limit }, user!);
+    //     const result = await this._userService.getAllUserForSuperAdmin({ ...body, limit }, user!);
 
-        return {
-            statusCode: OK,
-            body: {
-                data: result,
-                message: "Get all filtered users successfully",
-            },
-        };
-    }
+    //     return {
+    //         statusCode: OK,
+    //         body: {
+    //             data: result,
+    //             message: "Get all filtered users successfully",
+    //         },
+    //     };
+    // }
 
     async deleteUserByAdmin(
         httpRequest: HttpRequest<IDeleteUserByAdminDtoIn>,

@@ -20,12 +20,16 @@ import {
     UserMapper,
     UserRepo,
 } from "./api";
+import { CommentController } from "./api/controller/comment.controller";
 import { AssignTodoMapper } from "./api/mapper/assignTodo.mapper";
+import { CommentMapper } from "./api/mapper/comment.mapper";
+import { CommentRepo } from "./api/repo/comment.repo";
 
 // import { EmailService } from "./api/clients";
 
 import { AssignTodoService } from "./api/services/assignTodo.service";
 import { AttachmentService } from "./api/services/attachment.service";
+import { CommentService } from "./api/services/comment.service";
 import { GroupService } from "./api/services/group.service";
 import { GroupProjectService } from "./api/services/groupProject.service";
 import { PersonalProjectService } from "./api/services/personalProject.service";
@@ -108,6 +112,14 @@ export function initDI() {
     const assignTodoService = new AssignTodoService(assignTodoRepo, minioService, assignTodoMapper);
     const assignTodoController = new AssignTodoController(assignTodoService);
 
+    /**
+     * * COMMENT
+     */
+    const commentRepo = new CommentRepo(db);
+    const commentMapper = new CommentMapper();
+    const commentService = new CommentService(commentRepo, commentMapper);
+    const commentController = new CommentController(commentService);
+
     return {
         // * === ATTACHMENT classes ===
         attachmentController,
@@ -148,6 +160,12 @@ export function initDI() {
         assignTodoRepo,
         assignTodoService,
         assignTodoController,
+
+        // * === COMMENT classes ===
+        commentController,
+        commentService,
+        commentRepo,
+        commentMapper,
     };
 }
 

@@ -5,7 +5,7 @@ export interface HttpRequest<T = any> {
     params: any;
     query: any;
     headers: any;
-    user?: { user_id: string; role: string };
+    user?: IUserPayload;
     files?: any;
 
     // files: req.files;
@@ -20,6 +20,6 @@ export interface HttpResponse<T = unknown> {
 
 export interface IUserPayload {
     user_id: string;
-    roles: EUserRole[];
+    roles: EUserRole;
     email: string;
 }

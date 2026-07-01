@@ -165,3 +165,31 @@ export const AssignTodoAttachment = pgTable("assign_todo_attachments", {
         .references(() => UserTable.user_id),
     createdAt: timestamp("created_at").defaultNow(),
 });
+
+// * COMMENTS ON PERSONAL TODOS
+export const PersonalTodoCommentTable = pgTable("personal_todo_comments", {
+    comment_id: uuid("comment_id").primaryKey().defaultRandom(),
+    todo_id: uuid("todo_id")
+        .notNull()
+        .references(() => PersonalProjectTodoTable.todo_id, { onDelete: "cascade" }),
+    user_id: uuid("user_id")
+        .notNull()
+        .references(() => UserTable.user_id, { onDelete: "cascade" }),
+    body: varchar("body").notNull(),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// * COMMENTS ON ASSIGNED (GROUP) TODOS
+export const AssignTodoCommentTable = pgTable("assign_todo_comments", {
+    comment_id: uuid("comment_id").primaryKey().defaultRandom(),
+    assign_todo_id: uuid("assign_todo_id")
+        .notNull()
+        .references(() => AssignTodo.assign_todo_id, { onDelete: "cascade" }),
+    user_id: uuid("user_id")
+        .notNull()
+        .references(() => UserTable.user_id, { onDelete: "cascade" }),
+    body: varchar("body").notNull(),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
